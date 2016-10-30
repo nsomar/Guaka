@@ -5,7 +5,6 @@
 [![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/macaw)
 [![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg)](https://travis-ci.org/oarrabi/macaw)
 [![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/macaw)
-[![CocoaPods](https://img.shields.io/cocoapods/v/macaw.svg)](https://cocoapods.org/pods/macaw)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 `Macaw` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). 
@@ -39,14 +38,7 @@ WIP....
 
 
 ## Installation
-You can install Macaw using CocoaPods, carthage and Swift package manager
-
-### CocoaPods
-    use_frameworks!
-    pod 'macaw'
-
-### Carthage
-    github 'oarrabi/macaw'
+You can install Macaw using Swift package manager (SPM) and carthage
 
 ### Swift Package Manager
 Add swiftline as dependency in your `Package.swift`
@@ -60,6 +52,9 @@ Add swiftline as dependency in your `Package.swift`
     ]
   )
 ```
+
+### Carthage
+    github 'oarrabi/macaw'
 
 ## Tests
 Tests can be found [here](https://github.com/oarrabi/macaw/tree/master/Tests). 
