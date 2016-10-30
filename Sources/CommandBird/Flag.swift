@@ -76,8 +76,6 @@ struct FlagSet {
       fallthrough
     case .longFlagWithEqual:
       fallthrough
-    case .shortMultiFlagWithEqual:
-      fallthrough
     case .invalidFlag:
       fallthrough
     case .positionalArgument:

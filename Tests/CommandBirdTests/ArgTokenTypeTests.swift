@@ -56,8 +56,8 @@ class ArgTokenTypeTests: XCTestCase {
   func testItParsesMultiShortFlag() {
     let v = ArgTokenType(fromString: "-xqweq")
     
-    if case let .shortMultiFlag(names) = v {
-      XCTAssertEqual(names, ["x", "q", "w", "e", "q"])
+    if case let .shortMultiFlag(name) = v {
+      XCTAssertEqual(name, "xqweq")
     } else {
       XCTFail()
     }
@@ -66,9 +66,8 @@ class ArgTokenTypeTests: XCTestCase {
   func testItParsesMultiShortFlagWithEqual() {
     let v = ArgTokenType(fromString: "-xeeeew=1")
     
-    if case let .shortMultiFlagWithEqual(names, value) = v {
-      XCTAssertEqual(names, ["x", "e", "e", "e", "e", "w"])
-      XCTAssertEqual(value, "1")
+    if case let .shortMultiFlag(name) = v {
+      XCTAssertEqual(name, "xeeeew=1")
     } else {
       XCTFail()
     }
@@ -107,8 +106,7 @@ class ArgTokenTypeTests: XCTestCase {
     XCTAssertTrue(ArgTokenType.longFlagWithEqual("", "").isFlag)
     XCTAssertTrue(ArgTokenType.shortFlag("").isFlag)
     XCTAssertTrue(ArgTokenType.shortFlagWithEqual("", "").isFlag)
-    XCTAssertTrue(ArgTokenType.shortMultiFlag([]).isFlag)
-    XCTAssertTrue(ArgTokenType.shortMultiFlagWithEqual([], "").isFlag)
+    XCTAssertTrue(ArgTokenType.shortMultiFlag("").isFlag)
     
     XCTAssertFalse(ArgTokenType.invalidFlag("").isFlag)
     XCTAssertFalse(ArgTokenType.positionalArgument("").isFlag)
@@ -117,11 +115,10 @@ class ArgTokenTypeTests: XCTestCase {
   func testItKnowsAboutFlagsThatNeedsValue() {
     XCTAssertTrue(ArgTokenType.longFlag("").requiresValue)
     XCTAssertTrue(ArgTokenType.shortFlag("").requiresValue)
-    XCTAssertTrue(ArgTokenType.shortMultiFlag([]).requiresValue)
+    XCTAssertTrue(ArgTokenType.shortMultiFlag("").requiresValue)
     
     XCTAssertFalse(ArgTokenType.longFlagWithEqual("", "").requiresValue)
     XCTAssertFalse(ArgTokenType.shortFlagWithEqual("", "").requiresValue)
-    XCTAssertFalse(ArgTokenType.shortMultiFlagWithEqual([], "").requiresValue)
     XCTAssertFalse(ArgTokenType.invalidFlag("").requiresValue)
     XCTAssertFalse(ArgTokenType.positionalArgument("").requiresValue)
   }
@@ -131,8 +128,7 @@ class ArgTokenTypeTests: XCTestCase {
     XCTAssertEqual(ArgTokenType.longFlagWithEqual("abc", "").flagName!, "abc")
     XCTAssertEqual(ArgTokenType.shortFlag("abc").flagName!, "abc")
     XCTAssertEqual(ArgTokenType.shortFlagWithEqual("abc", "").flagName!, "abc")
-    XCTAssertEqual(ArgTokenType.shortMultiFlag(["abc", "cc"]).flagName!, "abc")
-    XCTAssertEqual(ArgTokenType.shortMultiFlagWithEqual(["abc", "cc"], "").flagName!, "abc")
+    XCTAssertEqual(ArgTokenType.shortMultiFlag("abc").flagName!, "abc")
   }
   
 }

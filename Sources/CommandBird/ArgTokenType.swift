@@ -11,7 +11,7 @@ import StringScanner
 enum ArgTokenType {
   case longFlag(String), longFlagWithEqual(String, String)
   case shortFlag(String), shortFlagWithEqual(String, String)
-  case shortMultiFlag([String]), shortMultiFlagWithEqual([String], String)
+  case shortMultiFlag(String)
   case invalidFlag(String)
   case positionalArgument(String)
   
@@ -61,20 +61,12 @@ enum ArgTokenType {
       return .shortFlag(scanner.remainingString)
     } else {
       
-      if hasEqual(string) {
-        let (name, value) = parseEqual(scanner)
-        
-        if isMultiFlag(scanner) {
-          let names = parseMultiString(name)
-          return .shortMultiFlagWithEqual(names, value)
-        } else {
-          return .shortFlagWithEqual(name, value)
-        }
+      if isMultiFlag(scanner) {
+        return .shortMultiFlag(scanner.remainingString)
       } else {
-        
-        if isMultiFlag(scanner) {
-          let names = parseMultiString(scanner.remainingString)
-          return .shortMultiFlag(names)
+        if hasEqual(string) {
+          let (name, value) = parseEqual(scanner)
+          return .shortFlagWithEqual(name, value)
         } else {
           return .shortFlag(scanner.remainingString)
         }
@@ -119,8 +111,6 @@ enum ArgTokenType {
     case .shortFlagWithEqual:
       fallthrough
     case .shortMultiFlag:
-      fallthrough
-    case .shortMultiFlagWithEqual:
       return true
       
     default:
@@ -152,10 +142,8 @@ enum ArgTokenType {
       return name
     case let .shortFlagWithEqual(name, _):
       return name
-    case let .shortMultiFlag(names):
-      return names.first!
-    case let .shortMultiFlagWithEqual(names, _):
-      return names.first!
+    case let .shortMultiFlag(name):
+      return name
       
     default:
       return nil

@@ -6,6 +6,8 @@
 //
 //
 
+import StringScanner
+
 extension FlagSet {
   
   func parse(args: [String]) throws -> ([Flag: Any], [String]) {
@@ -56,15 +58,13 @@ extension FlagSet {
           remainigArgs.append(value)
         }
         
-      case let .shortMultiFlagWithEqual(names, values):
-        let partialRet = try parseMultiFlagWithEqual(names: names, value: values)
+      case let .shortMultiFlag(name):
+        let (partialRet, pf) = try parseMultiFlagWithEqual(name: name)
         ret += partialRet
+        pendingFlag = pf
         
       case let .invalidFlag(string):
         throw CommandErrors.wrongFlagPattern(string)
-        
-      default:
-        break
       }
       
     }
@@ -76,17 +76,47 @@ extension FlagSet {
     return (ret, remainigArgs)
   }
   
-  func parseMultiFlagWithEqual(names: [String], value: String) throws -> [Flag: Any] {
+  
+  func parseMultiFlagWithEqual(name: String) throws -> ([Flag: Any], Flag?) {
+    let scanner = StringScanner(string: name)
     var ret = [Flag: Any]()
     
-    try names.forEach { name in
-      let flag = try getFlag(forName: name)
-      if flag.isBool
-      ret[flag] = try flag.convertValueToInnerType(value: value)
+    while true {
+      let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
+      
+      switch token {
+      case let .shortFlagWithEqual(name, value):
+        let flag = try getFlag(forName: name)
+        try ret[flag] = flag.convertValueToInnerType(value: value)
+        return (ret, nil)
+        
+      case let .shortFlag(name):
+        let flag = try getFlag(forName: name)
+        if self.isFlagSatisfied(token: token) {
+          ret[flag] = true
+          return (ret, nil)
+        } else {
+          return (ret, flag)
+        }
+        
+      default:
+        break;
+      }
+      
+      if case let .value(current) = scanner.scan(length: 1) {
+        let flag = try getFlag(forName: current)
+        if flag.isBool {
+          ret[flag] = true
+        } else {
+          ret[flag] = try flag.convertValueToInnerType(value: scanner.remainingString)
+          break
+        }
+      }
     }
     
-    return ret
+    return (ret, nil)
   }
+
   
   func getFlag(forName name: String) throws -> Flag {
     guard let flag = flags[name] else {

@@ -202,22 +202,135 @@ class ExecuteTests: XCTestCase {
   }
   
   
-  func testItParseMultipleFlagsWithEqual() {
+  func testItParseMultipleBoolFlags() {
     let fs = FlagSet(
       flags: [
         Flag(longName: "debug", defaultValue: true, shortName: "d"),
         Flag(longName: "bla", defaultValue: true, shortName: "b"),
-        Flag(longName: "value", defaultValue: "ss", shortName: "v"),
+        Flag(longName: "xxx", defaultValue: true, shortName: "x"),
         ]
     )
     
-    let r = try! fs.parse(args: expand("--debug 20 --bla=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    let r = try! fs.parse(args: expand("-dbx")).0
+    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, true)
+  }
+  
+  func testItParseMultipleBoolFlagsWithEqual() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: true, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: true, shortName: "x"),
+        ]
+    )
     
-    let r2 = try! fs.parse(args: expand("--debug=20 --value abcd")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r2[fs.flags["value"]!] as? String, "abcd")
+    let r = try! fs.parse(args: expand("-dbx=0")).0
+    
+    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, false)
+  }
+  
+  func testItParseMultipleBoolFlagsWithEqualAndPending() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: 1, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: true, shortName: "x"),
+        ]
+    )
+    
+    let r = try! fs.parse(args: expand("-bxd 123")).0
+    
+    XCTAssertEqual(r[fs.flags["d"]!] as? Int, 123)
+    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, true)
+  }
+  
+  func testItParseMultipleBoolFlagsWithEqualAndPendingWillThrowIfUnsatisfied() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: 1, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: true, shortName: "x"),
+        ]
+    )
+    
+    do {
+      _ = try fs.parse(args: expand("-bxd"))
+      XCTFail()
+    } catch let CommandErrors.flagNeedsValue(name, val) {
+      XCTAssertEqual(name, "debug")
+      XCTAssertEqual(val, "No more flags")
+    } catch {
+      XCTFail()
+    }
+  }
+  
+  func testANonBoolShortFlagWillSwallowTheOutput() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: true, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: "aa", shortName: "x"),
+        ]
+    )
+    
+    let r = try! fs.parse(args: expand("-bxd=0")).0
+    
+    XCTAssertEqual(r[fs.flags["x"]!] as? String, "d=0")
+  }
+  
+  func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: true, shortName: "d"),
+        Flag(longName: "bla", defaultValue: 1, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: "aa", shortName: "x"),
+        ]
+    )
+    
+    let r = try! fs.parse(args: expand("-b12345")).0
+    
+    XCTAssertEqual(r[fs.flags["b"]!] as? Int, 12345)
+  }
+  
+  func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt2() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: true, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: "aa", shortName: "x"),
+        ]
+    )
+    
+    let r = try! fs.parse(args: expand("-bx12345")).0
+    
+    XCTAssertEqual(r[fs.flags["x"]!] as? String, "12345")
+    XCTAssertEqual(r[fs.flags["b"]!] as? Bool, true)
+  }
+  
+  func testANonBoolShortFlagWillSwallowTheOutputAndConvertsItAndThrowErrorIfCannotConvert() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", defaultValue: true, shortName: "d"),
+        Flag(longName: "bla", defaultValue: true, shortName: "b"),
+        Flag(longName: "xxx", defaultValue: 1, shortName: "x"),
+        ]
+    )
+    
+    do {
+      _ = try fs.parse(args: expand("-bx1234s5"))
+      XCTFail()
+    } catch let CommandErrors.incorrectFlagValue(name, val, type) {
+      XCTAssertEqual(name, "xxx")
+      XCTAssertEqual(val, "1234s5")
+      XCTAssertEqual("\(type)", "\(Int.self)")
+    } catch {
+      XCTFail()
+    }
   }
   
 }
