@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/oarrabi/macaw.svg?branch=master)](https://travis-ci.org/oarrabi/macaw)
 [![codecov](https://codecov.io/gh/oarrabi/macaw/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/macaw)
 [![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/macaw)
-[![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg)](https://travis-ci.org/oarrabi/macaw)
 [![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/macaw)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
