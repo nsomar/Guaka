@@ -17,13 +17,13 @@ enum ArgTokenType {
   
   init(fromString string: String) {
     
-    if string.hasPrefix("---") {
+    if string.isPrefixed(by: "---") {
       
       self = .invalidFlag(string)
-    } else if string.hasPrefix("--") {
+    } else if string.isPrefixed(by: "--") {
       
       self = ArgTokenType.parseLongFlag(string)
-    } else if string.hasPrefix("-") {
+    } else if string.isPrefixed(by: "-") {
       
       self = ArgTokenType.parseShortFlag(string)
     } else {
