@@ -113,8 +113,8 @@ class ExecuteTests: XCTestCase {
     
     XCTAssertEqual(r1.1, ["first", "second"])
     
-    let r2 = try! fs.parse(args: expand("first --debug second -b=1 third"))
-    XCTAssertEqual(r2.0[fs.flags["d"]!] as? Bool, true)
+    let r2 = try! fs.parse(args: expand("first --debug=false second -b=1 third"))
+    XCTAssertEqual(r2.0[fs.flags["d"]!] as? Bool, false)
     XCTAssertEqual(r2.0[fs.flags["b"]!] as? Int, 1)
     
     XCTAssertEqual(r2.1, ["first", "second", "third"])

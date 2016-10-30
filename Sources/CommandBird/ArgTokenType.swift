@@ -64,12 +64,8 @@ enum ArgTokenType {
       if isMultiFlag(scanner) {
         return .shortMultiFlag(scanner.remainingString)
       } else {
-        if hasEqual(string) {
-          let (name, value) = parseEqual(scanner)
-          return .shortFlagWithEqual(name, value)
-        } else {
-          return .shortFlag(scanner.remainingString)
-        }
+        let (name, value) = parseEqual(scanner)
+        return .shortFlagWithEqual(name, value)
       }
     }
   }
@@ -86,10 +82,6 @@ enum ArgTokenType {
     }
     
     return (name, value)
-  }
-  
-  static func parseMultiString(_ string: String) -> [String] {
-    return string.characters.map { String($0) }
   }
   
   static func isMultiFlag(_ scanner: StringScanner) -> Bool {
