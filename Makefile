@@ -1,2 +1,2 @@
 test:
-	xcodebuild -project Macaw.xcodeproj -scheme Macaw build test
+	xcodebuild -project Guaka.xcodeproj -scheme Guaka build test

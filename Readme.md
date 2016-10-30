@@ -1,15 +1,15 @@
-# Macaw
+# Guaka
 
-[![Build Status](https://travis-ci.org/oarrabi/macaw.svg?branch=master)](https://travis-ci.org/oarrabi/macaw)
-[![codecov](https://codecov.io/gh/oarrabi/macaw/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/macaw)
-[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/macaw)
-[![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/macaw)
+[![Build Status](https://travis-ci.org/oarrabi/guaka.svg?branch=master)](https://travis-ci.org/oarrabi/guaka)
+[![codecov](https://codecov.io/gh/oarrabi/guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/guaka)
+[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/guaka)
+[![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/guaka)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-`Macaw` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). 
+`Guaka` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). 
 (Also its a WIP)
 
-`Macaw` promises the following:
+`Guaka` promises the following:
 - It can be statically linked: That means it does not use libFoundation, and does no rely on many thirdparty libs.
 - Posix complient flags: It handles both short and long flag names. Flag names can appear anywhere (ala posix)
 - Familiar with widely used cli apps: Have you used Docker, Kubernetes, OpenShift and Hugo. 
@@ -37,7 +37,7 @@ WIP....
 
 
 ## Installation
-You can install Macaw using Swift package manager (SPM) and carthage
+You can install Guaka using Swift package manager (SPM) and carthage
 
 ### Swift Package Manager
 Add swiftline as dependency in your `Package.swift`
@@ -47,16 +47,16 @@ Add swiftline as dependency in your `Package.swift`
 
   let package = Package(name: "YourPackage",
     dependencies: [
-      .Package(url: "https://github.com/oarrabi/macaw.git", majorVersion: 0),
+      .Package(url: "https://github.com/oarrabi/guaka.git", majorVersion: 0),
     ]
   )
 ```
 
 ### Carthage
-    github 'oarrabi/macaw'
+    github 'oarrabi/guaka'
 
 ## Tests
-Tests can be found [here](https://github.com/oarrabi/macaw/tree/master/Tests). 
+Tests can be found [here](https://github.com/oarrabi/guaka/tree/master/Tests). 
 
 Run them with 
 ```

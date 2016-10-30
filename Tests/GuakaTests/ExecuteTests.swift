@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Macaw
+@testable import Guaka
 
 class ExecuteTests: XCTestCase {
   

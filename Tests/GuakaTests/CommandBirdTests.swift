@@ -1,12 +1,4 @@
 //
-//  CommandBirdTests.swift
-//  CommandLine
-//
-//  Created by Omar Abdelhafith on 30/10/2016.
-//
-//
-
-//
 //  ArgTokenTypeTests.swift
 //  CommandLine
 //
@@ -15,7 +7,7 @@
 //
 
 import XCTest
-@testable import Macaw
+@testable import Guaka
 
 class CommandBirdTests: XCTestCase {
 

@@ -1,9 +1,9 @@
 import PackageDescription
 
 let package = Package(
-  name: "Macaw",
+  name: "Guaka",
   targets: [
-    Target(name: "Macaw")
+    Target(name: "Guaka")
   ],
   dependencies: [.Package(url: "https://github.com/oarrabi/StringScanner", majorVersion: 0)]
 )
