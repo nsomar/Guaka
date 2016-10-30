@@ -1,12 +1,9 @@
 import PackageDescription
 
 let package = Package(
-  name: "CommandLine",
+  name: "Macaw",
   targets: [
-    Target(name: "App",
-           dependencies: ["CommandBird"]
-    ),
-    Target(name: "CommandBird")
+    Target(name: "Macaw")
   ],
-  dependencies: [.Package(url: "../StringScanner", majorVersion: 0)]
+  dependencies: [.Package(url: "https://github.com/oarrabi/StringScanner", majorVersion: 0)]
 )

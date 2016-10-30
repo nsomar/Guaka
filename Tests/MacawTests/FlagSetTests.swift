@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import CommandBird
+@testable import Macaw
 
 class FlagSetTests: XCTestCase {
   

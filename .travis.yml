@@ -1,0 +1,14 @@
+sudo: false
+language: objective-c
+osx_image: xcode8
+
+script:
+- swift package generate-xcodeproj --enable-code-coverage
+- make test
+- pod lib lint --quick
+
+before_install:
+- gem install cocoapods # Since Travis is not always on latest version
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
