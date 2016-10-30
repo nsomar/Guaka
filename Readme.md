@@ -1,9 +1,9 @@
 # Guaka
 
-[![Build Status](https://travis-ci.org/oarrabi/guaka.svg?branch=master)](https://travis-ci.org/oarrabi/guaka)
-[![codecov](https://codecov.io/gh/oarrabi/guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/guaka)
-[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/guaka)
-[![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/guaka)
+[![Build Status](https://travis-ci.org/oarrabi/Guaka.svg?branch=master)](https://travis-ci.org/oarrabi/Guaka)
+[![codecov](https://codecov.io/gh/oarrabi/Guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/Guaka)
+[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/Guaka)
+[![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/Guaka)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 `Guaka` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). 
@@ -47,16 +47,16 @@ Add swiftline as dependency in your `Package.swift`
 
   let package = Package(name: "YourPackage",
     dependencies: [
-      .Package(url: "https://github.com/oarrabi/guaka.git", majorVersion: 0),
+      .Package(url: "https://github.com/oarrabi/Guaka.git", majorVersion: 0),
     ]
   )
 ```
 
 ### Carthage
-    github 'oarrabi/guaka'
+    github 'oarrabi/Guaka'
 
 ## Tests
-Tests can be found [here](https://github.com/oarrabi/guaka/tree/master/Tests). 
+Tests can be found [here](https://github.com/oarrabi/Guaka/tree/master/Tests). 
 
 Run them with 
 ```
