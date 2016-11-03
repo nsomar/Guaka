@@ -7,12 +7,12 @@
 //
 
 
-protocol CommandStringConvertible {
+public protocol CommandStringConvertible {
   static func fromString(command value: String) -> Any?
 }
 
 extension Bool: CommandStringConvertible {
-  static func fromString(command value: String) -> Any? {
+  public static func fromString(command value: String) -> Any? {
     if value == "1" {
       return true
     } else if value == "0" {
@@ -25,13 +25,13 @@ extension Bool: CommandStringConvertible {
 
 
 extension Int: CommandStringConvertible {
-  static func fromString(command value: String) -> Any? {
+  public static func fromString(command value: String) -> Any? {
     return Int(value)
   }
 }
 
 extension String: CommandStringConvertible {
-  static func fromString(command value: String) -> Any? {
+  public static func fromString(command value: String) -> Any? {
     return value
   }
 }

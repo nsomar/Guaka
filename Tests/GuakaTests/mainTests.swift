@@ -12,9 +12,9 @@ class SomeTest: XCTestCase {
     show = try! Command(
       name: "show",
       flags: [
-        Flag(longName: "foo", defaultValue: "-", inheritable: false),
-        Flag(longName: "bar", defaultValue: "-", inheritable: false),
-        Flag(longName: "yy", defaultValue: true, inheritable: false),
+        Flag(longName: "foo", value: "-", inheritable: false),
+        Flag(longName: "bar", value: "-", inheritable: false),
+        Flag(longName: "yy", value: true, inheritable: false),
         ],
       commands: [],
       run: { flags, args in
@@ -24,10 +24,10 @@ class SomeTest: XCTestCase {
     remote = try! Command(
       name: "remote",
       flags: [
-        Flag(longName: "foo", defaultValue: "-", inheritable: true),
-        Flag(longName: "remote", defaultValue: true, inheritable: true),
-        Flag(longName: "bar", defaultValue: "-", inheritable: false),
-        Flag(longName: "xx", defaultValue: true, inheritable: false),
+        Flag(longName: "foo", value: "-", inheritable: true),
+        Flag(longName: "remote", value: true, inheritable: true),
+        Flag(longName: "bar", value: "-", inheritable: false),
+        Flag(longName: "xx", value: true, inheritable: false),
         ],
       commands: [show],
       run: { flags, args in
@@ -37,7 +37,7 @@ class SomeTest: XCTestCase {
     rebase = try! Command(
       name: "rebase",
       flags: [
-        Flag(longName: "varvar", defaultValue: false, shortName: "v", inheritable: true),
+        Flag(longName: "varvar", value: false, shortName: "v", inheritable: true),
         ],
       commands: [],
       run: { flags, args in
@@ -47,10 +47,10 @@ class SomeTest: XCTestCase {
      git = try! Command(
       name: "git",
       flags: [
-        Flag(longName: "debug", defaultValue: true, shortName: "d", inheritable: true),
-        Flag(longName: "verbose", defaultValue: false, shortName: "v", inheritable: true),
-        Flag(longName: "togge", defaultValue: false, shortName: "t", inheritable: false),
-        Flag(longName: "root", defaultValue: 1, shortName: "r", inheritable: false),
+        Flag(longName: "debug", value: true, shortName: "d", inheritable: true),
+        Flag(longName: "verbose", value: false, shortName: "v", inheritable: true),
+        Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
+        Flag(longName: "root", value: 1, shortName: "r", inheritable: false),
       ],
       commands: [rebase, remote],
       run: { flags, args in

@@ -10,8 +10,8 @@ import StringScanner
 
 extension FlagSet {
   
-  func parse(args: [String]) throws -> ([Flag: Any], [String]) {
-    var ret = [Flag: Any]()
+  func parse(args: [String]) throws -> ([Flag: CommandStringConvertible], [String]) {
+    var ret = [Flag: CommandStringConvertible]()
     var remainigArgs = [String]()
     
     var pendingFlag: Flag?
@@ -77,9 +77,9 @@ extension FlagSet {
   }
   
   
-  func parseMultiFlagWithEqual(name: String) throws -> ([Flag: Any], Flag?) {
+  func parseMultiFlagWithEqual(name: String) throws -> ([Flag: CommandStringConvertible], Flag?) {
     let scanner = StringScanner(string: name)
-    var ret = [Flag: Any]()
+    var ret = [Flag: CommandStringConvertible]()
     
     while true {
       let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
@@ -116,7 +116,7 @@ extension FlagSet {
     
     return (ret, nil)
   }
-
+  
   
   func getFlag(forName name: String) throws -> Flag {
     guard let flag = flags[name] else {
@@ -126,6 +126,34 @@ extension FlagSet {
     return flag
   }
   
+  
+  func getPreparedFlags(withFlagValues values: [Flag: CommandStringConvertible])
+    throws -> [String: Flag] {
+      
+      var returnFlags = self.getFlagsWithLongNames()
+      
+      try values.forEach { flag, value in
+        guard var foundFlag = self.flags[flag.longName] else {
+          throw CommandErrors.unexpectedFlagPassed(flag.longName, "\(value)")
+        }
+        
+        foundFlag.value = value
+        returnFlags[foundFlag.longName] = foundFlag
+      }
+
+      return returnFlags
+  }
+  
+  func getFlagsWithLongNames() -> [String: Flag] {
+    var returnFlags = [String: Flag]()
+    self.flags.forEach { key, flag in
+      if key == flag.longName {
+        returnFlags[key] = flag
+      }
+    }
+    
+    return returnFlags
+  }
 }
 
 func += <K, V> (left: inout [K: V], right: [K: V]) {
@@ -133,3 +161,4 @@ func += <K, V> (left: inout [K: V], right: [K: V]) {
     left.updateValue(v, forKey: k)
   }
 }
+

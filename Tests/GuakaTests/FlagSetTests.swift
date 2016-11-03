@@ -14,8 +14,8 @@ class FlagSetTests: XCTestCase {
   func testItKnowsIfFlagIsBoolean() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", defaultValue: true),
-        Flag(longName: "bla", defaultValue: 1)
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", value: 1)
       ]
     )
     
@@ -32,8 +32,8 @@ class FlagSetTests: XCTestCase {
   func testItKnowsIfTokenIsSatisfied() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", defaultValue: true, shortName: "d"),
-        Flag(longName: "bla", defaultValue: 1, shortName: "b")
+        Flag(longName: "debug", value: true, shortName: "d"),
+        Flag(longName: "bla", value: 1, shortName: "b")
       ]
     )
     
@@ -66,6 +66,74 @@ class FlagSetTests: XCTestCase {
     
     let v10 = fs.isFlagSatisfied(token: ArgTokenType(fromString: "-asdb"))
     XCTAssertTrue(v10)
+  }
+  
+  func testItGetsPreparedFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", value: 1),
+        Flag(longName: "test", value: "")
+      ]
+    )
+    
+    let values = [
+      Flag(longName: "debug", value: true): false,
+      Flag(longName: "bla", value: 1): 20,
+      Flag(longName: "test", value: ""): "Hello"
+    ] as [Flag : CommandStringConvertible]
+    
+    let res = try! fs.getPreparedFlags(withFlagValues: values)
+    
+    XCTAssertEqual(res["debug"]?.value as? Bool, false)
+    XCTAssertEqual(res["bla"]?.value as? Int, 20)
+    XCTAssertEqual(res["test"]?.value as? String, "Hello")
+  }
+  
+  func testItGetsDeafaultValueForPreparedFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", value: 1),
+        Flag(longName: "test", value: "")
+      ]
+    )
+    
+    let values = [
+      Flag(longName: "debug", value: true): false,
+      Flag(longName: "test", value: ""): "Hello"
+      ] as [Flag : CommandStringConvertible]
+    
+    let res = try! fs.getPreparedFlags(withFlagValues: values)
+    
+    XCTAssertEqual(res["debug"]?.value as? Bool, false)
+    XCTAssertEqual(res["bla"]?.value as? Int, 1)
+    XCTAssertEqual(res["test"]?.value as? String, "Hello")
+  }
+  
+  func testItThrowsErrorForUnexpectedFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", value: 1),
+        Flag(longName: "test", value: "")
+      ]
+    )
+    
+    let values = [
+      Flag(longName: "debug", value: true): false,
+      Flag(longName: "test2", value: ""): "Hello"
+      ] as [Flag : CommandStringConvertible]
+    
+    do {
+      _ = try fs.getPreparedFlags(withFlagValues: values)
+      XCTFail()
+    } catch CommandErrors.unexpectedFlagPassed(let x, let y)  {
+      XCTAssertEqual(x, "test2")
+      XCTAssertEqual(y, "Hello")
+    } catch {
+      
+    }
   }
   
 }

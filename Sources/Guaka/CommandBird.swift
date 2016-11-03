@@ -1,11 +1,20 @@
 import StringScanner
 
+public func executeCommand(rootCommand: CommandType, args: [String]) throws {
+  let (command, args) = getCurrentCommand(command: rootCommand, args: args)
+  
+  let fs = command.flagSet
+  let (optionFlags, positionalArguments) = try fs.parse(args: args)
+  let preparedFlags = try fs.getPreparedFlags(withFlagValues: optionFlags)
+  
+  command.execute(flags: preparedFlags, args: positionalArguments)
+}
 
-func getCurrentCommand(command: Command, args: [String]) -> (Command, [String]) {
+func getCurrentCommand(command: CommandType, args: [String]) -> (CommandType, [String]) {
   return stripFlags(command: command, args: args)
 }
 
-func stripFlags(command: Command, args: [String]) -> (Command, [String]) {
+func stripFlags(command: CommandType, args: [String]) -> (CommandType, [String]) {
   var possibleCommands = [String]()
   
   let flagSet = command.flagSet

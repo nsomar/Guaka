@@ -7,10 +7,11 @@
 //
 
 
-enum CommandErrors: Error {
+public enum CommandErrors: Error {
   case wrongFlagPattern(String)
-  case commandAlreadyInserterd(Command)
+  case commandAlreadyInserterd(CommandType)
   case flagNotFound(String)
   case incorrectFlagValue(String, String, Any.Type)
   case flagNeedsValue(String, String)
+  case unexpectedFlagPassed(String, String)
 }

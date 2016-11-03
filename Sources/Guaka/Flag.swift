@@ -6,46 +6,48 @@
 //
 //
 
-struct Flag: Hashable {
-  let longName: String
-  let shortName: String?
-  let defaultValue: CommandStringConvertible
-  let inheritable: Bool
+public struct Flag: Hashable {
+  public let longName: String
+  public let shortName: String?
+  public let inheritable: Bool
   
-  init(longName: String, defaultValue: CommandStringConvertible, shortName: String? = nil, inheritable: Bool = true) {
+  public var value: Any
+  
+  public init(longName: String, value: CommandStringConvertible, shortName: String? = nil, inheritable: Bool = true) {
     self.longName = longName
     self.shortName = shortName
-    self.defaultValue = defaultValue
+    self.value = value
     self.inheritable = inheritable
   }
   
   var isBool: Bool {
-    return defaultValue is Bool
+    return value is Bool
   }
   
-  var hashValue: Int {
+  public var hashValue: Int {
     return longName.hashValue
   }
 }
 
-func ==(left: Flag, right: Flag) -> Bool {
+public func ==(left: Flag, right: Flag) -> Bool {
   return left.hashValue == right.hashValue
 }
 
 extension Flag {
-  func convertValueToInnerType(value: String) throws -> Any {
-    guard let v = type(of: defaultValue).fromString(command: value) else {
+  func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
+    guard
+      let typedValue = self.value as? CommandStringConvertible,
+      let v = type(of: typedValue).fromString(command: value) else {
       throw CommandErrors.incorrectFlagValue(self.longName, value, Int.self)
     }
     
-    return v
+    return v as! CommandStringConvertible
   }
 }
 
 
 struct FlagSet {
   let flags: [String: Flag]
-//  var flagValues: [String: Any] = [:]
   
   init(flags: [Flag]) {
     var flagMap = [String: Flag]()

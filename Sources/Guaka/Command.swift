@@ -6,27 +6,55 @@
 //
 //
 
-
-class Command {
-  typealias Run = ([Flag], [String]) -> ()
-  var parent: Command?
-  let name: String
-  let flags: [Flag]
-  let commands: [String: Command]
-  let run: Run?
+public protocol CommandType {
+  typealias Run = ([String: Flag], [String]) -> ()
   
-  init(name: String, flags: [Flag], commands: [Command] = [], parent: Command? = nil, run: Run? = nil) throws {
+  var parent: CommandType? { get set }
+  var name: String { get }
+  var flags: [Flag] { get }
+  var commands: [String: CommandType] { get }
+  var run: Run? { get set }
+  
+  func execute(flags: [String: Flag], args: [String])
+  func execute(commandLineArgs: [String]) throws
+}
+
+public class Command: CommandType {
+  public typealias Run = ([String: Flag], [String]) -> ()
+  
+  public var parent: CommandType?
+  public let name: String
+  public let flags: [Flag]
+  public let commands: [String: CommandType]
+  public var run: Run?
+  
+  public init(name: String, flags: [Flag], commands: [CommandType] = [], run: Run? = nil) throws {
     self.name = name
     self.flags = flags
     self.commands = try Command.commandsToMap(commands: commands)
-    self.parent = parent
     self.run = run
     
-    commands.forEach { $0.parent = self }
+    commands.forEach {
+      var mut = $0
+      mut.parent = self
+    }
   }
-  
-  static func commandsToMap(commands: [Command]) throws -> [String: Command] {
-    var m = [String: Command]()
+}
+
+extension CommandType {
+  // FIXME make sure we test for command childern too
+  func equals(other: Any) -> Bool {
+    guard let other = other as? CommandType else { return false }
+    
+    return self.name == other.name &&
+      self.flags == other.flags &&
+      self.commands.count == other.commands.count
+  }
+}
+
+extension CommandType {
+  static func commandsToMap(commands: [CommandType]) throws -> [String: CommandType] {
+    var m = [String: CommandType]()
     
     try commands.forEach { cmd in
       if m[cmd.name] == nil {
@@ -40,19 +68,19 @@ class Command {
   }
 }
 
-extension Command {
+extension CommandType {
   var inheritableFlags: [Flag] {
     return self.flags.filter { $0.inheritable }
   }
 }
 
-extension Command {
+extension CommandType {
   
   var flagSet: FlagSet {
     
     let allFlags =
       iterateToRoot().reduce([Flag]()) { acc, command in
-        let flagsToAdd = self === command ? command.flags : command.inheritableFlags
+        let flagsToAdd = self.equals(other: command) ? command.flags : command.inheritableFlags
         return flagsToAdd + acc
     }
     
@@ -63,8 +91,8 @@ extension Command {
     return getPath(cmd: self, acc: []).reversed()
   }
   
-  var root: Command {
-    var current: Command? = self
+  var root: CommandType {
+    var current: CommandType? = self
     
     while true {
       let previous = current
@@ -76,10 +104,10 @@ extension Command {
   }
   
   
-  private func iterateToRoot() -> AnyIterator<Command> {
-    var currentCommand: Command? = self
+  private func iterateToRoot() -> AnyIterator<CommandType> {
+    var currentCommand: CommandType? = self
     
-    return AnyIterator<Command>.init({ () -> Command? in
+    return AnyIterator<CommandType>.init({ () -> CommandType? in
       
       guard let c = currentCommand else { return nil }
       
@@ -89,7 +117,7 @@ extension Command {
     })
   }
   
-  private func getPath(cmd: Command?, acc: [String]) -> [String] {
+  private func getPath(cmd: CommandType?, acc: [String]) -> [String] {
     guard let cmd = cmd else {
       return acc
     }
@@ -97,5 +125,17 @@ extension Command {
     var mut = acc
     mut.append(cmd.name)
     return getPath(cmd: cmd.parent, acc: mut)
+  }
+}
+
+
+
+extension CommandType {
+  public func execute(flags: [String: Flag], args: [String]) {
+    self.run?(flags, args)
+  }
+  
+  public func execute(commandLineArgs: [String]) throws {
+    try executeCommand(rootCommand: self, args: commandLineArgs)
   }
 }
