@@ -54,4 +54,4 @@ let git = try! Command(
 }
 
 
-try! git.execute(commandLineArgs: CommandLine.arguments)
+git.execute(commandLineArgs: CommandLine.arguments)

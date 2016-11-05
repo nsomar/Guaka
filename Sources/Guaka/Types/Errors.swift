@@ -26,4 +26,22 @@ extension CommandErrors {
       return ""
     }
   }
+  
+  func errorMessage(forCommand command: CommandType) -> String {
+    return [
+      "Error: \(error)",
+      command.innerHelpMessage,
+      "\n\(error)",
+      "exit status 255"
+    ].joined(separator: "\n")
+  }
+  
+  static func generalError(forCommand command: CommandType) -> String {
+    return [
+      "Error: General error encountered",
+      command.innerHelpMessage,
+      "\nGeneral error encountered",
+      "exit status 255"
+      ].joined(separator: "\n")
+  }
 }

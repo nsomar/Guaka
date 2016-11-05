@@ -20,6 +20,7 @@ class DummyCommand: CommandType {
   var longUsage: String?
   
   var executed: ([String: Flag], [String])?
+  var printed: String = ""
   
   public init(name: String, flags: [Flag], commands: [CommandType] = [],
               parent: Command? = nil, run: CommandType.Run? = nil) throws {
@@ -37,6 +38,10 @@ class DummyCommand: CommandType {
   
   func execute(flags: [String : Flag], args: [String]) {
     executed = (flags, args)
+  }
+  
+  func printToConsole(_ string: String) {
+    printed = string
   }
 }
 

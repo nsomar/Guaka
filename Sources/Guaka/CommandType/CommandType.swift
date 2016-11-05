@@ -30,6 +30,8 @@ public protocol CommandType {
   func execute(flags: [String: Flag], args: [String])
   
   var helpMessage: String { get }
+  
+  func printToConsole(_ string: String)
 }
 
 
@@ -110,34 +112,6 @@ extension CommandType {
     return getPath(cmd: cmd.parent, acc: mut)
   }
 }
-
-
-// MARK: Execution
-extension CommandType {
-  public func execute(flags: [String: Flag], args: [String]) {
-    self.run?(flags, args)
-  }
-  
-  public func execute(commandLineArgs: [String]) {
-    do {
-      try executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
-    } catch let e as CommandErrors {
-      print("Error: \(e.error)", separator: "", terminator: "\n")
-      print(self.innerHelpMessage)
-      print("\n\(e.error)", separator: "", terminator: "\n")
-      print("exit status 255")
-      exit(255)
-    } catch {
-      print("Error: unknown shorthand flag: 'w' in -ww")
-      print(self.innerHelpMessage)
-    }
-  }
-  
-  public func commandToExecute(commandLineArgs: [String]) -> CommandType {
-    return getCurrentCommand(command: self, args: Array(commandLineArgs.dropFirst())).0
-  }
-}
-
 
 
 // MARK: Equality
