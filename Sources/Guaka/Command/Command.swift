@@ -8,6 +8,7 @@
 
 
 public class Command: CommandType {
+  
   public typealias Run = ([String: Flag], [String]) -> ()
   
   public var parent: CommandType?
@@ -37,4 +38,5 @@ public class Command: CommandType {
       mut.parent = self
     }
   }
+  
 }

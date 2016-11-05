@@ -9,7 +9,7 @@
 import XCTest
 @testable import Guaka
 
-class ExecuteTests: XCTestCase {
+class ParsingTests: XCTestCase {
   
   func testItParsesLongWithEqual() {
     let fs = FlagSet(
@@ -200,7 +200,6 @@ class ExecuteTests: XCTestCase {
       XCTFail()
     }
   }
-  
   
   func testItParseMultipleBoolFlags() {
     let fs = FlagSet(

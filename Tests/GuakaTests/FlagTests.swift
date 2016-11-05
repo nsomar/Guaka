@@ -10,6 +10,7 @@ import XCTest
 @testable import Guaka
 
 class FlagTests: XCTestCase {
+  
   func testItGeneratesAPrintableNameWithLongNameAndDescription() {
     let f = Flag(longName: "debug", value: 1, description: "Here is a desc")
     XCTAssertEqual(f.flagPrintableName, "      --debug int")
@@ -54,4 +55,5 @@ class FlagTests: XCTestCase {
     
     XCTAssertEqual(fs.flagsDescription, "  -d, --debugxxxxxxxxxxx bool  Here is a desc (default true)\n      --verbose int            (default 1)\n  -d, --xxx string             Here is a desc (default 123)")
   }
+
 }

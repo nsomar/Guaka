@@ -8,8 +8,13 @@
 
 // MARK: Execution
 extension CommandType {
+  
   public func execute(flags: [String: Flag], args: [String]) {
     self.run?(flags, args)
+  }
+
+  public func execute() {
+    execute(commandLineArgs: CommandLine.arguments)
   }
   
   public func execute(commandLineArgs: [String]) {
@@ -18,7 +23,7 @@ extension CommandType {
   }
   
   public func commandToExecute(commandLineArgs: [String]) -> CommandType {
-    return getCurrentCommand(command: self, args: Array(commandLineArgs.dropFirst())).0
+    return actualCommand(forCommand: self, args: Array(commandLineArgs.dropFirst())).0
   }
   
   private func handleResult(_ result: Result) {
@@ -44,7 +49,9 @@ extension CommandType {
 
 // MARK: Printing
 extension CommandType {
+  
   public func printToConsole(_ string: String) {
     print(string)
   }
+  
 }

@@ -13,6 +13,7 @@ public protocol CommandStringConvertible {
 }
 
 extension Bool: CommandStringConvertible {
+  
   public static func fromString(command value: String) -> Any? {
     if value == "1" {
       return true
@@ -24,21 +25,27 @@ extension Bool: CommandStringConvertible {
   }
   
   public static var typeName: String { return "bool" }
+  
 }
 
 
 extension Int: CommandStringConvertible {
+  
   public static func fromString(command value: String) -> Any? {
     return Int(value)
   }
   
   public static var typeName: String { return "int" }
+  
 }
 
+
 extension String: CommandStringConvertible {
+  
   public static func fromString(command value: String) -> Any? {
     return value
   }
   
   public static var typeName: String { return "string" }
+  
 }

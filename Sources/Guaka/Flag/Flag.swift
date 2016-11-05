@@ -7,6 +7,7 @@
 //
 
 public struct Flag: Hashable {
+  
   public let longName: String
   public let shortName: String?
   public let inheritable: Bool
@@ -33,6 +34,7 @@ public struct Flag: Hashable {
   public var hashValue: Int {
     return longName.hashValue
   }
+  
 }
 
 public func ==(left: Flag, right: Flag) -> Bool {
@@ -40,6 +42,7 @@ public func ==(left: Flag, right: Flag) -> Bool {
 }
 
 extension Flag {
+  
   func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
     guard
       let v = type(of: self.value).fromString(command: value) else {
@@ -48,10 +51,12 @@ extension Flag {
     
     return v as! CommandStringConvertible
   }
+  
 }
 
 
 extension Flag {
+  
   var flagPrintableName: String {
     var nameParts: [String] = []
     
@@ -75,4 +80,5 @@ extension Flag {
     
     return "\(description) (default \(value))"
   }
+  
 }

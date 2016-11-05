@@ -136,7 +136,6 @@ class FlagSetTests: XCTestCase {
     }
   }
   
-  
   func testAppendsHelpToFlagSet() {
     let fs = FlagSet(
       flags: [

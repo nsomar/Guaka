@@ -8,12 +8,14 @@
 
 
 public enum CommandErrors: Error {
+  
   case wrongFlagPattern(String)
   case commandAlreadyInserterd(CommandType)
   case flagNotFound(String)
   case incorrectFlagValue(String, String, Any.Type)
   case flagNeedsValue(String, String)
   case unexpectedFlagPassed(String, String)
+  
 }
 
 extension CommandErrors {
@@ -22,6 +24,8 @@ extension CommandErrors {
     switch self {
     case let .flagNotFound(flag):
       return "unknown shorthand flag: '\(flag)'"
+    case let .incorrectFlagValue(flag, value, type):
+      return "wrong flag value passed flag: '\(flag)' passed value: '\(value)' expected type: '\(type)'"
     default:
       return ""
     }
@@ -44,4 +48,5 @@ extension CommandErrors {
       "exit status 255"
       ].joined(separator: "\n")
   }
+  
 }

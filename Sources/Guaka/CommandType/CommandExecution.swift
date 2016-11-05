@@ -1,13 +1,14 @@
 import StringScanner
 
+
 func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
   
-  let (command, args) = getCurrentCommand(command: rootCommand, args: args)
-  let fs = command.flagSet.flagSetAppeningHelp()
+  let (command, args) = actualCommand(forCommand: rootCommand, args: args)
+  let flagSet = command.flagSet.flagSetAppeningHelp()
   
   do {
-    let (optionFlags, positionalArguments) = try fs.parse(args: args)
-    var preparedFlags = try fs.getPreparedFlags(withFlagValues: optionFlags)
+    let (optionFlags, positionalArguments) = try flagSet.parse(args: args)
+    var preparedFlags = try flagSet.getPreparedFlags(withFlagValues: optionFlags)
     
     // If help flag is set, show help message
     if
@@ -26,11 +27,8 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
   return .success
 }
 
-func getCurrentCommand(command: CommandType, args: [String]) -> (CommandType, [String]) {
-  return stripFlags(command: command, args: args)
-}
 
-func stripFlags(command: CommandType, args: [String]) -> (CommandType, [String]) {
+func actualCommand(forCommand command: CommandType, args: [String]) -> (CommandType, [String]) {
   var possibleCommands = [String]()
   
   let flagSet = command.flagSet
@@ -58,14 +56,16 @@ func stripFlags(command: CommandType, args: [String]) -> (CommandType, [String])
   
   let remainingArgs = remove(arg: first, fromArgs: args)
   
-  return stripFlags(command: nextCommand, args: remainingArgs)
+  return actualCommand(forCommand: nextCommand, args: remainingArgs)
 }
 
-func remove(arg: String, fromArgs args: [String]) -> [String] {
+
+private func remove(arg: String, fromArgs args: [String]) -> [String] {
   return args.filter { $0 != arg }
 }
 
-func skippabeIterator<T>(array: [T], block: (T) -> (Bool)) {
+
+private func skippabeIterator<T>(array: [T], block: (T) -> (Bool)) {
   var skipNext = false
   for element in array {
     

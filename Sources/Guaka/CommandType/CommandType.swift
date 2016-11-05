@@ -13,6 +13,7 @@
 #endif
 
 public protocol CommandType {
+  
   typealias Run = ([String: Flag], [String]) -> ()
   
   var parent: CommandType? { get set }
@@ -32,6 +33,7 @@ public protocol CommandType {
   var helpMessage: String { get }
   
   func printToConsole(_ string: String)
+  
 }
 
 
@@ -66,6 +68,7 @@ extension CommandType {
     
     return m
   }
+  
 }
 
 
@@ -111,11 +114,13 @@ extension CommandType {
     mut.append(cmd.name)
     return getPath(cmd: cmd.parent, acc: mut)
   }
+  
 }
 
 
 // MARK: Equality
 extension CommandType {
+  
   // FIXME make sure we test for command childern too
   func equals(other: Any) -> Bool {
     guard let other = other as? CommandType else { return false }
@@ -124,4 +129,5 @@ extension CommandType {
       self.flags == other.flags &&
       self.commands.count == other.commands.count
   }
+  
 }

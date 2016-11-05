@@ -1,12 +1,8 @@
 import XCTest
 @testable import Guaka
 
-class SomeTest: XCTestCase {
-  
-  func testItParsesSomething() {
-//    execute(command: git, args: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "222", "show"])
-  }
-  
+class CommandTypeTest: XCTestCase {
+
   func testItCanGenerateFlagSetForRoot() {
     let fs1 = git.flagSet
     XCTAssertEqual(fs1.flags["d"]!.longName, "debug")
@@ -52,10 +48,5 @@ class SomeTest: XCTestCase {
     let p2 = show.path
     XCTAssertEqual(p2, ["git", "remote", "show"])
   }
-  
-  
-  func testItCanStripFlags() {
-    
-  }
-  
+
 }

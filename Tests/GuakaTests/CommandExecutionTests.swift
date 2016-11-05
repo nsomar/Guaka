@@ -62,5 +62,14 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(git.printed, "Usage:\n  remote [flags]\n  remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string    (default -)\n  -d, --debug bool    (default true)\n      --foo string    (default -)\n      --remote bool   (default true)\n  -v, --verbose bool  (default false)\n      --xx bool       (default true)\n\nUse \"remote [command] --help\" for more information about a command.")
   }
   
+  func testItCanGetCommandToExecute() {
+    //git.execute
+    let c1 = git.commandToExecute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))
+    XCTAssertEqual(c1.name, "remote")
+    
+    let c2 = git.commandToExecute(commandLineArgs: expand("git remote show --xx --bar=123 -h"))
+    XCTAssertEqual(c2.name, "show")
+  }
+  
 }
 

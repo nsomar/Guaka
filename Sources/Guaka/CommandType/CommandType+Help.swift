@@ -8,6 +8,7 @@
 
 
 extension CommandType {
+  
   public var helpMessage: String {
     return [
       commandDescriptionSection.joined(),
@@ -61,4 +62,5 @@ extension CommandType {
   var helpSection: String {
     return "Use \"\(name) [command] --help\" for more information about a command."
   }
+  
 }
