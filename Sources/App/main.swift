@@ -44,7 +44,7 @@ let rebase = try! Command(
 let git = try! Command(
   name: "git",
   flags: [
-    Flag(longName: "debug", value: true, shortName: "d", inheritable: true),
+    Flag(longName: "debug", type: Bool.self, required: true),
     Flag(longName: "verbose", value: false, shortName: "v", inheritable: true),
     Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
     Flag(longName: "root", value: 1, shortName: "r", inheritable: false),

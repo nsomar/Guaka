@@ -140,7 +140,7 @@ extension FlagSet {
       }
       
       if preparedFlag.value == nil {
-        return .flagError(CommandErrors.requiredFlagsWasNotSet(flag.longName))
+        return .flagError(CommandErrors.requiredFlagsWasNotSet(flag.longName, flag.type))
       }
     }
     

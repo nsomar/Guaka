@@ -185,7 +185,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
     
     if case .flagError(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("bla") = e {
+      if case CommandErrors.requiredFlagsWasNotSet("bla", _) = e {
       } else {
         XCTFail()
       }
@@ -209,7 +209,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
     
     if case .flagError(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("bla") = e {
+      if case CommandErrors.requiredFlagsWasNotSet("bla", _) = e {
       } else {
         XCTFail()
       }
@@ -233,7 +233,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
     
     if case .flagError(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("xxx") = e {
+      if case CommandErrors.requiredFlagsWasNotSet("xxx", _) = e {
       } else {
         XCTFail()
       }
@@ -299,15 +299,4 @@ class FlagSetTests: XCTestCase {
       XCTFail()
     }
   }
-  
-  /*
- let fs = FlagSet(
- flags: [
- Flag(longName: "debug", value: true),
- Flag(longName: "bla", type: Int.self, required: true),
- ]
- )
- 
- let (flags, _) = try! fs.parse(args: expand("--debug=1"))
- let prepared = fs.getPreparedFlags(withFlagValues: flags)*/
 }

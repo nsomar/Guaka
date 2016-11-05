@@ -14,7 +14,7 @@ public enum CommandErrors: Error {
   case flagNotFound(String)
   case incorrectFlagValue(String, String, Any.Type)
   case flagNeedsValue(String, String)
-  case requiredFlagsWasNotSet(String)
+  case requiredFlagsWasNotSet(String, Any.Type)
   case unexpectedFlagPassed(String, String)
   
 }
@@ -27,6 +27,8 @@ extension CommandErrors {
       return "unknown shorthand flag: '\(flag)'"
     case let .incorrectFlagValue(flag, value, type):
       return "wrong flag value passed flag: '\(flag)' passed value: '\(value)' expected type: '\(type)'"
+    case let .requiredFlagsWasNotSet(flag, type):
+      return "required flag was not set: '\(flag)' expected type: '\(type)'"
     default:
       return "Error: General error encountered"
     }
