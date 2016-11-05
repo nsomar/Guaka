@@ -15,3 +15,15 @@ public enum CommandErrors: Error {
   case flagNeedsValue(String, String)
   case unexpectedFlagPassed(String, String)
 }
+
+extension CommandErrors {
+  
+  var error: String {
+    switch self {
+    case let .flagNotFound(flag):
+      return "unknown shorthand flag: '\(flag)'"
+    default:
+      return ""
+    }
+  }
+}

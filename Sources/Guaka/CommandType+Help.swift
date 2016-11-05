@@ -19,6 +19,16 @@ extension CommandType {
     ].joined()
   }
   
+  public var innerHelpMessage: String {
+    return [
+      usageSection.joined(separator: "\n"),
+      "\n\n",
+      avialbleCommandsSection.joined(separator: "\n"),
+      flagsSection.joined(separator: "\n"),
+      helpSection
+      ].joined()
+  }
+  
   var usageSection: [String] {
     return [
       "Usage:",

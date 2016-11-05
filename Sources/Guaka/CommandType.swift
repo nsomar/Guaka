@@ -6,6 +6,12 @@
 //
 //
 
+#if os(Linux)
+  @_exported import Glibc
+#else
+  @_exported import Darwin.C
+#endif
+
 public protocol CommandType {
   typealias Run = ([String: Flag], [String]) -> ()
   
@@ -18,7 +24,7 @@ public protocol CommandType {
   var shortUsage: String? { get }
   var longUsage: String? { get }
   
-  func execute(commandLineArgs: [String]) throws
+  func execute(commandLineArgs: [String])
   func commandToExecute(commandLineArgs: [String]) -> CommandType
   
   func execute(flags: [String: Flag], args: [String])
@@ -112,8 +118,19 @@ extension CommandType {
     self.run?(flags, args)
   }
   
-  public func execute(commandLineArgs: [String]) throws {
-    try executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
+  public func execute(commandLineArgs: [String]) {
+    do {
+      try executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
+    } catch let e as CommandErrors {
+      print("Error: \(e.error)", separator: "", terminator: "\n")
+      print(self.innerHelpMessage)
+      print("\n\(e.error)", separator: "", terminator: "\n")
+      print("exit status 255")
+      exit(255)
+    } catch {
+      print("Error: unknown shorthand flag: 'w' in -ww")
+      print(self.innerHelpMessage)
+    }
   }
   
   public func commandToExecute(commandLineArgs: [String]) -> CommandType {
