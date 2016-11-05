@@ -29,6 +29,7 @@ public protocol CommandType {
 
 // MARK: Flags
 extension CommandType {
+  
   var flagSet: FlagSet {
     
     let allFlags =

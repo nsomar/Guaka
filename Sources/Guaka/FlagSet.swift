@@ -7,7 +7,12 @@
 //
 
 struct FlagSet {
+  
   let flags: [String: Flag]
+  
+  fileprivate init(flagsMap: [String: Flag]) {
+    self.flags = flagsMap
+  }
   
   init(flags: [Flag]) {
     var flagMap = [String: Flag]()
@@ -53,7 +58,9 @@ struct FlagSet {
   }
 }
 
+
 extension FlagSet {
+  
   var flagsDescription: String {
     if flags.count == 0 { return "" }
     
@@ -77,4 +84,21 @@ extension FlagSet {
  
     return zip(names, descriptions).map { $0 + $1 }.joined(separator: "\n")
   }
+}
+
+
+extension FlagSet {
+  
+  func flagSetAppeningHelp() -> FlagSet {
+    var flags = self.flags
+    flags["help"] = helpFlag
+    flags["h"] = helpFlag
+    
+    return FlagSet(flagsMap: flags)
+  }
+  
+  private var helpFlag: Flag {
+    return Flag(longName: "help", value: false, shortName: "h", inheritable: true, description: "Show help")
+  }
+  
 }

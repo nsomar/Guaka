@@ -3,9 +3,20 @@ import StringScanner
 public func executeCommand(rootCommand: CommandType, args: [String]) throws {
   let (command, args) = getCurrentCommand(command: rootCommand, args: args)
   
-  let fs = command.flagSet
+  let fs = command.flagSet.flagSetAppeningHelp()
+  
   let (optionFlags, positionalArguments) = try fs.parse(args: args)
-  let preparedFlags = try fs.getPreparedFlags(withFlagValues: optionFlags)
+  var preparedFlags = try fs.getPreparedFlags(withFlagValues: optionFlags)
+
+  // If help flag is set, show help message
+  if
+    let help = preparedFlags["help"],
+    help.value as? Bool == true {
+    print(command.helpMessage)
+    return
+  }
+  
+  preparedFlags["help"] = nil
   
   command.execute(flags: preparedFlags, args: positionalArguments)
 }

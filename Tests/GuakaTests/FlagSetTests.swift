@@ -136,4 +136,18 @@ class FlagSetTests: XCTestCase {
     }
   }
   
+  
+  func testAppendsHelpToFlagSet() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", value: 1),
+        Flag(longName: "test", value: "")
+      ]
+    ).flagSetAppeningHelp()
+    
+    XCTAssertNotNil(fs.flags["h"])
+    XCTAssertNotNil(fs.flags["help"])
+  }
+  
 }
