@@ -13,7 +13,7 @@ public class Command: CommandType {
   
   public var parent: CommandType?
   public let name: String
-  public let flags: [Flag]
+  public var flags: [Flag]
   public var commands: [String: CommandType] = [:]
   public var run: Run?
   
@@ -39,6 +39,26 @@ public class Command: CommandType {
   
   public func add(subCommands commands: Command...) {
     commands.forEach { add(subCommand: $0) }
+  }
+  
+  public func removeCommand(passingTest test: (CommandType) -> Bool) {
+    if let index = commands.index(where: { test($1) }) {
+      commands.remove(at: index)
+    }
+  }
+  
+  public func add(flag: Flag) {
+    flags.append(flag)
+  }
+  
+  public func add(flags: Flag...) {
+    self.flags.append(contentsOf: flags)
+  }
+  
+  public func removeFlag(passingTest test: (Flag) -> Bool) {
+    if let index = flags.index(where: test) {
+      flags.remove(at: index)
+    }
   }
 
   public func printToConsole(_ string: String) {
