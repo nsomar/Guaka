@@ -16,9 +16,13 @@ class DummyCommand: CommandType {
   var commands: [String: CommandType]
   var run: CommandType.Run?
   
+  var shortUsage: String?
+  var longUsage: String?
+  
   var executed: ([String: Flag], [String])?
   
-  public init(name: String, flags: [Flag], commands: [CommandType] = [], parent: Command? = nil, run: CommandType.Run? = nil) throws {
+  public init(name: String, flags: [Flag], commands: [CommandType] = [],
+              parent: Command? = nil, run: CommandType.Run? = nil) throws {
     self.name = name
     self.flags = flags
     self.commands = try Command.commandsToMap(commands: commands)

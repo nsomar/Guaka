@@ -3,61 +3,6 @@ import XCTest
 
 class SomeTest: XCTestCase {
   
-  var git: Command!
-  var show: Command!
-  var remote: Command!
-  var rebase: Command!
-  
-  override func setUp() {
-    show = try! Command(
-      name: "show",
-      flags: [
-        Flag(longName: "foo", value: "-", inheritable: false),
-        Flag(longName: "bar", value: "-", inheritable: false),
-        Flag(longName: "yy", value: true, inheritable: false),
-        ],
-      commands: [],
-      run: { flags, args in
-        
-    })
-    
-    remote = try! Command(
-      name: "remote",
-      flags: [
-        Flag(longName: "foo", value: "-", inheritable: true),
-        Flag(longName: "remote", value: true, inheritable: true),
-        Flag(longName: "bar", value: "-", inheritable: false),
-        Flag(longName: "xx", value: true, inheritable: false),
-        ],
-      commands: [show],
-      run: { flags, args in
-        
-    })
-    
-    rebase = try! Command(
-      name: "rebase",
-      flags: [
-        Flag(longName: "varvar", value: false, shortName: "v", inheritable: true),
-        ],
-      commands: [],
-      run: { flags, args in
-        
-    })
-    
-     git = try! Command(
-      name: "git",
-      flags: [
-        Flag(longName: "debug", value: true, shortName: "d", inheritable: true),
-        Flag(longName: "verbose", value: false, shortName: "v", inheritable: true),
-        Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
-        Flag(longName: "root", value: 1, shortName: "r", inheritable: false),
-      ],
-      commands: [rebase, remote],
-      run: { flags, args in
-        
-     })
-  }
-  
   func testItParsesSomething() {
 //    execute(command: git, args: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "222", "show"])
   }
@@ -112,14 +57,5 @@ class SomeTest: XCTestCase {
   func testItCanStripFlags() {
     
   }
-  
-  // docker -D -v -a ps
-  // docker -D -v --build "ddd" ps
-  // docker -D -v --build="ddd" ps
-  // docker -Dva ps
-  // docker -Dva=true ps
-  // docker -Dva=0 ps
-  // docker -Dvab="../../"
-  // docker -f "ddddd"
   
 }

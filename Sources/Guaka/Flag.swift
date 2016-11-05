@@ -10,14 +10,20 @@ public struct Flag: Hashable {
   public let longName: String
   public let shortName: String?
   public let inheritable: Bool
+  public let description: String
   
-  public var value: Any
+  public var value: CommandStringConvertible
   
-  public init(longName: String, value: CommandStringConvertible, shortName: String? = nil, inheritable: Bool = true) {
+  public init(longName: String,
+              value: CommandStringConvertible,
+              shortName: String? = nil,
+              inheritable: Bool = true,
+              description: String = "") {
     self.longName = longName
     self.shortName = shortName
     self.value = value
     self.inheritable = inheritable
+    self.description = description
   }
   
   var isBool: Bool {
@@ -36,8 +42,7 @@ public func ==(left: Flag, right: Flag) -> Bool {
 extension Flag {
   func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
     guard
-      let typedValue = self.value as? CommandStringConvertible,
-      let v = type(of: typedValue).fromString(command: value) else {
+      let v = type(of: self.value).fromString(command: value) else {
       throw CommandErrors.incorrectFlagValue(self.longName, value, Int.self)
     }
     
@@ -46,49 +51,28 @@ extension Flag {
 }
 
 
-struct FlagSet {
-  let flags: [String: Flag]
-  
-  init(flags: [Flag]) {
-    var flagMap = [String: Flag]()
+extension Flag {
+  var flagPrintableName: String {
+    var nameParts: [String] = []
     
-    flags.forEach {
-      
-      if let shortName = $0.shortName {
-        flagMap[shortName] = $0
-      }
-      
-      flagMap[$0.longName] = $0
+    nameParts.append("  ")
+    if let shortName = shortName {
+      nameParts.append("-\(shortName), ")
+    } else {
+      nameParts.append("    ")
     }
     
-    self.flags = flagMap
+    nameParts.append("--\(longName)")
+    nameParts.append(" \(type(of: value).typeName)")
+    
+    return nameParts.joined()
   }
   
-  func isBool(flagName: String) -> Bool {
-    guard let flag = flags[flagName] else {
-      return false
+  var flagPrintableDescription: String {
+    if description.characters.count == 0 {
+      return "(default \(value))"
     }
     
-    return flag.isBool
-  }
-  
-  func isFlagSatisfied(token: ArgTokenType) -> Bool {
-    switch token {
-    case .shortFlagWithEqual:
-      fallthrough
-    case .longFlagWithEqual:
-      fallthrough
-    case .invalidFlag:
-      fallthrough
-    case .positionalArgument:
-      fallthrough
-    case .shortMultiFlag(_):
-      return true
-      
-    case let .shortFlag(name):
-      return isBool(flagName: name)
-    case let .longFlag(name):
-      return isBool(flagName: name)
-    }
+    return "\(description) (default \(value))"
   }
 }

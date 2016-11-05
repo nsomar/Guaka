@@ -13,7 +13,7 @@ class CommandExecutionTests: XCTestCase {
 
   func testItCanExecuteShowCommand() {
     //git.execute
-    try! execute(rootCommand: git, args: expand("remote show --yy"))
+    try! git.execute(commandLineArgs: expand("git remote show --yy"))
     
     XCTAssertEqual(show.executed?.0.count, 6)
     XCTAssertEqual(show.executed?.0["yy"]?.value as? Bool, true)
@@ -28,7 +28,7 @@ class CommandExecutionTests: XCTestCase {
   
   func testItCanExecuteShowCommandWithArgs() {
     //git.execute
-    try! execute(rootCommand: git, args: expand("remote show --yy aaaa bbbb cccc"))
+    try! git.execute(commandLineArgs: expand("git remote show --yy aaaa bbbb cccc"))
     
     XCTAssertEqual(show.executed?.0.count, 6)
     
@@ -37,7 +37,7 @@ class CommandExecutionTests: XCTestCase {
   
   func testItCanExecuteRemoteCommand() {
     //git.execute
-    try! execute(rootCommand: git, args: expand("remote --foo show --xx --bar=123"))
+    try! git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123"))
     
     XCTAssertEqual(remote.executed?.0.count, 6)
     XCTAssertEqual(remote.executed?.0["xx"]?.value as? Bool, true)
@@ -48,6 +48,18 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(remote.executed?.0["bar"]?.value as? String, "123")
     
     XCTAssertEqual((remote.executed?.1)!, [])
+  }
+  
+  func testItCatchesExceptionsInExecution() {
+    //git.execute
+    do {
+      try git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 --www 123"))
+      XCTFail()
+    } catch let CommandErrors.flagNotFound(x) {
+      XCTAssertEqual(x, "www")
+    } catch {
+      print(error)
+    }
   }
   
 }
