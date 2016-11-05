@@ -4,25 +4,29 @@ import StringScanner
 func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
   
   let (command, args) = actualCommand(forCommand: rootCommand, args: args)
-  let flagSet = command.flagSet.flagSetAppeningHelp()
+  let flagSet = command.flagSet
+  
+  let flagSetWithHelp = flagSet.flagSetAppeningHelp()
   
   do {
-    let (optionFlags, positionalArguments) = try flagSet.parse(args: args)
-    var preparedFlags = try flagSet.getPreparedFlags(withFlagValues: optionFlags)
-    
-    let res = flagSet.checkAllRequiredFlagsAreSet(preparedFlags: preparedFlags)
-    if case let .flagError(error) = res {
-      throw error
-    }
+    let (optionFlags, positionalArguments) = try flagSetWithHelp.parse(args: args)
+    var preparedFlags = try flagSetWithHelp.getPreparedFlags(withFlagValues: optionFlags)
     
     // If help flag is set, show help message
     if
       let help = preparedFlags["help"],
       help.value as? Bool == true {
       return .message(command.helpMessage)
+    } else {
+      preparedFlags["help"] = nil
     }
     
-    preparedFlags["help"] = nil
+    let res = flagSet.checkAllRequiredFlagsAreSet(preparedFlags: preparedFlags)
+    if case let .flagError(error) = res {
+      throw error
+    }
+    
+
     
     command.execute(flags: preparedFlags, args: positionalArguments)
   } catch {
