@@ -21,7 +21,7 @@ public class Command: CommandType {
   public var longUsage: String?
   
   public init(name: String,
-              flags: [Flag],
+              flags: [Flag] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
               run: Run? = nil) throws {

@@ -83,7 +83,6 @@ func setupTestSamples() {
     name: "git",
     flags: [
       Flag(longName: "debug", value: true, shortName: "d", inheritable: true),
-      Flag(longName: "verbose", value: false, shortName: "v", inheritable: true),
       Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
       Flag(longName: "root", value: 1, shortName: "r", inheritable: false),
       ],
@@ -93,5 +92,6 @@ func setupTestSamples() {
   })
   
   git.add(subCommands: rebase, remote)
+  git.add(flag: Flag(longName: "verbose", value: false, shortName: "v", inheritable: true))
   remote.add(subCommands: show)
 }
