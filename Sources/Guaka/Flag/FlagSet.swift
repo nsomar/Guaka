@@ -9,10 +9,7 @@
 struct FlagSet {
   
   let flags: [String: Flag]
-  
-  fileprivate init(flagsMap: [String: Flag]) {
-    self.flags = flagsMap
-  }
+  let requiredFlags: [Flag]
   
   init(flags: [Flag]) {
     var flagMap = [String: Flag]()
@@ -27,6 +24,12 @@ struct FlagSet {
     }
     
     self.flags = flagMap
+    self.requiredFlags = FlagSet.requiredFlags(flags: flags)
+  }
+  
+  fileprivate init(flagsMap: [String: Flag]) {
+    self.flags = flagsMap
+    self.requiredFlags = FlagSet.requiredFlags(flags: flags.values)
   }
   
   func isBool(flagName: String) -> Bool {
@@ -55,6 +58,16 @@ struct FlagSet {
     case let .longFlag(name):
       return isBool(flagName: name)
     }
+  }
+}
+
+
+extension FlagSet {
+  static func requiredFlags<T: Sequence>(flags: T) -> [Flag]
+  where T.Iterator.Element == Flag {
+    let unique = Set(flags)
+    let required = unique.filter { $0.required }
+    return Array(required)
   }
 }
 

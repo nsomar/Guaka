@@ -10,6 +10,11 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
     let (optionFlags, positionalArguments) = try flagSet.parse(args: args)
     var preparedFlags = try flagSet.getPreparedFlags(withFlagValues: optionFlags)
     
+    let res = flagSet.checkAllRequiredFlagsAreSet(preparedFlags: preparedFlags)
+    if case let .flagError(error) = res {
+      throw error
+    }
+    
     // If help flag is set, show help message
     if
       let help = preparedFlags["help"],
@@ -21,7 +26,7 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
     
     command.execute(flags: preparedFlags, args: positionalArguments)
   } catch {
-    return .error(command, error)
+    return .commandError(command, error)
   }
   
   return .success

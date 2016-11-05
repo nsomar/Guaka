@@ -148,5 +148,166 @@ class FlagSetTests: XCTestCase {
     XCTAssertNotNil(fs.flags["h"])
     XCTAssertNotNil(fs.flags["help"])
   }
+ 
+  func testItCanGetRequiredFlags1() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        ]
+    )
+    
+    XCTAssertEqual(fs.requiredFlags.count, 2)
+  }
   
+  func testItCanGetRequiredFlags2() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: false),
+        ]
+    )
+    
+    XCTAssertEqual(fs.requiredFlags.count, 1)
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithError() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .flagError(let e) = res {
+      if case CommandErrors.requiredFlagsWasNotSet("bla") = e {
+      } else {
+        XCTFail()
+      }
+    } else {
+      XCTFail()
+    }
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "xxx", type: Int.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .flagError(let e) = res {
+      if case CommandErrors.requiredFlagsWasNotSet("bla") = e {
+      } else {
+        XCTFail()
+      }
+    } else {
+      XCTFail()
+    }
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlagsEvenIfSomeAreSet() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "xxx", type: Int.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1 --bla=2"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .flagError(let e) = res {
+      if case CommandErrors.requiredFlagsWasNotSet("xxx") = e {
+      } else {
+        XCTFail()
+      }
+    } else {
+      XCTFail()
+    }
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfFlagIsSet() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1 --bla 1"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .success = res {
+    } else {
+      XCTFail()
+    }
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfMultipleFlagIsSet() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "xxx", type: Int.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1 --bla 1 --xxx=1"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .success = res {
+    } else {
+      XCTFail()
+    }
+  }
+  
+  func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfNoRequiredFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true),
+        Flag(longName: "bla", type: Int.self, required: false),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--debug=1"))
+    let prepared = try! fs.getPreparedFlags(withFlagValues: flags)
+    
+    let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
+    
+    if case .success = res {
+    } else {
+      XCTFail()
+    }
+  }
+  
+  /*
+ let fs = FlagSet(
+ flags: [
+ Flag(longName: "debug", value: true),
+ Flag(longName: "bla", type: Int.self, required: true),
+ ]
+ )
+ 
+ let (flags, _) = try! fs.parse(args: expand("--debug=1"))
+ let prepared = fs.getPreparedFlags(withFlagValues: flags)*/
 }

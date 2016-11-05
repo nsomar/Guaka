@@ -14,6 +14,7 @@ public enum CommandErrors: Error {
   case flagNotFound(String)
   case incorrectFlagValue(String, String, Any.Type)
   case flagNeedsValue(String, String)
+  case requiredFlagsWasNotSet(String)
   case unexpectedFlagPassed(String, String)
   
 }

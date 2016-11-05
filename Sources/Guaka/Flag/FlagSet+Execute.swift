@@ -75,7 +75,7 @@ extension FlagSet {
     
     return (ret, remainigArgs)
   }
-  
+ 
   private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: CommandStringConvertible], Flag?) {
     let scanner = StringScanner(string: name)
     var ret = [Flag: CommandStringConvertible]()
@@ -131,6 +131,20 @@ extension FlagSet {
       }
 
       return returnFlags
+  }
+  
+  func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
+    for flag in requiredFlags {
+      guard let preparedFlag = preparedFlags[flag.longName] else {
+        return .flagError(CommandErrors.flagNotFound(flag.longName))
+      }
+      
+      if preparedFlag.value == nil {
+        return .flagError(CommandErrors.requiredFlagsWasNotSet(flag.longName))
+      }
+    }
+    
+    return .success
   }
   
   private func getFlag(forName name: String) throws -> Flag {

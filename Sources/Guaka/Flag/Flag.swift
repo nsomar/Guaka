@@ -13,19 +13,42 @@ public struct Flag: Hashable {
   public let inheritable: Bool
   public let description: String
   
-  public var value: CommandStringConvertible
+  public let type: CommandStringConvertible.Type
+  public let required: Bool
+  
+  public var value: CommandStringConvertible?
+  
   
   public init(longName: String,
               value: CommandStringConvertible,
               shortName: String? = nil,
               inheritable: Bool = true,
               description: String = "") {
+    
     self.longName = longName
     self.shortName = shortName
     self.value = value
     self.inheritable = inheritable
     self.description = description
+    self.type = type(of: value)
+    self.required = true
   }
+
+  public init(longName: String,
+              type: CommandStringConvertible.Type,
+              required: Bool = false,
+              shortName: String? = nil,
+              inheritable: Bool = true,
+              description: String = "") {
+    
+    self.longName = longName
+    self.shortName = shortName
+    self.type = type
+    self.inheritable = inheritable
+    self.description = description
+    self.required = required
+  }
+
   
   var isBool: Bool {
     return value is Bool
@@ -34,7 +57,6 @@ public struct Flag: Hashable {
   public var hashValue: Int {
     return longName.hashValue
   }
-  
 }
 
 public func ==(left: Flag, right: Flag) -> Bool {
@@ -45,8 +67,8 @@ extension Flag {
   
   func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
     guard
-      let v = type(of: self.value).fromString(command: value) else {
-        throw CommandErrors.incorrectFlagValue(self.longName, value, type(of: self.value))
+      let v = self.type.fromString(command: value) else {
+        throw CommandErrors.incorrectFlagValue(self.longName, value, self.type)
     }
     
     return v as! CommandStringConvertible
@@ -68,17 +90,17 @@ extension Flag {
     }
     
     nameParts.append("--\(longName)")
-    nameParts.append(" \(type(of: value).typeName)")
+    nameParts.append(" \(self.type.typeName)")
     
     return nameParts.joined()
   }
   
   var flagPrintableDescription: String {
     if description.characters.count == 0 {
-      return "(default \(value))"
+      return "(default \(value!))"
     }
     
-    return "\(description) (default \(value))"
+    return "\(description) (default \(value!))"
   }
   
 }
