@@ -31,11 +31,11 @@ extension CommandType {
     case .success:
       // Do nothing
       break
-    case .error(let error):
+    case let .error(command, error):
       if let error = error as? CommandErrors {
-        printToConsole(error.errorMessage(forCommand: self))
+        printToConsole(error.errorMessage(forCommand: command))
       } else {
-        printToConsole(CommandErrors.generalError(forCommand: self))
+        printToConsole(CommandErrors.generalError(forCommand: command))
       }
       break
     case .message(let message):

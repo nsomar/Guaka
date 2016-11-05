@@ -46,7 +46,7 @@ extension Flag {
   func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
     guard
       let v = type(of: self.value).fromString(command: value) else {
-      throw CommandErrors.incorrectFlagValue(self.longName, value, Int.self)
+        throw CommandErrors.incorrectFlagValue(self.longName, value, type(of: self.value))
     }
     
     return v as! CommandStringConvertible

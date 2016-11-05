@@ -27,7 +27,7 @@ extension CommandErrors {
     case let .incorrectFlagValue(flag, value, type):
       return "wrong flag value passed flag: '\(flag)' passed value: '\(value)' expected type: '\(type)'"
     default:
-      return ""
+      return "Error: General error encountered"
     }
   }
   
