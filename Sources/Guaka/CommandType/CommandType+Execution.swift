@@ -47,13 +47,3 @@ extension CommandType {
   }
   
 }
-
-
-// MARK: Printing
-extension CommandType {
-  
-  public func printToConsole(_ string: String) {
-    print(string)
-  }
-  
-}

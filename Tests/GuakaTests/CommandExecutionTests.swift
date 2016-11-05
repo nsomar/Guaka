@@ -11,43 +11,47 @@ import XCTest
 
 class CommandExecutionTests: XCTestCase {
 
+  override func setUp() {
+    setupTestSamples()
+  }
+  
   func testItCanExecuteShowCommand() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy"))
     
-    XCTAssertEqual(show.executed?.0.count, 6)
-    XCTAssertEqual(show.executed?.0["yy"]?.value as? Bool, true)
-    XCTAssertEqual(show.executed?.0["debug"]?.value as? Bool, true)
-    XCTAssertEqual(show.executed?.0["verbose"]?.value as? Bool, false)
-    XCTAssertEqual(show.executed?.0["foo"]?.value as? String, "-")
-    XCTAssertEqual(show.executed?.0["remote"]?.value as? Bool, true)
-    XCTAssertEqual(show.executed?.0["bar"]?.value as? String, "-")
+    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0["yy"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
+    XCTAssertEqual(executed?.0["foo"]?.value as? String, "-")
+    XCTAssertEqual(executed?.0["remote"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["bar"]?.value as? String, "-")
     
-    XCTAssertEqual((show.executed?.1)!, [])
+    XCTAssertEqual((executed?.1)!, [])
   }
   
   func testItCanExecuteShowCommandWithArgs() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy aaaa bbbb cccc"))
     
-    XCTAssertEqual(show.executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.count, 6)
     
-    XCTAssertEqual((show.executed?.1)!, ["aaaa", "bbbb", "cccc"])
+    XCTAssertEqual((executed?.1)!, ["aaaa", "bbbb", "cccc"])
   }
   
   func testItCanExecuteRemoteCommand() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123"))
     
-    XCTAssertEqual(remote.executed?.0.count, 6)
-    XCTAssertEqual(remote.executed?.0["xx"]?.value as? Bool, true)
-    XCTAssertEqual(remote.executed?.0["debug"]?.value as? Bool, true)
-    XCTAssertEqual(remote.executed?.0["verbose"]?.value as? Bool, false)
-    XCTAssertEqual(remote.executed?.0["foo"]?.value as? String, "show")
-    XCTAssertEqual(remote.executed?.0["remote"]?.value as? Bool, true)
-    XCTAssertEqual(remote.executed?.0["bar"]?.value as? String, "123")
+    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0["xx"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
+    XCTAssertEqual(executed?.0["foo"]?.value as? String, "show")
+    XCTAssertEqual(executed?.0["remote"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["bar"]?.value as? String, "123")
     
-    XCTAssertEqual((remote.executed?.1)!, [])
+    XCTAssertEqual((executed?.1)!, [])
   }
   
   func testItCatchesExceptionsInExecution() {
