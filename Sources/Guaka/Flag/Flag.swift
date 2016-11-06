@@ -33,7 +33,7 @@ public struct Flag: Hashable {
     self.type = type(of: value)
     self.required = true
   }
-
+  
   public init(longName: String,
               type: CommandStringConvertible.Type,
               required: Bool = false,
@@ -48,7 +48,7 @@ public struct Flag: Hashable {
     self.description = description
     self.required = required
   }
-
+  
   
   var isBool: Bool {
     return value is Bool
@@ -66,12 +66,14 @@ public func ==(left: Flag, right: Flag) -> Bool {
 extension Flag {
   
   func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
-    guard
-      let v = self.type.fromString(command: value) else {
-        throw CommandErrors.incorrectFlagValue(self.longName, value, self.type)
+    
+    do {
+      let v = try self.type.fromString(flagValue: value)
+      return v as! CommandStringConvertible
+    } catch let e as CommandConvertibleError {
+      throw CommandErrors.incorrectFlagValue(self.longName, e.error)
     }
     
-    return v as! CommandStringConvertible
   }
   
 }

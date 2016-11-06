@@ -12,11 +12,14 @@ public enum CommandErrors: Error {
   case wrongFlagPattern(String)
   case commandAlreadyInserterd(CommandType)
   case flagNotFound(String)
-  case incorrectFlagValue(String, String, Any.Type)
+  
   case flagNeedsValue(String, String)
   case requiredFlagsWasNotSet(String, Any.Type)
   case unexpectedFlagPassed(String, String)
+  case commandGeneralError(CommandType, Error)
   
+  case errorConvertingFlagValue(String, Any.Type, String)
+  case incorrectFlagValue(String, String)
 }
 
 extension CommandErrors {
@@ -25,10 +28,12 @@ extension CommandErrors {
     switch self {
     case let .flagNotFound(flag):
       return "unknown shorthand flag: '\(flag)'"
-    case let .incorrectFlagValue(flag, value, type):
-      return "wrong flag value passed flag: '\(flag)' passed value: '\(value)' expected type: '\(type)'"
+    case let .errorConvertingFlagValue(flag, type, error):
+      return "error setting flag value for flag: '\(flag)' type: '\(type)' error: '\(error)'"
     case let .requiredFlagsWasNotSet(flag, type):
       return "required flag was not set: '\(flag)' expected type: '\(type)'"
+    case let .incorrectFlagValue(flag, error):
+      return "wrong flag value passed for flag: '\(flag)' \(error)"
     default:
       return "Error: General error encountered"
     }

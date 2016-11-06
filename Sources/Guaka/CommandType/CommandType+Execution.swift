@@ -31,7 +31,11 @@ extension CommandType {
     case .success:
       // Do nothing
       break
-    case let .commandError(command, error):
+    case let .error(error):
+      guard case let CommandErrors.commandGeneralError(command, error) = error else {
+        return
+      }
+      
       if let error = error as? CommandErrors {
         printToConsole(error.errorMessage(forCommand: command))
       } else {
@@ -40,8 +44,6 @@ extension CommandType {
       break
     case .message(let message):
       printToConsole(message)
-      break
-    default:
       break
     }
   }

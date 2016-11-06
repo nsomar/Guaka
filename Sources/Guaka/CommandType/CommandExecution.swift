@@ -30,7 +30,7 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
     
     command.execute(flags: preparedFlags, args: positionalArguments)
   } catch {
-    return .commandError(command, error)
+    return .error(CommandErrors.commandGeneralError(command, error))
   }
   
   return .success

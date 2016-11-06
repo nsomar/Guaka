@@ -136,11 +136,11 @@ extension FlagSet {
   func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
     for flag in requiredFlags {
       guard let preparedFlag = preparedFlags[flag.longName] else {
-        return .flagError(CommandErrors.flagNotFound(flag.longName))
+        return .error(CommandErrors.flagNotFound(flag.longName))
       }
       
       if preparedFlag.value == nil {
-        return .flagError(CommandErrors.requiredFlagsWasNotSet(flag.longName, flag.type))
+        return .error(CommandErrors.requiredFlagsWasNotSet(flag.longName, flag.type))
       }
     }
     
