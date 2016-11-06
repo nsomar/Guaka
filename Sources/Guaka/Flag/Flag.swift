@@ -97,15 +97,19 @@ extension Flag {
   
   var flagPrintableDescription: String {
     if description.characters.count == 0 {
-      return self.flagDefaultValueDescription
+      return self.flagValueDescription
     }
     
-    return "\(description) \(flagDefaultValueDescription)"
+    return "\(description) \(flagValueDescription)"
   }
   
-  var flagDefaultValueDescription: String {
+  var flagValueDescription: String {
     if let value = value {
       return "(default \(value))"
+    }
+    
+    if required {
+      return "(required)"
     }
     
     return ""
