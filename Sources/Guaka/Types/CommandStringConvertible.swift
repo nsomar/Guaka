@@ -8,7 +8,7 @@
 
 public protocol CommandStringConvertible {
   static func fromString(flagValue value: String) throws -> Any
-  static var typeName: String { get }
+  static var typeDescription: String { get }
 }
 
 public enum CommandConvertibleError: Error {
@@ -18,8 +18,6 @@ public enum CommandConvertibleError: Error {
     switch self {
     case .conversionError(let s):
       return s
-    default:
-      return ""
     }
   }
 }
@@ -38,7 +36,7 @@ extension Bool: CommandStringConvertible {
     throw CommandConvertibleError.conversionError("cannot convert '\(value)' to '\(Bool.self)' ")
   }
   
-  public static var typeName: String { return "bool" }
+  public static var typeDescription: String { return "bool" }
   
 }
 
@@ -53,7 +51,7 @@ extension Int: CommandStringConvertible {
     return val
   }
   
-  public static var typeName: String { return "int" }
+  public static var typeDescription: String { return "int" }
   
 }
 
@@ -64,6 +62,6 @@ extension String: CommandStringConvertible {
     return value
   }
   
-  public static var typeName: String { return "string" }
+  public static var typeDescription: String { return "string" }
   
 }

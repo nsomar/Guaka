@@ -92,7 +92,7 @@ extension Flag {
     }
     
     nameParts.append("--\(longName)")
-    nameParts.append(" \(self.type.typeName)")
+    nameParts.append(" \(self.type.typeDescription)")
     
     return nameParts.joined()
   }

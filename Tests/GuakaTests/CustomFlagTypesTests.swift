@@ -20,7 +20,7 @@ class CustomFlagTypesTests: XCTestCase {
         return CustomType(val: value)
       }
       
-      static var typeName: String { return "list" }
+      static var typeDescription: String { return "list" }
     }
     
     let fs = FlagSet(
@@ -43,10 +43,10 @@ class CustomFlagTypesTests: XCTestCase {
       let val: String
       
       static func fromString(flagValue value: String) throws -> Any {
-        throw CommandConvertibleError.conversionError("cannot convert \(value) to \(typeName)")
+        throw CommandConvertibleError.conversionError("cannot convert \(value) to \(typeDescription)")
       }
       
-      static var typeName: String { return "list" }
+      static var typeDescription: String { return "list" }
     }
     
     let fs = FlagSet(
@@ -61,6 +61,73 @@ class CustomFlagTypesTests: XCTestCase {
     } catch CommandErrors.incorrectFlagValue(let x, let y) {
       XCTAssertEqual(x, "list")
       XCTAssertEqual(y, "cannot convert cat to list")
+    } catch {
+      XCTFail()
+    }
+  }
+  
+  func testItCanSetAFlagWithAnEnumWtihSuccess() {
+    
+    enum Animals: String, CommandStringConvertible {
+      case dog = "dog"
+      case cat = "cat"
+      case donkey = "donkey"
+      
+      static func fromString(flagValue value: String) throws -> Any {
+        guard let animal = Animals(rawValue: value) else {
+          throw CommandConvertibleError.conversionError("Cannot create animal from \(value)")
+        }
+        return animal
+      }
+      
+      static var typeDescription: String { return "animal can be (dog, cat, donkey)" }
+    }
+    
+    
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "love", type: Animals.self, required: true),
+        ]
+    )
+    
+    let (flags, _) = try! fs.parse(args: expand("--love cat"))
+    
+    let flag = flags.keys.first!
+    let val = flags.values.first!
+    XCTAssertEqual(flag.longName, "love")
+    XCTAssertEqual((val as! Animals), Animals.cat)
+  }
+  
+  func testItCanSetAFlagWithAnEnumWtihError() {
+    
+    enum Animals: String, CommandStringConvertible {
+      case dog = "dog"
+      case cat = "cat"
+      case donkey = "donkey"
+      
+      static func fromString(flagValue value: String) throws -> Any {
+        guard let animal = Animals(rawValue: value) else {
+          throw CommandConvertibleError.conversionError("Cannot create animal from \(value)")
+        }
+        return animal
+      }
+      
+      static var typeDescription: String { return "animal can be (dog, cat, donkey)" }
+    }
+
+    
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "love", type: Animals.self, required: true),
+        ]
+    )
+    
+    do {
+      _ = try fs.parse(args: expand("--love blah"))
+      XCTFail()
+    } catch CommandErrors.incorrectFlagValue(let x, let y) {
+      XCTAssertEqual(x, "love")
+      XCTAssertEqual(y, "Cannot create animal from blah")
     } catch {
       XCTFail()
     }

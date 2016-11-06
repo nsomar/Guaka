@@ -24,7 +24,7 @@ public class Command: CommandType {
               flags: [Flag] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
-              run: Run? = nil) throws {
+              run: Run? = nil) {
     self.name = name
     self.flags = flags
     self.run = run
