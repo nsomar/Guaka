@@ -9,11 +9,25 @@
 
 extension CommandType {
   
+  var isVisible: Bool {
+    if case .notDeprecated = deprecationStatus {
+      return true
+    }
+    return false
+  }
+  
   public var helpMessage: String {
-    return [
+    var ret = [String]()
+    
+    if let message = deprecationMessageSection {
+      ret.append(message.joined())
+      ret.append("\n")
+    }
+    
+    return (ret + [
       commandDescriptionSection.joined(),
       innerHelpMessage,
-    ].joined()
+    ]).joined()
   }
   
   public var innerHelpMessage: String {
@@ -51,7 +65,9 @@ extension CommandType {
       return []
     }
     
-    let sortedCommands = self.commands.sorted { $0.0.name < $0.1.name }
+    let availableCommands = self.commands.filter { $0.isVisible }
+    let sortedCommands = availableCommands.sorted { $0.0.name < $0.1.name }
+
     return sortedCommands.reduce(["Available Commands:"]) { acc, command in
       return acc + ["  \(command.name)    \(command.shortUsage ?? "")"]
     } + ["\n"]
@@ -81,6 +97,13 @@ extension CommandType {
     }
     
     return ret
+  }
+  
+  var deprecationMessageSection: [String]? {
+    guard case let .deprecated(message) = deprecationStatus else {
+      return nil
+    }
+    return ["Command \"\(name)\" is deprecated, \(message)"]
   }
   
   var commandDescriptionSection: [String] {

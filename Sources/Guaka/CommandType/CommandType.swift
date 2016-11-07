@@ -12,6 +12,11 @@
   @_exported import Darwin.C
 #endif
 
+public enum DeprecationStatus {
+  case notDeprecated
+  case deprecated(String)
+}
+
 public protocol CommandType {
   
   typealias Run = ([String: Flag], [String]) -> ()
@@ -36,6 +41,8 @@ public protocol CommandType {
   func execute(flags: [String: Flag], args: [String])
   
   var helpMessage: String { get }
+  
+  var deprecationStatus: DeprecationStatus { get set }
   
   func printToConsole(_ string: String)
   

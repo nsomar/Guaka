@@ -88,5 +88,11 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(c2.name, "show")
   }
   
+  func testItPrintsThatCommandIsDeprecatedWhenExecutingCommand() {
+    remote.deprecationStatus = .deprecated("Pelase dont use it")
+    git.execute(commandLineArgs: expand("git remote"))
+    
+    XCTAssertEqual(remote.printed, "Command \"remote\" is deprecated, Pelase dont use it")
+  }
 }
 

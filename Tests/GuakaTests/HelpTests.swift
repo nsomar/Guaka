@@ -90,4 +90,16 @@ class HelpTests: XCTestCase {
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git [flags]\n  git [command]\n\nAliases:\n  git, git1, git2\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
   }
+  
+  func testItDoesNotShowDeprecatedCommands() {
+    remote.deprecationStatus = .deprecated("Dont use this")
+    XCTAssertEqual(git.avialbleCommandsSection.joined(),
+                   "Available Commands:  rebase    \n")
+  }
+  
+  func testItPrintsCommandDeprecatedOnTopOfDeprecatedCommand() {
+    remote.deprecationStatus = .deprecated("Dont use this")
+    XCTAssertEqual(remote.helpMessage,
+                   "Command \"remote\" is deprecated, Dont use this\nUsage:\n  remote [flags]\n  remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.")
+  }
 }

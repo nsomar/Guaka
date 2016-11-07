@@ -23,6 +23,8 @@ public class Command: CommandType {
   public var shortUsage: String?
   public var longUsage: String?
   
+  public var deprecationStatus = DeprecationStatus.notDeprecated
+  
   public init(name: String,
               flags: [Flag] = [],
               shortUsage: String? = nil,
