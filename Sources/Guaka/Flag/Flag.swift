@@ -38,7 +38,7 @@ public struct Flag: Hashable {
               type: CommandStringConvertible.Type,
               required: Bool = false,
               shortName: String? = nil,
-              inheritable: Bool = true,
+              inheritable: Bool = false,
               description: String = "") {
     
     self.longName = longName

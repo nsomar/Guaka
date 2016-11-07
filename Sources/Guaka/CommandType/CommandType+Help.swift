@@ -22,6 +22,7 @@ extension CommandType {
       "\n\n",
       avialbleCommandsSection.joined(separator: "\n"),
       flagsSection.joined(separator: "\n"),
+      "\n",
       helpSection
       ].joined()
   }
@@ -51,7 +52,24 @@ extension CommandType {
       return []
     }
     
-    return ["Flags:", fs.flagsDescription, "\n"]
+    var ret: [String] = []
+    
+    let localFlagsDescription = fs.localDescription(withLocalFlags: flags)
+    if localFlagsDescription != "" {
+      ret.append("Flags:")
+      ret.append(localFlagsDescription)
+      ret.append("")
+    }
+    
+    
+    let globalFlagsDescription = fs.globalDescription(withLocalFlags: flags)
+    if globalFlagsDescription != "" {
+      ret.append("Global Flags:")
+      ret.append(globalFlagsDescription)
+      ret.append("")
+    }
+    
+    return ret
   }
   
   var commandDescriptionSection: [String] {

@@ -47,19 +47,21 @@ class FlagTests: XCTestCase {
     XCTAssertEqual(f3.flagPrintableDescription, "(default hello)")
   }
   
-  func testItCanPrintAFlagTable1() {
+  func testItCanPrintAFlagTable1ForLocalFlags() {
     let fs = FlagSet(
       flags: [
         Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
         Flag(longName: "verbose", value: 1, description: "Here is a desc"),
         Flag(longName: "toggle", value: "", shortName: "d"),
-      ]
+        ]
     )
     
-    XCTAssertEqual(fs.flagsDescription, "  -d, --debug bool     Here is a desc (default true)\n  -d, --toggle string  (default )\n      --verbose int    Here is a desc (default 1)")
+    let description = fs.localDescription(withLocalFlags: Array(fs.flags.values))
+    XCTAssertEqual(description
+      , "  -d, --debug bool     Here is a desc (default true)\n  -d, --toggle string  (default )\n      --verbose int    Here is a desc (default 1)")
   }
   
-  func testItCanPrintAFlagTable2() {
+  func testItCanPrintAFlagTable2ForLocalFlags() {
     let fs = FlagSet(
       flags: [
         Flag(longName: "debugxxxxxxxxxxx", value: true, shortName: "d", description: "Here is a desc"),
@@ -68,7 +70,9 @@ class FlagTests: XCTestCase {
         ]
     )
     
-    XCTAssertEqual(fs.flagsDescription, "  -d, --debugxxxxxxxxxxx bool  Here is a desc (default true)\n      --verbose int            (default 1)\n  -d, --xxx string             Here is a desc (default 123)")
+    let description = fs.localDescription(withLocalFlags: Array(fs.flags.values))
+    XCTAssertEqual(description
+      , "  -d, --debugxxxxxxxxxxx bool  Here is a desc (default true)\n      --verbose int            (default 1)\n  -d, --xxx string             Here is a desc (default 123)")
   }
   
   func testItCanPrintAFlagTableWithRequiredFlags() {
@@ -80,7 +84,37 @@ class FlagTests: XCTestCase {
         ]
     )
     
-    XCTAssertEqual(fs.flagsDescription, "  -d, --debug bool   Here is a desc (default true)\n      --toggle int   (required)\n      --verbose int  Here is a desc (default 1)")
+    let description = fs.localDescription(withLocalFlags: Array(fs.flags.values))
+    XCTAssertEqual(description
+      , "  -d, --debug bool   Here is a desc (default true)\n      --toggle int   (required)\n      --verbose int  Here is a desc (default 1)")
   }
-
+  
+  func testItCanPrintAFlagTable1ForGlobalFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "verbose", value: 1, description: "Here is a desc"),
+        Flag(longName: "toggle", value: "", shortName: "d"),
+        ]
+    )
+    
+    let description = fs.globalDescription(withLocalFlags: [])
+    XCTAssertEqual(description
+      , "  -d, --debug bool     Here is a desc (default true)\n  -d, --toggle string  (default )\n      --verbose int    Here is a desc (default 1)")
+  }
+  
+  func testItCanPrintAFlagTable2ForGlobalFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debugxxxxxxxxxxx", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "verbose", value: 1),
+        Flag(longName: "xxx", value: "123", shortName: "d", description: "Here is a desc"),
+        ]
+    )
+    
+    let description = fs.globalDescription(withLocalFlags: [])
+    XCTAssertEqual(description
+      , "  -d, --debugxxxxxxxxxxx bool  Here is a desc (default true)\n      --verbose int            (default 1)\n  -d, --xxx string             Here is a desc (default 123)")
+  }
+  
 }

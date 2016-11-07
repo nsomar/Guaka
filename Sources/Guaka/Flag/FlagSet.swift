@@ -74,17 +74,28 @@ extension FlagSet {
 
 extension FlagSet {
   
-  var flagsDescription: String {
+  func globalDescription(withLocalFlags flags: [Flag]) -> String {
+    let allFlags = Set(self.flags.values)
+    let localFlags = Set(flags)
+    let globalFlags = Array(allFlags.subtracting(localFlags))
+    return description(forFlags: globalFlags)
+  }
+  
+  func localDescription(withLocalFlags flags: [Flag]) -> String {
+    return description(forFlags: flags)
+  }
+  
+  private func description(forFlags flags: [Flag]) -> String {
     if flags.count == 0 { return "" }
     
-    let sorted = Set(flags.values).sorted{ f1, f2 in
+    let sorted = Set(flags).sorted{ f1, f2 in
       f1.longName < f2.longName
     }
     
     let longestFlagName =
       sorted.map { $0.flagPrintableName }
         .sorted { s1, s2 in return s1.characters.count < s2.characters.count}
-    .last!.characters.count
+        .last!.characters.count
     
     let names =
       sorted.map { flag -> String in
@@ -94,9 +105,10 @@ extension FlagSet {
     }
     
     let descriptions = sorted.map { $0.flagPrintableDescription }
- 
+    
     return zip(names, descriptions).map { $0 + $1 }.joined(separator: "\n")
   }
+
 }
 
 
