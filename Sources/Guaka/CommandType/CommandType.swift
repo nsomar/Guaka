@@ -16,11 +16,13 @@ public protocol CommandType {
   
   typealias Run = ([String: Flag], [String]) -> ()
   
-  var parent: CommandType? { get set }
+  var parent: CommandType? { get }
   var name: String { get }
+  
   var flags: [Flag] { get }
-  var commands: [String: CommandType] { get set }
-  var run: Run? { get set }
+  var commands: [String: CommandType] { get }
+  
+  var run: Run? { get }
   
   var shortUsage: String? { get }
   var longUsage: String? { get }

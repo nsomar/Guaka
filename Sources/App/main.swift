@@ -14,18 +14,6 @@ let git = try! Command(
   flags: [
     Flag(longName: "debug", type: Bool.self, required: true),
     Flag(longName: "verbose", value: false, shortName: "v", inheritable: true),
-    Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
-    Flag(longName: "root", value: 1, shortName: "r", inheritable: false),
-    ]) { flags, args in
-    print("Running git with \(flags) and \(args)")
-}
-
-let show = try! Command(
-  name: "show",
-  flags: [
-    Flag(longName: "foo", value: "-", inheritable: false),
-    Flag(longName: "bar", value: "-", inheritable: false),
-    Flag(longName: "yy", value: true, inheritable: false),
     ]) { flags, args in
       print("Running git with \(flags) and \(args)")
 }
@@ -41,6 +29,17 @@ let remote = try! Command(
       print("Running git with \(flags) and \(args)")
 }
 
+let show = try! Command(
+  name: "show",
+  flags: [
+    Flag(longName: "foo", value: "-", inheritable: false),
+    Flag(longName: "bar", value: "-", inheritable: false),
+    Flag(longName: "yy", value: true, inheritable: false),
+    ]) { flags, args in
+      print("Running git with \(flags) and \(args)")
+}
+
+
 let rebase = try! Command(
   name: "rebase",
   flags: [
@@ -51,6 +50,10 @@ let rebase = try! Command(
 
 git.add(subCommand: remote)
 git.add(subCommand: rebase)
+
+
+git.add(flag: Flag(longName: "togge", value: false, shortName: "t", inheritable: false))
+git.add(flag: Flag(longName: "root", value: 1, shortName: "r", inheritable: false))
 
 remote.add(subCommand: show)
 
