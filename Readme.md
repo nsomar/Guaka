@@ -64,25 +64,5 @@ swift test
 ```
 
 ## Todo
-This is going to be a long list:
 
-- Static compilation is not yet there. It depends on a [pr on swift-lang](https://github.com/apple/swift/pull/5269) being merged.
-- Create a better API to add commands.
-- Add generation cli to generate commands.
-- Handle errors when commands are not found.
-- Implement Levenshtein distance when commands are not matched.
-- Actually call the run block in the Command when the command is matched.
-- Implement PreRun and PostRun.
-- Implement PersistentPreRun and PersistentPostRun.
-- Implement a way of reading the args when calling the run method.
-- Consolidate and refactor the Command and Flag structs.
-- Review the public interface of the library.
-- Generate help message
-- Generate man page and bash completion
-- Implement environment file reading and writing
-- Implement template engine for help messages
-- Flag and command deprication.
-- Flag and command aliasing.
-- Review the type safty of the flags
-- Generate command line apps from a yaml, taml, json files
-- Add more documentation on the code.
+For a list of task planned, head to the [Guaka GitHub project](https://github.com/oarrabi/Guaka/projects/1)
