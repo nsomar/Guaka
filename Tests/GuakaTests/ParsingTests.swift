@@ -323,10 +323,9 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-bx1234s5"))
       XCTFail()
-    } catch let CommandErrors.incorrectFlagValue(name, val, type) {
+    } catch let CommandErrors.incorrectFlagValue(name, error) {
       XCTAssertEqual(name, "xxx")
-      XCTAssertEqual(val, "1234s5")
-      XCTAssertEqual("\(type)", "\(Int.self)")
+      XCTAssertEqual(error, "cannot convert \'1234s5\' to \'Int\' ")
     } catch {
       XCTFail()
     }

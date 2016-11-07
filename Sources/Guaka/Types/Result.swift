@@ -9,6 +9,7 @@
 enum Result {
   case success
   case message(String)
-  case commandError(CommandType, Error)
-  case flagError(Error)
+  case error(Error)
+  //  CommandType, Error)
+  //case flagError(Error)
 }

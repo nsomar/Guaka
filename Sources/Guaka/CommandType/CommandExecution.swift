@@ -22,15 +22,13 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
     }
     
     let res = flagSet.checkAllRequiredFlagsAreSet(preparedFlags: preparedFlags)
-    if case let .flagError(error) = res {
+    if case let .error(error) = res {
       throw error
     }
     
-
-    
     command.execute(flags: preparedFlags, args: positionalArguments)
   } catch {
-    return .commandError(command, error)
+    return .error(CommandErrors.commandGeneralError(command, error))
   }
   
   return .success

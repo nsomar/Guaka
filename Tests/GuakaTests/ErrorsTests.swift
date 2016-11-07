@@ -26,13 +26,13 @@ class ErrorTests: XCTestCase {
   }
   
   func testItPrintsIncorrectFlagValueFoundErrorMessage() {
-    let e = CommandErrors.incorrectFlagValue("debug", "sss", Int.self).errorMessage(forCommand: git)
-    XCTAssertEqual(e, "Error: wrong flag value passed flag: \'debug\' passed value: \'sss\' expected type: \'Int\'\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.\n\nwrong flag value passed flag: \'debug\' passed value: \'sss\' expected type: \'Int\'\nexit status 255")
+    let e = CommandErrors.incorrectFlagValue("debug", "Error when converting x to int").errorMessage(forCommand: git)
+    XCTAssertEqual(e, "Error: wrong flag value passed for flag: \'debug\' Error when converting x to int\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.\n\nwrong flag value passed for flag: \'debug\' Error when converting x to int\nexit status 255")
   }
   
   func testItPrintsIncorrectFlagValueFoundErrorError() {
-    let e = CommandErrors.incorrectFlagValue("debug", "sss", Int.self).error
-    XCTAssertEqual(e, "wrong flag value passed flag: \'debug\' passed value: \'sss\' expected type: \'Int\'")
+    let e = CommandErrors.incorrectFlagValue("debug", "error when converting x to bool").error
+    XCTAssertEqual(e, "wrong flag value passed for flag: \'debug\' error when converting x to bool")
   }
   
 }
