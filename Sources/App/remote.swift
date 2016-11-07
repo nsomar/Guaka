@@ -18,6 +18,7 @@ func createRemote() {
         print("Running git with \(flags) and \(args)")
   }
   
+  remote.aliases = ["rem1", "rem2"]
   root.add(subCommands: remote)
   
   

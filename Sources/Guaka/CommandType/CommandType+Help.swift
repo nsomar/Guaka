@@ -20,6 +20,7 @@ extension CommandType {
     return [
       usageSection.joined(separator: "\n"),
       "\n\n",
+      aliasesSection.joined(separator: "\n"),
       avialbleCommandsSection.joined(separator: "\n"),
       flagsSection.joined(separator: "\n"),
       "\n",
@@ -34,13 +35,23 @@ extension CommandType {
       "  \(name) [command]"
     ]
   }
+  
+  var aliasesSection: [String] {
+    if aliases.count == 0 { return [] }
+    
+    return [
+      "Aliases:",
+      "  \(name), \(aliases.joined(separator: ", "))",
+      "\n"
+    ]
+  }
 
   var avialbleCommandsSection: [String] {
     if self.commands.count == 0 {
       return []
     }
     
-    let sortedCommands = self.commands.values.sorted { $0.0.name < $0.1.name }
+    let sortedCommands = self.commands.sorted { $0.0.name < $0.1.name }
     return sortedCommands.reduce(["Available Commands:"]) { acc, command in
       return acc + ["  \(command.name)    \(command.shortUsage ?? "")"]
     } + ["\n"]

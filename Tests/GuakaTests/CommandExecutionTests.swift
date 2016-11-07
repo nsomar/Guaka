@@ -66,6 +66,19 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(git.printed, "Usage:\n  remote [flags]\n  remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.")
   }
   
+  func testItCatchesTheCorrectAlias() {
+    remote.aliases = ["rem1", "rem2"]
+    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem1"))
+    XCTAssertEqual(cmd.name, remote.name)
+  }
+  
+  func testItCatchesTheCorrectAlias2() {
+    remote.aliases = ["rem1", "rem2"]
+    show.aliases = ["s1", "s2"]
+    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem2 s1"))
+    XCTAssertEqual(cmd.name, show.name)
+  }
+  
   func testItCanGetCommandToExecute() {
     //git.execute
     let c1 = git.commandToExecute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))

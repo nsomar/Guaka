@@ -14,8 +14,11 @@ public class Command: CommandType {
   public var parent: CommandType?
   public let name: String
   public var flags: [Flag]
-  public var commands: [String: CommandType] = [:]
+  public var commands: [CommandType] = []
+  
   public var run: Run?
+
+  public var aliases: [String] = []
   
   public var shortUsage: String?
   public var longUsage: String?
@@ -31,10 +34,19 @@ public class Command: CommandType {
     self.shortUsage = shortUsage
     self.longUsage = longUsage
   }
+  
+  public subscript(withName name: String) -> CommandType? {
+    for command in commands where
+      command.name == name || command.aliases.contains(name) {
+        return command
+    }
+    
+    return nil
+  }
  
   public func add(subCommand command: Command) {
     command.parent = self
-    commands[command.name] = command
+    commands.append(command)
   }
   
   public func add(subCommands commands: Command...) {
@@ -42,7 +54,7 @@ public class Command: CommandType {
   }
   
   public func removeCommand(passingTest test: (CommandType) -> Bool) {
-    if let index = commands.index(where: { test($1) }) {
+    if let index = commands.index(where: { test($0) }) {
       commands.remove(at: index)
     }
   }
