@@ -77,4 +77,11 @@ class HelpTests: XCTestCase {
     XCTAssertEqual(rebase.helpMessage,
                    "Usage:\n  rebase [flags]\n  rebase [command]\n\nFlags:\n  -d, --debug bool    (default true)\n  -v, --varvar bool   (default false)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
+  
+  func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
+    git.add(flags: Flag(longName: "hello", type: Int.self, required: true))
+    git.execute(commandLineArgs: expand("git -h"))
+    XCTAssertEqual(git.helpMessage,
+                   "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n      --hello int     \n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
+  }
 }

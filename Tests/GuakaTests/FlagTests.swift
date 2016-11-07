@@ -21,6 +21,21 @@ class FlagTests: XCTestCase {
     XCTAssertEqual(f.flagPrintableName, "  -d, --debug int")
   }
   
+  func testItGeneratesAPrintableNameForRequiredFlagsWithtoutDesc() {
+    let f = Flag(longName: "debug", type: Int.self, required: true)
+    XCTAssertEqual(f.flagPrintableDescription, "(required)")
+  }
+  
+  func testItGeneratesAPrintableNameForRequiredFlagsWithDesc() {
+    let f = Flag(longName: "debug", type: Int.self, required: true, description: "Here is a desc")
+    XCTAssertEqual(f.flagPrintableDescription, "Here is a desc (required)")
+  }
+  
+  func testItGeneratesAPrintableNameForNonRequiredFlagsWithDesc() {
+    let f = Flag(longName: "debug", type: Int.self, required: false, description: "Here is a desc")
+    XCTAssertEqual(f.flagPrintableDescription, "Here is a desc ")
+  }
+  
   func testItGeneratesAPrintableDescription() {
     let f1 = Flag(longName: "debug", value: 1, shortName: "d", description: "Here is a desc")
     XCTAssertEqual(f1.flagPrintableDescription, "Here is a desc (default 1)")
@@ -54,6 +69,18 @@ class FlagTests: XCTestCase {
     )
     
     XCTAssertEqual(fs.flagsDescription, "  -d, --debugxxxxxxxxxxx bool  Here is a desc (default true)\n      --verbose int            (default 1)\n  -d, --xxx string             Here is a desc (default 123)")
+  }
+  
+  func testItCanPrintAFlagTableWithRequiredFlags() {
+    let fs = FlagSet(
+      flags: [
+        Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "verbose", value: 1, description: "Here is a desc"),
+        Flag(longName: "toggle", type: Int.self, required: true),
+        ]
+    )
+    
+    XCTAssertEqual(fs.flagsDescription, "  -d, --debug bool   Here is a desc (default true)\n      --toggle int   (required)\n      --verbose int  Here is a desc (default 1)")
   }
 
 }
