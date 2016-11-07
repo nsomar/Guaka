@@ -39,8 +39,8 @@ extension CommandType {
       return []
     }
     
-    return self.commands.reduce(["Available Commands:"]) { acc, val in
-      let command = val.value
+    let sortedCommands = self.commands.values.sorted { $0.0.name < $0.1.name }
+    return sortedCommands.reduce(["Available Commands:"]) { acc, command in
       return acc + ["  \(command.name)    \(command.shortUsage ?? "")"]
     } + ["\n"]
   }

@@ -19,7 +19,7 @@ public protocol CommandType {
   var parent: CommandType? { get set }
   var name: String { get }
   var flags: [Flag] { get }
-  var commands: [String: CommandType] { get }
+  var commands: [String: CommandType] { get set }
   var run: Run? { get set }
   
   var shortUsage: String? { get }
@@ -33,7 +33,6 @@ public protocol CommandType {
   var helpMessage: String { get }
   
   func printToConsole(_ string: String)
-  
 }
 
 
@@ -53,20 +52,6 @@ extension CommandType {
   
   private var inheritableFlags: [Flag] {
     return self.flags.filter { $0.inheritable }
-  }
-  
-  static func commandsToMap(commands: [CommandType]) throws -> [String: CommandType] {
-    var m = [String: CommandType]()
-    
-    try commands.forEach { cmd in
-      if m[cmd.name] == nil {
-        m[cmd.name] = cmd
-      } else {
-        throw CommandErrors.commandAlreadyInserterd(cmd)
-      }
-    }
-    
-    return m
   }
   
 }

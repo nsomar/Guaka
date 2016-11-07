@@ -3,6 +3,10 @@ import XCTest
 
 class CommandTypeTest: XCTestCase {
 
+  override func setUp() {
+    setupTestSamples()
+  }
+  
   func testItCanGenerateFlagSetForRoot() {
     let fs1 = git.flagSet
     XCTAssertEqual(fs1.flags["d"]!.longName, "debug")

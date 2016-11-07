@@ -11,6 +11,10 @@ import XCTest
 
 class CommandParsingTests: XCTestCase {
 
+  override func setUp() {
+    setupTestSamples()
+  }
+  
   func testItCanGetACommandWithMultipleArguments() {
     let (command, args) = actualCommand(forCommand: git,
                                         args: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "222", "show"])

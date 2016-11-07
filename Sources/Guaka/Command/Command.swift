@@ -14,7 +14,7 @@ public class Command: CommandType {
   public var parent: CommandType?
   public let name: String
   public let flags: [Flag]
-  public let commands: [String: CommandType]
+  public var commands: [String: CommandType] = [:]
   public var run: Run?
   
   public var shortUsage: String?
@@ -22,21 +22,26 @@ public class Command: CommandType {
   
   public init(name: String,
               flags: [Flag],
-              commands: [CommandType] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
               run: Run? = nil) throws {
     self.name = name
     self.flags = flags
-    self.commands = try Command.commandsToMap(commands: commands)
     self.run = run
     self.shortUsage = shortUsage
     self.longUsage = longUsage
-    
-    commands.forEach {
-      var mut = $0
-      mut.parent = self
-    }
+  }
+ 
+  public func add(subCommand command: Command) {
+    command.parent = self
+    commands[command.name] = command
   }
   
+  public func add(subCommands commands: Command...) {
+    commands.forEach { add(subCommand: $0) }
+  }
+
+  public func printToConsole(_ string: String) {
+    print(string)
+  }
 }
