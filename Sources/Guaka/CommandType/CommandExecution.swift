@@ -56,7 +56,7 @@ func actualCommand(forCommand command: CommandType, args: [String]) -> (CommandT
   
   guard
     let first = possibleCommands.first,
-    let nextCommand = command.commands[first]
+    let nextCommand = command[withName: first]
     else {
       return (command, args)
   }

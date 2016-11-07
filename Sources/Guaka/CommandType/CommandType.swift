@@ -20,9 +20,12 @@ public protocol CommandType {
   var name: String { get }
   
   var flags: [Flag] { get }
-  var commands: [String: CommandType] { get }
+  var commands: [CommandType] { get }
   
   var run: Run? { get }
+  
+
+  var aliases: [String] { get }
   
   var shortUsage: String? { get }
   var longUsage: String? { get }
@@ -35,6 +38,8 @@ public protocol CommandType {
   var helpMessage: String { get }
   
   func printToConsole(_ string: String)
+  
+  subscript(withName name: String) -> CommandType? { get }
 }
 
 

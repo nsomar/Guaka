@@ -84,4 +84,10 @@ class HelpTests: XCTestCase {
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n      --hello int     (required)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
   }
+  
+  func testItPrintsHelpForAliases() {
+    git.aliases = ["git1", "git2"]
+    XCTAssertEqual(git.helpMessage,
+                   "Usage:\n  git [flags]\n  git [command]\n\nAliases:\n  git, git1, git2\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
+  }
 }
