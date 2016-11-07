@@ -10,6 +10,10 @@
 extension CommandType {
   
   public func execute(flags: [String: Flag], args: [String]) {
+    if let deprecationMessage = self.deprecationMessageSection {
+        printToConsole(deprecationMessage.joined())
+    }
+    
     self.run?(flags, args)
   }
 

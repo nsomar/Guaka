@@ -19,6 +19,8 @@ func createRemote() {
   }
   
   remote.aliases = ["rem1", "rem2"]
+  remote.deprecationStatus = .deprecated("Dont use it")
+
   root.add(subCommands: remote)
   
   
