@@ -14,7 +14,7 @@ var rebase: Command!
 
 func createRebase() {
   
-  rebase = try! Command(
+  rebase = Command(
     name: "rebase") { flags, args in
         print("Running git with \(flags) and \(args)")
   }

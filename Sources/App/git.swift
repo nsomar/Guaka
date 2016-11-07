@@ -14,7 +14,7 @@ var root: Command!
 
 func createRoot() {
   
-  root = try! Command(
+  root = Command(
     name: "git",
     flags: [
       Flag(longName: "debug", type: Bool.self, required: true),
