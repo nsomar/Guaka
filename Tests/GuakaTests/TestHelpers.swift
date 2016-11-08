@@ -16,7 +16,7 @@ class DummyCommand: Command {
   
   public init(name: String, flags: [Flag],
               parent: Command? = nil, run: CommandType.Run? = nil) throws {
-    try super.init(name: name, flags: flags, shortUsage: nil, longUsage: nil, run: run)
+    super.init(name: name, flags: flags, shortUsage: nil, longUsage: nil, run: run)
   }
   
   func execute(flags: [String : Flag], args: [String]) {
@@ -45,7 +45,6 @@ var commandExecuted: DummyCommand? = nil
 var executed: ([String: Flag], [String])? = nil
 
 func setupTestSamples() {
-  printed = ""
   commandExecuted = nil
   executed = nil
   
