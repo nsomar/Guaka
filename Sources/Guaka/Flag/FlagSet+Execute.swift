@@ -127,6 +127,7 @@ extension FlagSet {
         }
         
         foundFlag.value = value
+        foundFlag.didSet = true
         returnFlags[foundFlag.longName] = foundFlag
       }
 

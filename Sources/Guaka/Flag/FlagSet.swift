@@ -86,11 +86,12 @@ extension FlagSet {
   }
   
   private func description(forFlags flags: [Flag]) -> String {
-    if flags.count == 0 { return "" }
     
-    let sorted = Set(flags).sorted{ f1, f2 in
+    let sorted = Set(flags).filter{ !$0.isDeprecated }.sorted{ f1, f2 in
       f1.longName < f2.longName
     }
+    
+    if sorted.count == 0 { return "" }
     
     let longestFlagName =
       sorted.map { $0.flagPrintableName }
@@ -126,4 +127,19 @@ extension FlagSet {
     return Flag(longName: "help", value: false, shortName: "h", inheritable: true, description: "Show help")
   }
   
+}
+
+extension Flag {
+  
+  var isDeprecated: Bool {
+    if case .deprecated = deprecatedStatus { return true}
+    return false
+  }
+  
+  var deprecationMessage: String {
+    if case let .deprecated(message) = deprecatedStatus {
+      return "Flag --\(longName) has been deprecated, \(message)"
+    }
+    return ""
+  }
 }
