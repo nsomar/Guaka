@@ -17,7 +17,9 @@ public struct Flag: Hashable {
   public let required: Bool
   
   public var value: CommandStringConvertible?
+  public var didSet: Bool = false
   
+  public var deprecatedStatus = DeprecationStatus.notDeprecated
   
   public init(longName: String,
               value: CommandStringConvertible,

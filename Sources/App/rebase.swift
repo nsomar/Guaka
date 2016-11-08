@@ -21,6 +21,8 @@ func createRebase() {
     print("Running git with \(flags) and \(args)")
   }
   
+  rebase.deprecationStatus = .deprecated("Dont use this")
+
   root.add(subCommands: rebase)
   
   
@@ -32,5 +34,7 @@ func createRebase() {
     Flag(longName: "bar", value: "", inheritable: false),
     Flag(longName: "xx", value: true, inheritable: false),
     ].forEach { rebase.add(flag: $0) }
+  
+  rebase.flags[0].deprecatedStatus = .deprecated("dont use thissss")
 }
 

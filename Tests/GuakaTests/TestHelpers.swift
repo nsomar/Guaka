@@ -24,7 +24,11 @@ class DummyCommand: Command {
   }
   
   public override func printToConsole(_ string: String) {
-    printed = string
+    if printed != "" {
+      printed += "\n"
+    }
+    printed += string
+    
   }
 }
 
@@ -41,6 +45,7 @@ var commandExecuted: DummyCommand? = nil
 var executed: ([String: Flag], [String])? = nil
 
 func setupTestSamples() {
+  printed = ""
   commandExecuted = nil
   executed = nil
   
