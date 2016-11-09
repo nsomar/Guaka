@@ -22,8 +22,8 @@ public struct Flag: Hashable {
   public var deprecatedStatus = DeprecationStatus.notDeprecated
   
   public init(longName: String,
-              value: CommandStringConvertible,
               shortName: String? = nil,
+              value: CommandStringConvertible,
               inheritable: Bool = true,
               description: String = "") {
     

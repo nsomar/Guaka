@@ -23,18 +23,26 @@ public class Command: CommandType {
   public var shortUsage: String?
   public var longUsage: String?
   
+  public var example: String?
+  
   public var deprecationStatus = DeprecationStatus.notDeprecated
   
   public init(name: String,
               flags: [Flag] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
-              run: Run? = nil) {
+              run: Run? = nil,
+              parent: Command? = nil) {
     self.name = name
     self.flags = flags
     self.run = run
     self.shortUsage = shortUsage
     self.longUsage = longUsage
+    
+    if let parent = parent {
+      self.parent = parent
+      parent.add(subCommand: self)
+    }
   }
   
   public subscript(withName name: String) -> CommandType? {

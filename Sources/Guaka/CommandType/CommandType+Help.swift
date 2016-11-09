@@ -35,6 +35,7 @@ extension CommandType {
       usageSection.joined(separator: "\n"),
       "\n\n",
       aliasesSection.joined(separator: "\n"),
+      exampleSection.joined(separator: "\n"),
       avialbleCommandsSection.joined(separator: "\n"),
       flagsSection.joined(separator: "\n"),
       "\n",
@@ -56,6 +57,16 @@ extension CommandType {
     return [
       "Aliases:",
       "  \(name), \(aliases.joined(separator: ", "))",
+      "\n"
+    ]
+  }
+  
+  var exampleSection: [String] {
+    guard let example = example else { return [] }
+    
+    return [
+      "Examples:",
+      example,
       "\n"
     ]
   }

@@ -29,11 +29,12 @@ public protocol CommandType {
   
   var run: Run? { get }
   
-
   var aliases: [String] { get }
   
   var shortUsage: String? { get }
   var longUsage: String? { get }
+  
+  var example: String? { get }
   
   func execute(commandLineArgs: [String])
   func commandToExecute(commandLineArgs: [String]) -> CommandType

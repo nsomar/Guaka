@@ -114,4 +114,10 @@ class HelpTests: XCTestCase {
     XCTAssertEqual(rebase.helpMessage,
                    "Usage:\n  rebase [flags]\n  rebase [command]\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
+  
+  func testItPrintsTheExample() {
+    rebase.example = "run git rebase blabla"
+    XCTAssertEqual(rebase.helpMessage,
+                   "Usage:\n  rebase [flags]\n  rebase [command]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
+  }
 }

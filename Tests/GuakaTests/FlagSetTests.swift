@@ -32,8 +32,8 @@ class FlagSetTests: XCTestCase {
   func testItKnowsIfTokenIsSatisfied() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
