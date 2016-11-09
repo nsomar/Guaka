@@ -8,8 +8,8 @@
 
 import Guaka
 
-var initCommand: Command = Command(
-  name: "init", run: executeInitCommand, parent: rootCommand)
+var initCommand = Command(
+  name: "init", parent: rootCommand, run: executeInitCommand)
 
 func executeInitCommand(flags: [String: Flag], args: [String]) {
   // put your code here

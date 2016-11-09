@@ -28,11 +28,11 @@ public class Command: CommandType {
   public var deprecationStatus = DeprecationStatus.notDeprecated
   
   public init(name: String,
-              flags: [Flag] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
-              run: Run? = nil,
-              parent: Command? = nil) {
+              parent: Command? = nil,
+              flags: [Flag] = [],
+              run: Run? = nil) {
     self.name = name
     self.flags = flags
     self.run = run
@@ -73,7 +73,7 @@ public class Command: CommandType {
     flags.append(flag)
   }
   
-  public func add(flags: Flag...) {
+  public func add(flags: [Flag]) {
     self.flags.append(contentsOf: flags)
   }
   

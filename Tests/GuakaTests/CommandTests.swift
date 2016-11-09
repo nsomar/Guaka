@@ -35,7 +35,7 @@ class CommandTests: XCTestCase {
   
   func testItCanAddMultipleFlags() {
     XCTAssertEqual(git.flags.count, 4)
-    git.add(flags: Flag(longName: "--new1", type: Int.self), Flag(longName: "--new2", type: Int.self))
+    git.add(flags: [Flag(longName: "--new1", type: Int.self), Flag(longName: "--new2", type: Int.self)])
     XCTAssertEqual(git.flags.count, 6)
   }
   

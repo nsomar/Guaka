@@ -8,9 +8,8 @@
 
 import Guaka
 
-var addCommand: Command = Command(
-  name: "add", 
-  run: executeAddCommand, parent: rootCommand)
+var addCommand = Command(
+  name: "add", parent: rootCommand, run: executeAddCommand)
 
 
 func executeAddCommand(flags: [String: Flag], args: [String]) {
