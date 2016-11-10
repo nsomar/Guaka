@@ -6,41 +6,42 @@
 [![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/Guaka)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-`Guaka` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). 
-(Also its a WIP)
+`Guaka` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra). Also, it is currently in early stages of development and may do scary stuff including and not limited to eat your laundry and/or scare your neighbors.
 
-`Guaka` promises the following:
-- It can be statically linked: That means it does not use libFoundation, and does no rely on many thirdparty libs.
-- Posix complient flags: It handles both short and long flag names. Flag names can appear anywhere (ala posix)
-- Familiar with widely used cli apps: Have you used Docker, Kubernetes, OpenShift and Hugo. 
-- Safe and crash free: Extensively covered with tests and with use cases.
+## Is it any good?
+
+## [Yes](https://news.ycombinator.com/item?id=3067434)
+
+## Why?
+- It can be statically linked: No libFoundation, and does no rely on many thirdparty libs.
+- POSIX compliant flag parsing: Handles both short and long flag names. Flag names can appear anywhere.
+- Inspied and aims to enable the creating of CLIs in the vein of widely used projects: Docker, Kubernetes, OpenShift and Hugo, etc.
+- Safe and crash free: 100% safe code (e.g no unsafe code) also extensively covered with tests and with use cases.
 
 Features:
-- Easy to use interface (WIP)
-- POSIX-Complient flags
+- Easy to use API
+- POSIX-Compliant flags
 - Inheritable and non inheritable flags
-- Generator cli to easy generate a cli app (WIP)
+- Smart generator to easily bootstrap your CLIs (WIP)
 - Levenshtein distance for subcommand names (WIP)
-- Ability to have commands and subcommands (like git remote show has 3 subcommands)
-- Generate a good help message (WIP)
-- Man pages and bash completion (WIP)
+- Ability to have commands and subcommands (`git remote show` 3 subcommands)
+- Good help messages (WIP)
+- Man pages and bash/zsh/tcsh completions (WIP)
 - Manage settings from configuration files (WIP)
 - Provides a way to generate custom help messages (WIP)
 - Type safe flags (WIP)
 - Ability to define your own structures as flag parameters (WIP)
 - Generate command line apps from a configuration file (WIP)
-- WIP
 
 ## Usage
 
 WIP....
 
-
 ## Installation
 You can install Guaka using Swift package manager (SPM) and carthage
 
 ### Swift Package Manager
-Add swiftline as dependency in your `Package.swift`
+Add Guaka as dependency in your `Package.swift`
 
 ```
   import PackageDescription
@@ -56,9 +57,9 @@ Add swiftline as dependency in your `Package.swift`
     github 'oarrabi/Guaka'
 
 ## Tests
-Tests can be found [here](https://github.com/oarrabi/Guaka/tree/master/Tests). 
+Tests can be found [here](https://github.com/oarrabi/Guaka/tree/master/Tests).
 
-Run them with 
+Run them with
 ```
 swift test
 ```
@@ -66,3 +67,7 @@ swift test
 ## Todo
 
 For a list of task planned, head to the [Guaka GitHub project](https://github.com/oarrabi/Guaka/projects/1)
+
+## Contributing
+
+Just send a PR! We don't bite ;)
