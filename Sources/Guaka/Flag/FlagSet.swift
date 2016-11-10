@@ -124,7 +124,7 @@ extension FlagSet {
   }
   
   private var helpFlag: Flag {
-    return Flag(longName: "help", value: false, shortName: "h", inheritable: true, description: "Show help")
+    return Flag(longName: "help", shortName: "h", value: false, inheritable: true, description: "Show help")
   }
   
 }

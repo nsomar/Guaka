@@ -79,7 +79,7 @@ class HelpTests: XCTestCase {
   }
   
   func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
-    git.add(flags: Flag(longName: "hello", type: Int.self, required: true))
+    git.add(flags: [Flag(longName: "hello", type: Int.self, required: true)])
     git.execute(commandLineArgs: expand("git -h"))
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug bool    (default true)\n      --hello int     (required)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
@@ -113,5 +113,11 @@ class HelpTests: XCTestCase {
     rebase.flags[0].deprecatedStatus = .deprecated("Dont use this")
     XCTAssertEqual(rebase.helpMessage,
                    "Usage:\n  rebase [flags]\n  rebase [command]\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
+  }
+  
+  func testItPrintsTheExample() {
+    rebase.example = "run git rebase blabla"
+    XCTAssertEqual(rebase.helpMessage,
+                   "Usage:\n  rebase [flags]\n  rebase [command]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
 }

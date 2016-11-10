@@ -16,7 +16,7 @@ class DummyCommand: Command {
   
   public init(name: String, flags: [Flag],
               parent: Command? = nil, run: CommandType.Run? = nil) throws {
-    super.init(name: name, flags: flags, shortUsage: nil, longUsage: nil, run: run)
+    super.init(name: name, shortUsage: nil, longUsage: nil, flags: flags, run: run)
   }
   
   func execute(flags: [String : Flag], args: [String]) {
@@ -76,7 +76,7 @@ func setupTestSamples() {
   rebase = try! DummyCommand(
     name: "rebase",
     flags: [
-      Flag(longName: "varvar", value: false, shortName: "v", inheritable: true),
+      Flag(longName: "varvar", shortName: "v", value: false, inheritable: true),
       ],
     run: { flags, args in
       commandExecuted = rebase
@@ -86,9 +86,9 @@ func setupTestSamples() {
   git = try! DummyCommand(
     name: "git",
     flags: [
-      Flag(longName: "debug", value: true, shortName: "d", inheritable: true),
-      Flag(longName: "togge", value: false, shortName: "t", inheritable: false),
-      Flag(longName: "root", value: 1, shortName: "r", inheritable: false),
+      Flag(longName: "debug", shortName: "d", value: true, inheritable: true),
+      Flag(longName: "togge", shortName: "t", value: false, inheritable: false),
+      Flag(longName: "root", shortName: "r", value: 1, inheritable: false),
       ],
     run: { flags, args in
       commandExecuted = git
@@ -96,6 +96,6 @@ func setupTestSamples() {
   })
   
   git.add(subCommands: rebase, remote)
-  git.add(flag: Flag(longName: "verbose", value: false, shortName: "v", inheritable: true))
+  git.add(flag: Flag(longName: "verbose", shortName: "v", value: false, inheritable: true))
   remote.add(subCommands: show)
 }

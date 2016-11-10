@@ -23,18 +23,26 @@ public class Command: CommandType {
   public var shortUsage: String?
   public var longUsage: String?
   
+  public var example: String?
+  
   public var deprecationStatus = DeprecationStatus.notDeprecated
   
   public init(name: String,
-              flags: [Flag] = [],
               shortUsage: String? = nil,
               longUsage: String? = nil,
+              parent: Command? = nil,
+              flags: [Flag] = [],
               run: Run? = nil) {
     self.name = name
     self.flags = flags
     self.run = run
     self.shortUsage = shortUsage
     self.longUsage = longUsage
+    
+    if let parent = parent {
+      self.parent = parent
+      parent.add(subCommand: self)
+    }
   }
   
   public subscript(withName name: String) -> CommandType? {
@@ -65,7 +73,7 @@ public class Command: CommandType {
     flags.append(flag)
   }
   
-  public func add(flags: Flag...) {
+  public func add(flags: [Flag]) {
     self.flags.append(contentsOf: flags)
   }
   

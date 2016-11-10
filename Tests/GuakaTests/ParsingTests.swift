@@ -14,8 +14,8 @@ class ParsingTests: XCTestCase {
   func testItParsesLongWithEqual() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -31,8 +31,8 @@ class ParsingTests: XCTestCase {
   func testItParsesShortFlag() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -48,8 +48,8 @@ class ParsingTests: XCTestCase {
   func testItParsesBooleanLongAndShortFlagsWithNoArguments() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -65,9 +65,9 @@ class ParsingTests: XCTestCase {
   func testItParsesShortUnsatisfiedFlag() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: 1, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b"),
-        Flag(longName: "value", value: "ss", shortName: "v"),
+        Flag(longName: "debug", shortName: "d", value: 1),
+        Flag(longName: "bla", shortName: "b", value: 1),
+        Flag(longName: "value", shortName: "v", value: "ss"),
       ]
     )
     
@@ -83,9 +83,9 @@ class ParsingTests: XCTestCase {
   func testItParsesLongUnsatisfiedFlag() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: 1, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b"),
-        Flag(longName: "value", value: "ss", shortName: "v"),
+        Flag(longName: "debug", shortName: "d", value: 1),
+        Flag(longName: "bla", shortName: "b", value: 1),
+        Flag(longName: "value", shortName: "v", value: "ss"),
         ]
     )
     
@@ -101,9 +101,9 @@ class ParsingTests: XCTestCase {
   func testItGetsPositionalArguments() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b"),
-        Flag(longName: "value", value: "ss", shortName: "v"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1),
+        Flag(longName: "value", shortName: "v", value: "ss"),
         ]
     )
     
@@ -123,8 +123,8 @@ class ParsingTests: XCTestCase {
   func testItCatchesWrongFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -142,8 +142,8 @@ class ParsingTests: XCTestCase {
   func testItCatchesFlagsThatNeedValue() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -173,8 +173,8 @@ class ParsingTests: XCTestCase {
   func testItCatchesLastFlagsThatNeedValue() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b")
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1)
       ]
     )
     
@@ -204,9 +204,9 @@ class ParsingTests: XCTestCase {
   func testItParseMultipleBoolFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: true, shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: true),
         ]
     )
     
@@ -219,9 +219,9 @@ class ParsingTests: XCTestCase {
   func testItParseMultipleBoolFlagsWithEqual() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: true, shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: true),
         ]
     )
     
@@ -235,9 +235,9 @@ class ParsingTests: XCTestCase {
   func testItParseMultipleBoolFlagsWithEqualAndPending() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: 1, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: true, shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: 1),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: true),
         ]
     )
     
@@ -251,9 +251,9 @@ class ParsingTests: XCTestCase {
   func testItParseMultipleBoolFlagsWithEqualAndPendingWillThrowIfUnsatisfied() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: 1, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: true, shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: 1),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: true),
         ]
     )
     
@@ -271,9 +271,9 @@ class ParsingTests: XCTestCase {
   func testANonBoolShortFlagWillSwallowTheOutput() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: "aa", shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: "aa"),
         ]
     )
     
@@ -285,9 +285,9 @@ class ParsingTests: XCTestCase {
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: 1, shortName: "b"),
-        Flag(longName: "xxx", value: "aa", shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: 1),
+        Flag(longName: "xxx", shortName: "x", value: "aa"),
         ]
     )
     
@@ -299,9 +299,9 @@ class ParsingTests: XCTestCase {
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt2() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: "aa", shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: "aa"),
         ]
     )
     
@@ -314,9 +314,9 @@ class ParsingTests: XCTestCase {
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsItAndThrowErrorIfCannotConvert() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d"),
-        Flag(longName: "bla", value: true, shortName: "b"),
-        Flag(longName: "xxx", value: 1, shortName: "x"),
+        Flag(longName: "debug", shortName: "d", value: true),
+        Flag(longName: "bla", shortName: "b", value: true),
+        Flag(longName: "xxx", shortName: "x", value: 1),
         ]
     )
     

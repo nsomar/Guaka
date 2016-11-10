@@ -17,7 +17,7 @@ class FlagTests: XCTestCase {
   }
   
   func testItGeneratesAPrintableNameWithLongNameAndDescriptionAndShortName() {
-    let f = Flag(longName: "debug", value: 1, shortName: "d", description: "Here is a desc")
+    let f = Flag(longName: "debug", shortName: "d", value: 1, description: "Here is a desc")
     XCTAssertEqual(f.flagPrintableName, "  -d, --debug int")
   }
   
@@ -37,22 +37,22 @@ class FlagTests: XCTestCase {
   }
   
   func testItGeneratesAPrintableDescription() {
-    let f1 = Flag(longName: "debug", value: 1, shortName: "d", description: "Here is a desc")
+    let f1 = Flag(longName: "debug", shortName: "d", value: 1, description: "Here is a desc")
     XCTAssertEqual(f1.flagPrintableDescription, "Here is a desc (default 1)")
     
-    let f2 = Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc")
+    let f2 = Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
     XCTAssertEqual(f2.flagPrintableDescription, "Here is a desc (default true)")
     
-    let f3 = Flag(longName: "debug", value: "hello", shortName: "d")
+    let f3 = Flag(longName: "debug", shortName: "d", value: "hello")
     XCTAssertEqual(f3.flagPrintableDescription, "(default hello)")
   }
   
   func testItCanPrintAFlagTable1ForLocalFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc"),
         Flag(longName: "verbose", value: 1, description: "Here is a desc"),
-        Flag(longName: "toggle", value: "", shortName: "d"),
+        Flag(longName: "toggle", shortName: "d", value: ""),
         ]
     )
     
@@ -64,9 +64,9 @@ class FlagTests: XCTestCase {
   func testItCanPrintAFlagTable2ForLocalFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debugxxxxxxxxxxx", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "debugxxxxxxxxxxx", shortName: "d", value: true, description: "Here is a desc"),
         Flag(longName: "verbose", value: 1),
-        Flag(longName: "xxx", value: "123", shortName: "d", description: "Here is a desc"),
+        Flag(longName: "xxx", shortName: "d", value: "123", description: "Here is a desc"),
         ]
     )
     
@@ -78,7 +78,7 @@ class FlagTests: XCTestCase {
   func testItCanPrintAFlagTableWithRequiredFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc"),
         Flag(longName: "verbose", value: 1, description: "Here is a desc"),
         Flag(longName: "toggle", type: Int.self, required: true),
         ]
@@ -92,9 +92,9 @@ class FlagTests: XCTestCase {
   func testItCanPrintAFlagTable1ForGlobalFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debug", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc"),
         Flag(longName: "verbose", value: 1, description: "Here is a desc"),
-        Flag(longName: "toggle", value: "", shortName: "d"),
+        Flag(longName: "toggle", shortName: "d", value: ""),
         ]
     )
     
@@ -106,9 +106,9 @@ class FlagTests: XCTestCase {
   func testItCanPrintAFlagTable2ForGlobalFlags() {
     let fs = FlagSet(
       flags: [
-        Flag(longName: "debugxxxxxxxxxxx", value: true, shortName: "d", description: "Here is a desc"),
+        Flag(longName: "debugxxxxxxxxxxx", shortName: "d", value: true, description: "Here is a desc"),
         Flag(longName: "verbose", value: 1),
-        Flag(longName: "xxx", value: "123", shortName: "d", description: "Here is a desc"),
+        Flag(longName: "xxx", shortName: "d", value: "123", description: "Here is a desc"),
         ]
     )
     
