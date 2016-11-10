@@ -18,7 +18,6 @@ public enum CommandErrors: Error {
   case unexpectedFlagPassed(String, String)
   case commandGeneralError(CommandType, Error)
   
-  case errorConvertingFlagValue(String, Any.Type, String)
   case incorrectFlagValue(String, String)
 }
 
@@ -27,10 +26,7 @@ extension CommandErrors {
   var error: String {
     switch self {
     case let .flagNotFound(flag):
-      return "unknown shorthand flag: '\(flag)'"
-    case let .errorConvertingFlagValue(flag, type, error):
-      return "error setting flag value for flag: '\(flag)' type: '\(type)' error: '\(error)'"
-    case let .requiredFlagsWasNotSet(flag, type):
+      return "unknown shorthand flag: '\(flag)'"    case let .requiredFlagsWasNotSet(flag, type):
       return "required flag was not set: '\(flag)' expected type: '\(type)'"
     case let .incorrectFlagValue(flag, error):
       return "wrong flag value passed for flag: '\(flag)' \(error)"

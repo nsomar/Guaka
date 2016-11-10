@@ -8,15 +8,17 @@
 
 
 public class Command: CommandType {
-  
-  public typealias Run = ([String: Flag], [String]) -> ()
-  
+    
   public var parent: CommandType?
   public let name: String
   public var flags: [Flag]
   public var commands: [CommandType] = []
   
+  public var inheritablePreRun: ConditionalRun?
+  public var preRun: ConditionalRun?
   public var run: Run?
+  public var postRun: ConditionalRun?
+  public var inheritablePostRun: Run?
 
   public var aliases: [String] = []
   

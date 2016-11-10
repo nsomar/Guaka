@@ -11,9 +11,28 @@ extension CommandType {
   
   public func execute(flags: [String: Flag], args: [String]) {
     printDeprecationMessages(flags: Array(flags.values))
+    
+    if 
+      let found = self.findAdequateInheritableRun(forPre: true),
+      let inheritablePreRun = found as? ConditionalRun,
+      inheritablePreRun(flags, args) == false 
+    { return } 
+    
+    if 
+      let preRun = preRun,
+      preRun(flags, args) == false
+    { return } 
+    
     self.run?(flags, args)
+    
+    if 
+      let postRun = postRun,
+      postRun(flags, args) == false
+    { return } 
+    
+    (self.findAdequateInheritableRun(forPre: false) as? Run)?(flags, args)
   }
-
+  
   public func execute() {
     execute(commandLineArgs: CommandLine.arguments)
   }
@@ -27,7 +46,29 @@ extension CommandType {
     return actualCommand(forCommand: self, args: Array(commandLineArgs.dropFirst())).0
   }
   
-  private func handleResult(_ result: Result) {
+}
+
+
+extension CommandType {
+  func findAdequateInheritableRun(forPre: Bool) -> Any?  {
+    
+    var cmd: CommandType? = self
+    
+    while true {
+      var toFind: Any?
+      
+      toFind = forPre ? cmd?.inheritablePreRun : cmd?.inheritablePostRun
+      if let toFind = toFind { return toFind }
+      cmd = cmd?.parent
+      if cmd == nil { return nil }
+    }
+  }
+}
+
+
+extension CommandType {
+  
+  fileprivate func handleResult(_ result: Result) {
     switch result {
     case .success:
       // Do nothing
@@ -49,14 +90,15 @@ extension CommandType {
     }
   }
   
-  private func printDeprecationMessages(flags: [Flag]) {
+  fileprivate func printDeprecationMessages(flags: [Flag]) {
     if let deprecationMessage = self.deprecationMessageSection {
       printToConsole(deprecationMessage.joined())
     }
     
     for flag in flags where flag.didSet && flag.isDeprecated {
-        printToConsole(flag.deprecationMessage)
-      }
+      printToConsole(flag.deprecationMessage)
     }
   }
+  
+}
 

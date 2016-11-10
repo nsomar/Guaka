@@ -15,7 +15,7 @@ class DummyCommand: Command {
   var printed: String = ""
   
   public init(name: String, flags: [Flag],
-              parent: Command? = nil, run: CommandType.Run? = nil) throws {
+              parent: Command? = nil, run: Run? = nil) throws {
     super.init(name: name, shortUsage: nil, longUsage: nil, flags: flags, run: run)
   }
   
