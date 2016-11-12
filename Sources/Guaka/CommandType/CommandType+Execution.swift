@@ -8,57 +8,57 @@
 
 // MARK: Execution
 extension CommandType {
-  
+
   public func execute(flags: [String: Flag], args: [String]) {
     printDeprecationMessages(flags: Array(flags.values))
-    
+
     // FIXME: Refactor and simplify
-    if 
+    if
       let inheritablePreRun = self.findAdequateInheritableRun(forPre: true),
-      inheritablePreRun(flags, args) == false 
-    { return } 
-    
-    if 
+      inheritablePreRun(flags, args) == false
+    { return }
+
+    if
       let preRun = preRun,
       preRun(flags, args) == false
-    { return } 
-    
+    { return }
+
     self.run?(flags, args)
-    
-    if 
+
+    if
       let postRun = postRun,
       postRun(flags, args) == false
-    { return } 
-    
+    { return }
+
     _ = self.findAdequateInheritableRun(forPre: false)?(flags, args)
   }
-  
+
   public func execute() {
     execute(commandLineArgs: CommandLine.arguments)
   }
-  
+
   public func execute(commandLineArgs: [String]) {
     let res = executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
     handleResult(res)
   }
-  
+
   public func commandToExecute(commandLineArgs: [String]) -> CommandType {
     return actualCommand(forCommand: self, args: Array(commandLineArgs.dropFirst())).0
   }
-  
+
 }
 
 
 extension CommandType {
   func findAdequateInheritableRun(forPre: Bool) -> ConditionalRun?  {
-    
+
     var cmd: CommandType? = self
-    
+
     while true {
       let toFind = forPre ? cmd?.inheritablePreRun : cmd?.inheritablePostRun
-      
+
       if let toFind = toFind { return toFind }
-      
+
       cmd = cmd?.parent
       if cmd == nil { return nil }
     }
@@ -67,7 +67,7 @@ extension CommandType {
 
 
 extension CommandType {
-  
+
   fileprivate func handleResult(_ result: Result) {
     switch result {
     case .success:
@@ -77,7 +77,7 @@ extension CommandType {
       guard case let CommandErrors.commandGeneralError(command, error) = error else {
         return
       }
-      
+
       if let error = error as? CommandErrors {
         printToConsole(error.errorMessage(forCommand: command))
       } else {
@@ -89,16 +89,16 @@ extension CommandType {
       break
     }
   }
-  
+
   fileprivate func printDeprecationMessages(flags: [Flag]) {
     if let deprecationMessage = self.deprecationMessageSection {
       printToConsole(deprecationMessage.joined())
     }
-    
+
     for flag in flags where flag.didSet && flag.isDeprecated {
       printToConsole(flag.deprecationMessage)
     }
   }
-  
+
 }
 

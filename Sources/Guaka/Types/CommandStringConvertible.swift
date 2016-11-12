@@ -13,7 +13,7 @@ public protocol CommandStringConvertible {
 
 public enum CommandConvertibleError: Error {
   case conversionError(String)
-  
+
   var error: String {
     switch self {
     case .conversionError(let s):
@@ -23,7 +23,7 @@ public enum CommandConvertibleError: Error {
 }
 
 extension Bool: CommandStringConvertible {
-  
+
   public static func fromString(flagValue value: String) throws -> Any {
     if value == "1" {
       return true
@@ -32,36 +32,36 @@ extension Bool: CommandStringConvertible {
     } else if let b = Bool(value) {
       return b
     }
-    
+
     throw CommandConvertibleError.conversionError("cannot convert '\(value)' to '\(Bool.self)' ")
   }
-  
+
   public static var typeDescription: String { return "bool" }
-  
+
 }
 
 
 extension Int: CommandStringConvertible {
-  
+
   public static func fromString(flagValue value: String) throws -> Any {
     guard let val = Int(value) else {
       throw CommandConvertibleError.conversionError("cannot convert '\(value)' to '\(Int.self)' ")
     }
-    
+
     return val
   }
-  
+
   public static var typeDescription: String { return "int" }
-  
+
 }
 
 
 extension String: CommandStringConvertible {
-  
+
   public static func fromString(flagValue value: String) throws -> Any {
     return value
   }
-  
+
   public static var typeDescription: String { return "string" }
-  
+
 }

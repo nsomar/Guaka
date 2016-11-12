@@ -9,13 +9,13 @@ import StringScanner
 
 
 enum ArgTokenType {
-  
+
   case longFlag(String), longFlagWithEqual(String, String)
   case shortFlag(String), shortFlagWithEqual(String, String)
   case shortMultiFlag(String)
   case invalidFlag(String)
   case positionalArgument(String)
-  
+
   var isFlag: Bool {
     switch self {
     case .longFlag:
@@ -28,12 +28,12 @@ enum ArgTokenType {
       fallthrough
     case .shortMultiFlag:
       return true
-      
+
     default:
       return false
     }
   }
-  
+
   var requiresValue: Bool {
     switch self {
     case .longFlag:
@@ -42,12 +42,12 @@ enum ArgTokenType {
       fallthrough
     case .shortMultiFlag:
       return true
-      
+
     default:
       return false
     }
   }
-  
+
   var flagName: String? {
     switch self {
     case let .longFlag(name):
@@ -60,40 +60,40 @@ enum ArgTokenType {
       return name
     case let .shortMultiFlag(name):
       return name
-      
+
     default:
       return nil
     }
   }
-  
+
   init(fromString string: String) {
-    
+
     if string.isPrefixed(by: "---") {
-      
+
       self = .invalidFlag(string)
     } else if string.isPrefixed(by: "--") {
-      
+
       self = ArgTokenType.parseLongFlag(string)
     } else if string.isPrefixed(by: "-") {
-      
+
       self = ArgTokenType.parseShortFlag(string)
     } else {
       self = .positionalArgument(string)
     }
   }
-  
+
 }
 
 extension ArgTokenType {
-  
+
   fileprivate static func hasEqual(_ string: String) -> Bool {
     return string.characters.first { $0 == "=" } != nil
   }
-  
+
   fileprivate static func parseLongFlag(_ string: String) -> ArgTokenType {
     let scanner = StringScanner(string: string)
     _ = scanner.drop(length: 2)
-    
+
     if ArgTokenType.hasEqual(string) {
       let (name, value) = parseEqual(scanner)
       return .longFlagWithEqual(name, value)
@@ -101,21 +101,21 @@ extension ArgTokenType {
       return .longFlag(scanner.remainingString)
     }
   }
-  
+
   fileprivate static func parseShortFlag(_ string: String) -> ArgTokenType {
     let scanner = StringScanner(string: string)
     _ = scanner.drop(length: 1)
-    
+
     let length = scanner.remainingString.characters.count
-    
+
     if length <= 0 {
-      
+
       return .invalidFlag(string)
     } else if length == 1 {
-      
+
       return .shortFlag(scanner.remainingString)
     } else {
-      
+
       if isMultiFlag(scanner) {
         return .shortMultiFlag(scanner.remainingString)
       } else {
@@ -124,10 +124,10 @@ extension ArgTokenType {
       }
     }
   }
-  
+
   fileprivate static func parseEqual(_ scanner: StringScanner) -> (String, String) {
     var name = "", value = ""
-    
+
     scanner.transaction {
       if case let .value(string) = scanner.scan(untilString: "=") {
         name = string
@@ -135,15 +135,15 @@ extension ArgTokenType {
         value = scanner.remainingString
       }
     }
-    
+
     return (name, value)
   }
-  
+
   fileprivate static func isMultiFlag(_ scanner: StringScanner) -> Bool {
     if case .value (let str) = scanner.peek(untilString: "=") {
       return str.characters.count > 1
     }
-    
+
     return scanner.remainingString.characters.count > 1
   }
 
