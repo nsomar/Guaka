@@ -12,6 +12,7 @@ extension CommandType {
   public func execute(flags: [String: Flag], args: [String]) {
     printDeprecationMessages(flags: Array(flags.values))
     
+    // FIXME: Refactor and simplify
     if 
       let inheritablePreRun = self.findAdequateInheritableRun(forPre: true),
       inheritablePreRun(flags, args) == false 
