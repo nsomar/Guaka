@@ -20,6 +20,6 @@ func executeRootCommand(flags: [String: Flag], args: [String]) {
     print("Version 0.0.1")
     return
   }
-  
+
   print(rootCommand.helpMessage)
 }

@@ -7,39 +7,39 @@
 //
 
 struct FlagSet {
-  
+
   let flags: [String: Flag]
   let requiredFlags: [Flag]
-  
+
   init(flags: [Flag]) {
     var flagMap = [String: Flag]()
-    
+
     flags.forEach {
-      
+
       if let shortName = $0.shortName {
         flagMap[shortName] = $0
       }
-      
+
       flagMap[$0.longName] = $0
     }
-    
+
     self.flags = flagMap
     self.requiredFlags = FlagSet.requiredFlags(flags: flags)
   }
-  
+
   fileprivate init(flagsMap: [String: Flag]) {
     self.flags = flagsMap
     self.requiredFlags = FlagSet.requiredFlags(flags: flags.values)
   }
-  
+
   func isBool(flagName: String) -> Bool {
     guard let flag = flags[flagName] else {
       return false
     }
-    
+
     return flag.isBool
   }
-  
+
   func isFlagSatisfied(token: ArgTokenType) -> Bool {
     switch token {
     case .shortFlagWithEqual:
@@ -52,7 +52,7 @@ struct FlagSet {
       fallthrough
     case .shortMultiFlag(_):
       return true
-      
+
     case let .shortFlag(name):
       return isBool(flagName: name)
     case let .longFlag(name):
@@ -73,40 +73,40 @@ extension FlagSet {
 
 
 extension FlagSet {
-  
+
   func globalDescription(withLocalFlags flags: [Flag]) -> String {
     let allFlags = Set(self.flags.values)
     let localFlags = Set(flags)
     let globalFlags = Array(allFlags.subtracting(localFlags))
     return description(forFlags: globalFlags)
   }
-  
+
   func localDescription(withLocalFlags flags: [Flag]) -> String {
     return description(forFlags: flags)
   }
-  
+
   private func description(forFlags flags: [Flag]) -> String {
-    
+
     let sorted = Set(flags).filter{ !$0.isDeprecated }.sorted{ f1, f2 in
       f1.longName < f2.longName
     }
-    
+
     if sorted.count == 0 { return "" }
-    
+
     let longestFlagName =
       sorted.map { $0.flagPrintableName }
         .sorted { s1, s2 in return s1.characters.count < s2.characters.count}
         .last!.characters.count
-    
+
     let names =
       sorted.map { flag -> String in
         let diff = longestFlagName - flag.flagPrintableName.characters.count
         let addition = String(repeating: " ", count: diff)
         return "\(flag.flagPrintableName)\(addition)  "
     }
-    
+
     let descriptions = sorted.map { $0.flagPrintableDescription }
-    
+
     return zip(names, descriptions).map { $0 + $1 }.joined(separator: "\n")
   }
 
@@ -114,28 +114,28 @@ extension FlagSet {
 
 
 extension FlagSet {
-  
+
   func flagSetAppeningHelp() -> FlagSet {
     var flags = self.flags
     flags["help"] = helpFlag
     flags["h"] = helpFlag
-    
+
     return FlagSet(flagsMap: flags)
   }
-  
+
   private var helpFlag: Flag {
     return Flag(longName: "help", shortName: "h", value: false, inheritable: true, description: "Show help")
   }
-  
+
 }
 
 extension Flag {
-  
+
   var isDeprecated: Bool {
     if case .deprecated = deprecatedStatus { return true}
     return false
   }
-  
+
   var deprecationMessage: String {
     if case let .deprecated(message) = deprecatedStatus {
       return "Flag --\(longName) has been deprecated, \(message)"

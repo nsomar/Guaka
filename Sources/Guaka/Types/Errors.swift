@@ -8,21 +8,21 @@
 
 
 public enum CommandErrors: Error {
-  
+
   case wrongFlagPattern(String)
   case commandAlreadyInserterd(CommandType)
   case flagNotFound(String)
-  
+
   case flagNeedsValue(String, String)
   case requiredFlagsWasNotSet(String, Any.Type)
   case unexpectedFlagPassed(String, String)
   case commandGeneralError(CommandType, Error)
-  
+
   case incorrectFlagValue(String, String)
 }
 
 extension CommandErrors {
-  
+
   var error: String {
     switch self {
     case let .flagNotFound(flag):
@@ -34,7 +34,7 @@ extension CommandErrors {
       return "Error: General error encountered"
     }
   }
-  
+
   func errorMessage(forCommand command: CommandType) -> String {
     return [
       "Error: \(error)",
@@ -43,7 +43,7 @@ extension CommandErrors {
       "exit status 255"
     ].joined(separator: "\n")
   }
-  
+
   static func generalError(forCommand command: CommandType) -> String {
     return [
       "Error: General error encountered",
@@ -52,5 +52,5 @@ extension CommandErrors {
       "exit status 255"
       ].joined(separator: "\n")
   }
-  
+
 }

@@ -13,5 +13,5 @@ var addCommand = Command(
 
 
 func executeAddCommand(flags: [String: Flag], args: [String]) {
-  
+
 }

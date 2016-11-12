@@ -10,25 +10,25 @@ import Foundation
 @testable import Guaka
 
 class DummyCommand: Command {
-  
+
   var executed: ([String: Flag], [String])?
   var printed: String = ""
-  
+
   public init(name: String, flags: [Flag],
               parent: Command? = nil, run: Run? = nil) throws {
     super.init(name: name, shortUsage: nil, longUsage: nil, flags: flags, run: run)
   }
-  
+
   func execute(flags: [String : Flag], args: [String]) {
     executed = (flags, args)
   }
-  
+
   public override func printToConsole(_ string: String) {
     if printed != "" {
       printed += "\n"
     }
     printed += string
-    
+
   }
 }
 
@@ -47,7 +47,7 @@ var executed: ([String: Flag], [String])? = nil
 func setupTestSamples() {
   commandExecuted = nil
   executed = nil
-  
+
   show = try! DummyCommand(
     name: "show",
     flags: [
@@ -59,7 +59,7 @@ func setupTestSamples() {
       commandExecuted = show
       executed = (flags, args)
   })
-  
+
   remote = try! DummyCommand(
     name: "remote",
     flags: [
@@ -72,7 +72,7 @@ func setupTestSamples() {
       commandExecuted = remote
       executed = (flags, args)
   })
-  
+
   rebase = try! DummyCommand(
     name: "rebase",
     flags: [
@@ -82,7 +82,7 @@ func setupTestSamples() {
       commandExecuted = rebase
       executed = (flags, args)
   })
-  
+
   git = try! DummyCommand(
     name: "git",
     flags: [
@@ -94,7 +94,7 @@ func setupTestSamples() {
       commandExecuted = git
       executed = (flags, args)
   })
-  
+
   git.add(subCommands: rebase, remote)
   git.add(flag: Flag(longName: "verbose", shortName: "v", value: false, inheritable: true))
   remote.add(subCommands: show)

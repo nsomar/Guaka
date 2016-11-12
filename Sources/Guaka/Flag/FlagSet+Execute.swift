@@ -9,31 +9,31 @@
 import StringScanner
 
 extension FlagSet {
-  
+
   func parse(args: [String]) throws -> ([Flag: CommandStringConvertible], [String]) {
     var ret = [Flag: CommandStringConvertible]()
     var remainigArgs = [String]()
-    
+
     var pendingFlag: Flag?
-    
+
     for arg in args {
       let token = ArgTokenType(fromString: arg)
-      
+
       if
         let pendingFlag = pendingFlag,
         token.isFlag {
         throw CommandErrors.flagNeedsValue(pendingFlag.longName, token.flagName ?? "")
       }
-      
+
       switch token {
       case let .longFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
         try ret[flag] = flag.convertValueToInnerType(value: value)
-        
+
       case let .shortFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
         try ret[flag] = flag.convertValueToInnerType(value: value)
-        
+
       case let .shortFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
@@ -41,7 +41,7 @@ extension FlagSet {
         } else {
           pendingFlag = flag
         }
-        
+
       case let .longFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
@@ -49,7 +49,7 @@ extension FlagSet {
         } else {
           pendingFlag = flag
         }
-        
+
       case let .positionalArgument(value):
         if let pf = pendingFlag {
           ret[pf] = try pf.convertValueToInnerType(value: value)
@@ -57,38 +57,38 @@ extension FlagSet {
         } else {
           remainigArgs.append(value)
         }
-        
+
       case let .shortMultiFlag(name):
         let (partialRet, pf) = try parseMultiFlagWithEqual(name: name)
         ret += partialRet
         pendingFlag = pf
-        
+
       case let .invalidFlag(string):
         throw CommandErrors.wrongFlagPattern(string)
       }
-      
+
     }
-    
+
     if let pendingFlag = pendingFlag {
       throw CommandErrors.flagNeedsValue(pendingFlag.longName, "No more flags")
     }
-    
+
     return (ret, remainigArgs)
   }
- 
+
   private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: CommandStringConvertible], Flag?) {
     let scanner = StringScanner(string: name)
     var ret = [Flag: CommandStringConvertible]()
-    
+
     while true {
       let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
-      
+
       switch token {
       case let .shortFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
         try ret[flag] = flag.convertValueToInnerType(value: value)
         return (ret, nil)
-        
+
       case let .shortFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
@@ -97,11 +97,11 @@ extension FlagSet {
         } else {
           return (ret, flag)
         }
-        
+
       default:
         break;
       }
-      
+
       if case let .value(current) = scanner.scan(length: 1) {
         let flag = try getFlag(forName: current)
         if flag.isBool {
@@ -112,20 +112,20 @@ extension FlagSet {
         }
       }
     }
-    
+
     return (ret, nil)
   }
 
   func getPreparedFlags(withFlagValues values: [Flag: CommandStringConvertible])
     throws -> [String: Flag] {
-      
+
       var returnFlags = self.getFlagsWithLongNames()
-      
+
       try values.forEach { flag, value in
         guard var foundFlag = self.flags[flag.longName] else {
           throw CommandErrors.unexpectedFlagPassed(flag.longName, "\(value)")
         }
-        
+
         foundFlag.value = value
         foundFlag.didSet = true
         returnFlags[foundFlag.longName] = foundFlag
@@ -133,29 +133,29 @@ extension FlagSet {
 
       return returnFlags
   }
-  
+
   func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
     for flag in requiredFlags {
       guard let preparedFlag = preparedFlags[flag.longName] else {
         return .error(CommandErrors.flagNotFound(flag.longName))
       }
-      
+
       if preparedFlag.value == nil {
         return .error(CommandErrors.requiredFlagsWasNotSet(flag.longName, flag.type))
       }
     }
-    
+
     return .success
   }
-  
+
   private func getFlag(forName name: String) throws -> Flag {
     guard let flag = flags[name] else {
       throw CommandErrors.flagNotFound(name)
     }
-    
+
     return flag
   }
-  
+
   private func getFlagsWithLongNames() -> [String: Flag] {
     var returnFlags = [String: Flag]()
     self.flags.forEach { key, flag in
@@ -163,10 +163,10 @@ extension FlagSet {
         returnFlags[key] = flag
       }
     }
-    
+
     return returnFlags
   }
-  
+
 }
 
 func += <K, V> (left: inout [K: V], right: [K: V]) {
