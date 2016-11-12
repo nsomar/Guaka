@@ -18,7 +18,7 @@ public class Command: CommandType {
   public var preRun: ConditionalRun?
   public var run: Run?
   public var postRun: ConditionalRun?
-  public var inheritablePostRun: Run?
+  public var inheritablePostRun: ConditionalRun?
 
   public var aliases: [String] = []
   

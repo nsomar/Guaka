@@ -80,7 +80,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
     
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = (f as? ConditionalRun)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipre1"])
   }
   
@@ -92,7 +92,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
     
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = (f as? ConditionalRun)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipre2"])
   }
   
@@ -104,7 +104,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
     
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = (f as? ConditionalRun)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipre3"])
   }
   
@@ -120,12 +120,12 @@ class CommandTypeRunTests: XCTestCase {
   func testItFindsTheInheritablePostRunFromCurrentCommandIfAvailable() {
     var events = [String]()
     
-    show.inheritablePostRun = { _ in events.append("ipost1")}
-    remote.inheritablePostRun = { _ in events.append("ipost2")}
-    git.inheritablePostRun = { _ in events.append("ipost3")}
+    show.inheritablePostRun = { _ in events.append("ipost1"); return true}
+    remote.inheritablePostRun = { _ in events.append("ipost2"); return true}
+    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
     
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = (f as? Run)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipost1"])
   }
   
@@ -133,11 +133,11 @@ class CommandTypeRunTests: XCTestCase {
     var events = [String]()
     
     show.inheritablePostRun = nil
-    remote.inheritablePostRun = { _ in events.append("ipost2")}
-    git.inheritablePostRun = { _ in events.append("ipost3")}
+    remote.inheritablePostRun = { _ in events.append("ipost2"); return true}
+    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
     
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = (f as? Run)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipost2"])
   }
   
@@ -146,10 +146,10 @@ class CommandTypeRunTests: XCTestCase {
     
     show.inheritablePostRun = nil
     remote.inheritablePostRun = nil
-    git.inheritablePostRun = { _ in events.append("ipost3")}
+    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
     
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = (f as? Run)?([:], [])
+    _ = f?([:], [])
     XCTAssertEqual(events, ["ipost3"])
   }
   
@@ -213,7 +213,7 @@ class CommandTypeRunTests: XCTestCase {
   func testItRunsInheritablePostRunAfterRun() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("ipost")}
+    git.inheritablePostRun = { _ in events.append("ipost"); return true}
     git.postRun = { _ in events.append("post"); return true }
     git.run = { _ in events.append("run"); }
     
@@ -225,7 +225,7 @@ class CommandTypeRunTests: XCTestCase {
   func testIfPostRunReturnFalseItAltersExecutionAndInheritableIsNotCalled() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("ipost")}
+    git.inheritablePostRun = { _ in events.append("ipost"); return true}
     git.postRun = { _ in events.append("post"); return false }
     git.run = { _ in events.append("run"); }
     
@@ -237,7 +237,7 @@ class CommandTypeRunTests: XCTestCase {
   func testItRunsInheritablePostRunParentAfterRun() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("ipost")}
+    git.inheritablePostRun = { _ in events.append("ipost"); return true}
     show.postRun = { _ in events.append("post"); return true }
     show.run = { _ in events.append("run"); }
     
@@ -249,7 +249,7 @@ class CommandTypeRunTests: XCTestCase {
   func testItExecutesAllRuns() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("igpost")}
+    git.inheritablePostRun = { _ in events.append("igpost"); return true}
     show.postRun = { _ in events.append("post"); return true }
     show.run = { _ in events.append("run"); }
     remote.inheritablePreRun = { _ in events.append("irpre"); return true }
@@ -263,7 +263,7 @@ class CommandTypeRunTests: XCTestCase {
   func testItDoesNotCrashIfSomeRunsAreNotSet() {
     var events = [String]()
     
-    show.inheritablePostRun = { _ in events.append("irpost")}
+    show.inheritablePostRun = { _ in events.append("irpost"); return true}
     show.postRun = nil
     show.run = { _ in events.append("run"); }
     git.inheritablePreRun = { _ in events.append("igpre"); return true }
@@ -277,7 +277,7 @@ class CommandTypeRunTests: XCTestCase {
   func testIfItHasLotsOfRunsInheritablePreCanStopAllOfThem() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("igpost")}
+    git.inheritablePostRun = { _ in events.append("igpost"); return true}
     show.postRun = { _ in events.append("post"); return true }
     show.run = { _ in events.append("run"); }
     remote.inheritablePreRun = { _ in events.append("irpre"); return false }
@@ -291,7 +291,7 @@ class CommandTypeRunTests: XCTestCase {
   func testIfItHasLotsOfRunsPreCanStopAllOfThemExceptInheritable() {
     var events = [String]()
     
-    git.inheritablePostRun = { _ in events.append("igpost")}
+    git.inheritablePostRun = { _ in events.append("igpost"); return true}
     show.postRun = { _ in events.append("post"); return true }
     show.run = { _ in events.append("run"); }
     show.inheritablePreRun = { _ in events.append("ispre"); return true }

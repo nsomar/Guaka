@@ -63,7 +63,7 @@ public protocol CommandType {
   /// After the parsing matches the subcommand, postRun is called after run
   /// If the current command has an inheritablePostRun, then its called on it.
   /// Otherwise it will be executed on its parent, until the root command
-  var inheritablePostRun: Run? { get }
+  var inheritablePostRun: ConditionalRun? { get }
   
   /// The command aliases
   /// The command will be callable by its name or by any of the aliases set here

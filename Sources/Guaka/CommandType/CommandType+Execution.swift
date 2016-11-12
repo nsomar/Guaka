@@ -13,8 +13,7 @@ extension CommandType {
     printDeprecationMessages(flags: Array(flags.values))
     
     if 
-      let found = self.findAdequateInheritableRun(forPre: true),
-      let inheritablePreRun = found as? ConditionalRun,
+      let inheritablePreRun = self.findAdequateInheritableRun(forPre: true),
       inheritablePreRun(flags, args) == false 
     { return } 
     
@@ -30,7 +29,7 @@ extension CommandType {
       postRun(flags, args) == false
     { return } 
     
-    (self.findAdequateInheritableRun(forPre: false) as? Run)?(flags, args)
+    _ = self.findAdequateInheritableRun(forPre: false)?(flags, args)
   }
   
   public func execute() {
@@ -50,15 +49,15 @@ extension CommandType {
 
 
 extension CommandType {
-  func findAdequateInheritableRun(forPre: Bool) -> Any?  {
+  func findAdequateInheritableRun(forPre: Bool) -> ConditionalRun?  {
     
     var cmd: CommandType? = self
     
     while true {
-      var toFind: Any?
+      let toFind = forPre ? cmd?.inheritablePreRun : cmd?.inheritablePostRun
       
-      toFind = forPre ? cmd?.inheritablePreRun : cmd?.inheritablePostRun
       if let toFind = toFind { return toFind }
+      
       cmd = cmd?.parent
       if cmd == nil { return nil }
     }
