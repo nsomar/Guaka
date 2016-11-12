@@ -11,8 +11,7 @@ public typealias Configuration = (Command) -> ()
 
 
 public class Command: CommandType {
-  public var parent: CommandType?
-
+  
   public let name: String
   public var flags: [Flag]
   public var commands: [CommandType] = []
