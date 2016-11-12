@@ -44,11 +44,16 @@ extension CommandType {
   }
 
   var usageSection: [String] {
-    return [
+    var usage = [
       "Usage:",
-      "  \(name) [flags]",
-      "  \(name) [command]"
+      "  \(name) [flags]"
     ]
+
+    if commands.count > 0 {
+      usage.append("  \(name) [command]")
+    }
+    
+    return usage
   }
 
   var aliasesSection: [String] {

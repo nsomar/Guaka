@@ -19,7 +19,7 @@ class HelpTests: XCTestCase {
 
   func testItCanGenerateTheUsageMessage() {
     XCTAssertEqual(git.usageSection, ["Usage:", "  git [flags]", "  git [command]"])
-    XCTAssertEqual(show.usageSection, ["Usage:", "  show [flags]", "  show [command]"])
+    XCTAssertEqual(show.usageSection, ["Usage:", "  show [flags]"])
   }
 
   func testItCanGenerateTheCommandsSectionWithoutUsages() {
@@ -72,10 +72,10 @@ class HelpTests: XCTestCase {
 
     show.shortUsage = "Show short usage"
     XCTAssertEqual(show.helpMessage,
-                   "Show short usage\n\nUsage:\n  show [flags]\n  show [command]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy bool     (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n      --remote bool   (default true)\n  -v, --verbose bool  (default false)\n\nUse \"show [command] --help\" for more information about a command.")
+                   "Show short usage\n\nUsage:\n  show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy bool     (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n      --remote bool   (default true)\n  -v, --verbose bool  (default false)\n\nUse \"show [command] --help\" for more information about a command.")
 
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  rebase [flags]\n  rebase [command]\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  rebase [flags]\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
 
   func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
@@ -112,12 +112,12 @@ class HelpTests: XCTestCase {
   func testIfAllFlagsAreDeprecatedItDoesNotShowFlags() {
     rebase.flags[0].deprecatedStatus = .deprecated("Dont use this")
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  rebase [flags]\n  rebase [command]\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  rebase [flags]\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
 
   func testItPrintsTheExample() {
     rebase.example = "run git rebase blabla"
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  rebase [flags]\n  rebase [command]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  rebase [flags]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar bool  (default false)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"rebase [command] --help\" for more information about a command.")
   }
 }

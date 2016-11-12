@@ -82,6 +82,25 @@ public struct Flag: Hashable {
     self.required = required
   }
 
+  /// Creats a switch flag
+  ///
+  /// - parameter longName:    Flag long name
+  /// - parameter shortName:   Flag short name
+  /// - parameter required:    Flag requirement status
+  /// - parameter inheritable: Flag inheritable status
+  /// - parameter description: Flag description to be shown when displaying command help
+  public static func createSwitch(longName: String,
+              shortName: String? = nil,
+              inheritable: Bool = false,
+              description: String = "") -> Flag {
+
+    return Flag(longName: longName,
+                shortName: shortName,
+                value: false,
+                inheritable: inheritable,
+                description: description)
+  }
+
   public var hashValue: Int {
     return longName.hashValue
   }
