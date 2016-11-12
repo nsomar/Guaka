@@ -42,7 +42,7 @@ var show: DummyCommand!
 var rebase: DummyCommand!
 
 var commandExecuted: DummyCommand? = nil
-var executed: ([String: Flag], [String])? = nil
+var executed: (Flags, [String])? = nil
 
 func setupTestSamples() {
   commandExecuted = nil

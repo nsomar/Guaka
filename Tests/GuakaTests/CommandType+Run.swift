@@ -80,7 +80,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipre1"])
   }
 
@@ -92,7 +92,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipre2"])
   }
 
@@ -104,7 +104,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePreRun = { _ in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipre3"])
   }
 
@@ -125,7 +125,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePostRun = { _ in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipost1"])
   }
 
@@ -137,7 +137,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePostRun = { _ in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipost2"])
   }
 
@@ -149,7 +149,7 @@ class CommandTypeRunTests: XCTestCase {
     git.inheritablePostRun = { _ in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
-    _ = f?([:], [])
+    _ = f?(Flags(flags: [:]), [])
     XCTAssertEqual(events, ["ipost3"])
   }
 

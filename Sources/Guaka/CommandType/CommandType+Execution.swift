@@ -9,8 +9,8 @@
 // MARK: Execution
 extension CommandType {
 
-  public func execute(flags: [String: Flag], args: [String]) {
-    printDeprecationMessages(flags: Array(flags.values))
+  public func execute(flags: Flags, args: [String]) {
+    printDeprecationMessages(flags: Array(flags.flags))
 
     // FIXME: Refactor and simplify
     if

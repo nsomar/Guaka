@@ -19,7 +19,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
     XCTAssertEqual(executed?.0["yy"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
@@ -34,7 +34,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy aaaa bbbb cccc"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
 
     XCTAssertEqual((executed?.1)!, ["aaaa", "bbbb", "cccc"])
   }
@@ -43,7 +43,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
     XCTAssertEqual(executed?.0["xx"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)

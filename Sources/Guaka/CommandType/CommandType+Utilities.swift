@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 // MARK: Flags
 extension CommandType {
 
@@ -70,21 +68,6 @@ extension CommandType {
     var mut = acc
     mut.append(cmd.name)
     return getPath(cmd: cmd.parent, acc: mut)
-  }
-
-}
-
-
-// MARK: Equality
-extension CommandType {
-
-  // FIXME make sure we test for command childern too
-  func equals(other: Any) -> Bool {
-    guard let other = other as? CommandType else { return false }
-
-    return self.name == other.name &&
-      self.flags == other.flags &&
-      self.commands.count == other.commands.count
   }
 
 }
