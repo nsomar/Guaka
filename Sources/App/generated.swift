@@ -1,15 +1,16 @@
 //
-//  remote.swift
+//  generated.swift
 //  Guaka
 //
-//  Created by Omar Abdelhafith on 05/11/2016.
+//  Created by Omar Abdelhafith on 12/11/2016.
 //
 //
 
 import Guaka
 
-var addCommand = Command(
-  name: "add", parent: rootCommand, configuration: configuration, run: execute)
+var generatedCommand = Command(
+  name: "generated", parent: rootCommand, configuration: configuration, run: execute)
+
 
 private func configuration(command: Command) {
   

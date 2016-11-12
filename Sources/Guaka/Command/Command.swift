@@ -7,9 +7,12 @@
 //
 
 
-public class Command: CommandType {
+public typealias Configuration = (Command) -> ()
 
+
+public class Command: CommandType {
   public var parent: CommandType?
+
   public let name: String
   public var flags: [Flag]
   public var commands: [CommandType] = []
@@ -27,6 +30,17 @@ public class Command: CommandType {
 
   public var example: String?
 
+  public var parent: CommandType? {
+    didSet {
+      if 
+        let currentParent = self.parent as? Command,
+        let newParent = parent as? Command,
+        newParent !== currentParent  {
+        newParent.add(subCommand: self)
+      }
+    }
+  }
+
   public var deprecationStatus = DeprecationStatus.notDeprecated
 
   public init(name: String,
@@ -34,6 +48,7 @@ public class Command: CommandType {
               longUsage: String? = nil,
               parent: Command? = nil,
               flags: [Flag] = [],
+              configuration: Configuration? = nil,
               run: Run? = nil) {
     self.name = name
     self.flags = flags
@@ -45,6 +60,8 @@ public class Command: CommandType {
       self.parent = parent
       parent.add(subCommand: self)
     }
+    
+    configuration?(self)
   }
 
   public subscript(withName name: String) -> CommandType? {
