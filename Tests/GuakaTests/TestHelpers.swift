@@ -16,7 +16,7 @@ class DummyCommand: Command {
 
   public init(name: String, flags: [Flag],
               parent: Command? = nil, run: Run? = nil) throws {
-    super.init(name: name, shortUsage: nil, longUsage: nil, flags: flags, run: run)
+    super.init(usage: name, shortMessage: nil, longMessage: nil, flags: flags, run: run)
   }
 
   func execute(flags: [String : Flag], args: [String]) {

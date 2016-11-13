@@ -15,7 +15,11 @@
 
 public class Command: CommandType {
 
-  public let name: String
+  public var name: String {
+    return Command.name(forUsage: usage)
+  }
+
+  public var usage: String
 
   public var commands: [CommandType] = []
 
@@ -27,8 +31,8 @@ public class Command: CommandType {
 
   public var aliases: [String] = []
 
-  public var shortUsage: String?
-  public var longUsage: String?
+  public var shortMessage: String?
+  public var longMessage: String?
 
   public var example: String?
 
@@ -49,9 +53,9 @@ public class Command: CommandType {
 
   /// Initialize a command
   ///
-  /// - parameter name:              Command name
-  /// - parameter shortUsage:        Short usage string
-  /// - parameter longUsage:         Long usage string
+  /// - parameter usage:             Command usage oneliner
+  /// - parameter shortMessage:      Short usage string
+  /// - parameter longMessage:       Long usage string
   /// - parameter example:           Example show when printing the help message
   /// - parameter parent:            The command parent
   /// - parameter aliases:           List of command aliases
@@ -59,9 +63,9 @@ public class Command: CommandType {
   /// - parameter flags:             Command list of flags
   /// - parameter configuration:     Confuguration block to configure the command
   /// - parameter run:               Callback called when the command is executed
-  public init(name: String,
-              shortUsage: String? = nil,
-              longUsage: String? = nil,
+  public init(usage: String,
+              shortMessage: String? = nil,
+              longMessage: String? = nil,
               example: String? = nil,
               parent: Command? = nil,
               aliases: [String] = [],
@@ -69,10 +73,10 @@ public class Command: CommandType {
               flags: [Flag] = [],
               configuration: Configuration? = nil,
               run: Run? = nil) {
-    self.name = name
+    self.usage = usage
 
-    self.shortUsage = shortUsage
-    self.longUsage = longUsage
+    self.shortMessage = shortMessage
+    self.longMessage = longMessage
 
     self.example = example
     self.deprecationStatus = deprecationStatus

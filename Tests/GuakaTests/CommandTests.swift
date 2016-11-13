@@ -50,5 +50,10 @@ class CommandTests: XCTestCase {
     git.removeFlag { $0.longName == "verbose" }
     XCTAssertEqual(git.flags.count, 3)
   }
+
+  func testItGetsNameForUsage() {
+    XCTAssertEqual(Command.name(forUsage: "git"), "git")
+    XCTAssertEqual(Command.name(forUsage: "show this and that"), "show")
+  }
   
 }
