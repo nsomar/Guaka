@@ -45,13 +45,15 @@ extension CommandType {
   var usageSection: [String] {
     let flagsString = flagSet.flags.count == 0 ? "" : " [flags]"
 
+    let usageParents = path.count == 1 ? "" : path.dropLast().joined(separator: " ") + " "
+
     var usageString = [
       "Usage:",
-      "  \(usage)\(flagsString)"
+      "  \(usageParents)\(usage)\(flagsString)"
     ]
 
     if commands.count > 0 {
-      usageString.append("  \(name) [command]")
+      usageString.append("  \(usageParents)\(name) [command]")
     }
     
     return usageString
