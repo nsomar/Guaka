@@ -38,22 +38,25 @@ extension CommandType {
       exampleSection.joined(separator: "\n"),
       avialbleCommandsSection.joined(separator: "\n"),
       flagsSection.joined(separator: "\n"),
-      "\n",
       helpSection
       ].joined()
   }
 
   var usageSection: [String] {
-    var usage = [
+    let flagsString = flagSet.flags.count == 0 ? "" : " [flags]"
+
+    let usageParents = path.count == 1 ? "" : path.dropLast().joined(separator: " ") + " "
+
+    var usageString = [
       "Usage:",
-      "  \(name) [flags]"
+      "  \(usageParents)\(usage)\(flagsString)"
     ]
 
     if commands.count > 0 {
-      usage.append("  \(name) [command]")
+      usageString.append("  \(usageParents)\(name) [command]")
     }
     
-    return usage
+    return usageString
   }
 
   var aliasesSection: [String] {
@@ -85,7 +88,7 @@ extension CommandType {
     let sortedCommands = availableCommands.sorted { $0.0.name < $0.1.name }
 
     return sortedCommands.reduce(["Available Commands:"]) { acc, command in
-      return acc + ["  \(command.name)    \(command.shortUsage ?? "")"]
+      return acc + ["  \(command.name)    \(command.shortMessage ?? "")"]
     } + ["\n"]
   }
 
@@ -112,7 +115,7 @@ extension CommandType {
       ret.append("")
     }
 
-    return ret
+    return ret + [""]
   }
 
   var deprecationMessageSection: [String]? {
@@ -123,7 +126,7 @@ extension CommandType {
   }
 
   var commandDescriptionSection: [String] {
-    guard let desc = longUsage ?? shortUsage else { return [] }
+    guard let desc = longMessage ?? shortMessage else { return [] }
     return [desc, "\n\n"]
   }
 

@@ -35,16 +35,19 @@ public typealias Configuration = (Command) -> ()
 
 public protocol CommandType {
 
-  /// The command name
+  /// The command uasage oneliner
+  var usage: String { get }
+
+  /// The command name, this is the first string in the usage
   var name: String { get }
 
   /// The short usages string
   /// This string will be visible when the help of the command is executed
-  var shortUsage: String? { get }
+  var shortMessage: String? { get }
 
   /// The long usages string
   /// This string will be visible when the help of the command is executed
-  var longUsage: String? { get }
+  var longMessage: String? { get }
 
   /// The example section of the command
   /// This will be visible when displaying the command help
