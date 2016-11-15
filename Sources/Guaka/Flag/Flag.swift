@@ -6,21 +6,44 @@
 //
 //
 
+
+/// Flag struct
 public struct Flag: Hashable {
 
+  /// Flag long name
   public let longName: String
+
+  /// Flag short name
   public let shortName: String?
+
+  /// Set the flag to be inheritable
+  /// An inheritable flag is valid for a command and all its subcommands
   public let inheritable: Bool
+
+  /// The flag description
   public let description: String
 
+  /// Flag value type
   public let type: CommandStringConvertible.Type
+
+  /// Set the flag to be required
+  // A required flag must be set in order for commands to be executed
   public let required: Bool
 
+  /// Flag value
   public var value: CommandStringConvertible?
-  public var didSet: Bool = false
 
+  /// Flag deprecation status
   public var deprecatedStatus = DeprecationStatus.notDeprecated
 
+
+  /// Creats a new flag
+  ///
+  /// - parameter longName:    Flag long name
+  /// - parameter shortName:   Flag short name
+  /// - parameter value:       Flag default value
+  /// - parameter inheritable: Flag inheritable status
+  /// - parameter description: Flag description to be shown when displaying command help
   public init(longName: String,
               shortName: String? = nil,
               value: CommandStringConvertible,
@@ -36,10 +59,18 @@ public struct Flag: Hashable {
     self.required = true
   }
 
+  /// Creats a new flag
+  ///
+  /// - parameter longName:    Flag long name
+  /// - parameter shortName:   Flag short name
+  /// - parameter type:        Flag value type
+  /// - parameter required:    Flag requirement status
+  /// - parameter inheritable: Flag inheritable status
+  /// - parameter description: Flag description to be shown when displaying command help
   public init(longName: String,
+              shortName: String? = nil,
               type: CommandStringConvertible.Type,
               required: Bool = false,
-              shortName: String? = nil,
               inheritable: Bool = false,
               description: String = "") {
 
@@ -51,72 +82,36 @@ public struct Flag: Hashable {
     self.required = required
   }
 
+  /// Creats a switch flag
+  ///
+  /// - parameter longName:    Flag long name
+  /// - parameter shortName:   Flag short name
+  /// - parameter required:    Flag requirement status
+  /// - parameter inheritable: Flag inheritable status
+  /// - parameter description: Flag description to be shown when displaying command help
+  public static func createSwitch(longName: String,
+              shortName: String? = nil,
+              inheritable: Bool = false,
+              description: String = "") -> Flag {
 
-  var isBool: Bool {
-    return value is Bool
+    return Flag(longName: longName,
+                shortName: shortName,
+                value: false,
+                inheritable: inheritable,
+                description: description)
   }
 
   public var hashValue: Int {
     return longName.hashValue
   }
+
+  var isBool: Bool {
+    return value is Bool
+  }
+
+  var didSet: Bool = false
 }
 
 public func ==(left: Flag, right: Flag) -> Bool {
   return left.hashValue == right.hashValue
-}
-
-extension Flag {
-
-  func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
-
-    do {
-      let v = try self.type.fromString(flagValue: value)
-      return v as! CommandStringConvertible
-    } catch let e as CommandConvertibleError {
-      throw CommandErrors.incorrectFlagValue(self.longName, e.error)
-    }
-
-  }
-
-}
-
-
-extension Flag {
-
-  var flagPrintableName: String {
-    var nameParts: [String] = []
-
-    nameParts.append("  ")
-    if let shortName = shortName {
-      nameParts.append("-\(shortName), ")
-    } else {
-      nameParts.append("    ")
-    }
-
-    nameParts.append("--\(longName)")
-    nameParts.append(" \(self.type.typeDescription)")
-
-    return nameParts.joined()
-  }
-
-  var flagPrintableDescription: String {
-    if description.characters.count == 0 {
-      return self.flagValueDescription
-    }
-
-    return "\(description) \(flagValueDescription)"
-  }
-
-  var flagValueDescription: String {
-    if let value = value {
-      return "(default \(value))"
-    }
-
-    if required {
-      return "(required)"
-    }
-
-    return ""
-  }
-
 }

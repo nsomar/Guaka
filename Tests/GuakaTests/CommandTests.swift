@@ -21,6 +21,12 @@ class CommandTests: XCTestCase {
     XCTAssertEqual(git.commands.count, 3)
   }
 
+  func testItCanAddCommandsThroughParent() {
+    XCTAssertEqual(git.commands.count, 2)
+    show.parent = git
+    XCTAssertEqual(git.commands.count, 3)
+  }
+
   func testItCanRemoveACommands() {
     XCTAssertEqual(git.commands.count, 2)
     git.removeCommand { $0.name == "remote" }
@@ -45,4 +51,9 @@ class CommandTests: XCTestCase {
     XCTAssertEqual(git.flags.count, 3)
   }
 
+  func testItGetsNameForUsage() {
+    XCTAssertEqual(Command.name(forUsage: "git"), "git")
+    XCTAssertEqual(Command.name(forUsage: "show this and that"), "show")
+  }
+  
 }

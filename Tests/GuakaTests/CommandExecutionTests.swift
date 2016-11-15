@@ -19,7 +19,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
     XCTAssertEqual(executed?.0["yy"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
@@ -34,7 +34,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy aaaa bbbb cccc"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
 
     XCTAssertEqual((executed?.1)!, ["aaaa", "bbbb", "cccc"])
   }
@@ -43,7 +43,7 @@ class CommandExecutionTests: XCTestCase {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123"))
 
-    XCTAssertEqual(executed?.0.count, 6)
+    XCTAssertEqual(executed?.0.flags.count, 6)
     XCTAssertEqual(executed?.0["xx"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
     XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
@@ -57,13 +57,13 @@ class CommandExecutionTests: XCTestCase {
   func testItCatchesExceptionsInExecution() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 --www 123"))
-    XCTAssertEqual(git.printed, "Error: unknown shorthand flag: \'www\'\nUsage:\n  remote [flags]\n  remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.\n\nunknown shorthand flag: \'www\'\nexit status 255")
+    XCTAssertEqual(git.printed, "Error: unknown shorthand flag: \'www\'\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.\n\nunknown shorthand flag: \'www\'\nexit status 255")
   }
 
   func testItCatchesTheHelp() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))
-    XCTAssertEqual(git.printed, "Usage:\n  remote [flags]\n  remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.")
+    XCTAssertEqual(git.printed, "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string   (default -)\n      --foo string   (default -)\n      --remote bool  (default true)\n      --xx bool      (default true)\n\nGlobal Flags:\n  -d, --debug bool    (default true)\n  -v, --verbose bool  (default false)\n\nUse \"remote [command] --help\" for more information about a command.")
   }
 
   func testItCatchesTheCorrectAlias() {

@@ -127,4 +127,13 @@ class CommandParsingTests: XCTestCase {
     XCTAssertEqual(args, ["--yy"])
   }
 
+  func testItCanGetACommandEvenIfUsageIsLong() {
+    show.usage = "show bla bla"
+    let (command, args) = actualCommand(forCommand: git,
+                                        args: ["remote", "show", "--yy"])
+
+    XCTAssertEqual(command.name, "show")
+    XCTAssertEqual(args, ["--yy"])
+  }
+
 }
