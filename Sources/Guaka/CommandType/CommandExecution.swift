@@ -6,7 +6,7 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
   let (command, args) = actualCommand(forCommand: rootCommand, args: args)
   let flagSet = command.flagSet
 
-  let flagSetWithHelp = flagSet.flagSetAppeningHelp()
+  let flagSetWithHelp = flagSet.flagSetAppendingHelp()
 
   do {
     let (optionFlags, positionalArguments) = try flagSetWithHelp.parse(args: args)

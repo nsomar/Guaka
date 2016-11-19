@@ -52,6 +52,8 @@ extension Flag {
   }
 
   var flagValueDescription: String {
+    if isBool { return "" }
+    
     if let value = value {
       return "(default \(value))"
     }

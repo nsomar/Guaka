@@ -143,7 +143,7 @@ class FlagSetTests: XCTestCase {
         Flag(longName: "bla", value: 1),
         Flag(longName: "test", value: "")
       ]
-    ).flagSetAppeningHelp()
+    ).flagSetAppendingHelp()
 
     XCTAssertNotNil(fs.flags["h"])
     XCTAssertNotNil(fs.flags["help"])
