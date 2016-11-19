@@ -74,56 +74,12 @@ extension FlagSet {
 
 extension FlagSet {
 
-  func globalFlagsDescription(withLocalFlags flags: [Flag]) -> String {
+  func globalFlags(withLocalFlags flags: [Flag]) -> [Flag] {
     let allFlags = Set(self.flags.values)
     let localFlags = Set(flags)
-    let globalFlags = Array(allFlags.subtracting(localFlags))
-
-    return description(forFlags: globalFlags)
+    return Array(allFlags.subtracting(localFlags))
   }
-
-  func localFlagDescription(withLocalFlags flags: [Flag]) -> String {
-    return description(forFlags: flags)
-  }
-
-  private func description(forFlags flags: [Flag]) -> String {
-
-    let sorted = sortedFlags(flags: flags)
-    if sorted.count == 0 { return "" }
-
-    let longestName = longestFlagName(flags: sorted)
-
-    let names = paddedNames(forFlags: sorted, length: longestName)
-    let descriptions = sorted.map { $0.flagPrintableDescription }
-
-    return zip(names, descriptions).map { $0 + $1 }.joined(separator: "\n")
-  }
-
-  private func sortedFlags(flags: [Flag]) -> [Flag] {
-    return Set(flags).filter{ !$0.isDeprecated }.sorted{ f1, f2 in
-      f1.longName < f2.longName
-    }
-  }
-
-  private func longestFlagName(flags: [Flag]) -> Int {
-    let longestFlagName =
-      flags.map { $0.flagPrintableName }
-        .sorted { s1, s2 in return s1.characters.count < s2.characters.count}
-        .last!.characters.count
-    return longestFlagName
-  }
-
-  private func paddedNames(forFlags flags: [Flag], length: Int) -> [String] {
-    let names =
-      flags.map { flag -> String in
-        let diff = length - flag.flagPrintableName.characters.count
-        let addition = String(repeating: " ", count: diff)
-        return "\(flag.flagPrintableName)\(addition)  "
-    }
-
-    return names
-  }
-
+  
 }
 
 
@@ -146,12 +102,12 @@ extension FlagSet {
 extension Flag {
 
   var isDeprecated: Bool {
-    if case .deprecated = deprecatedStatus { return true}
+    if case .deprecated = deprecationStatus { return true}
     return false
   }
 
   var deprecationMessage: String {
-    if case let .deprecated(message) = deprecatedStatus {
+    if case let .deprecated(message) = deprecationStatus {
       return "Flag --\(longName) has been deprecated, \(message)"
     }
     return ""

@@ -20,6 +20,16 @@
 public enum DeprecationStatus {
   case notDeprecated
   case deprecated(String)
+
+  public var isDeprecated: Bool {
+    if case .notDeprecated = self { return false }
+    return true
+  }
+
+  public var deprecationMessage: String? {
+    if case .deprecated(let message) = self { return message }
+    return nil
+  }
 }
 
 /// Run block, called when the command is executed
@@ -99,11 +109,6 @@ public protocol CommandType {
 
   /// The console help message for the command
   var helpMessage: String { get }
-
-  /// Execute this command
-  ///
-  /// - parameter commandLineArgs: the command line arguments received in the app
-  func execute(commandLineArgs: [String])
 
 
   /// The actual command that will be executed

@@ -34,7 +34,7 @@ public struct Flag: Hashable {
   public var value: CommandStringConvertible?
 
   /// Flag deprecation status
-  public var deprecatedStatus = DeprecationStatus.notDeprecated
+  public var deprecationStatus = DeprecationStatus.notDeprecated
 
 
   /// Creats a new flag
@@ -80,25 +80,6 @@ public struct Flag: Hashable {
     self.inheritable = inheritable
     self.description = description
     self.required = required
-  }
-
-  /// Creats a switch flag
-  ///
-  /// - parameter longName:    Flag long name
-  /// - parameter shortName:   Flag short name
-  /// - parameter required:    Flag requirement status
-  /// - parameter inheritable: Flag inheritable status
-  /// - parameter description: Flag description to be shown when displaying command help
-  public static func createSwitch(longName: String,
-              shortName: String? = nil,
-              inheritable: Bool = false,
-              description: String = "") -> Flag {
-
-    return Flag(longName: longName,
-                shortName: shortName,
-                value: false,
-                inheritable: inheritable,
-                description: description)
   }
 
   public var hashValue: Int {

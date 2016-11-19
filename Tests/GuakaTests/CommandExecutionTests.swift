@@ -96,14 +96,14 @@ class CommandExecutionTests: XCTestCase {
   }
 
   func testItPrintsThatFlagIsDeprecatedWhenExecutingCommand() {
-    remote.flags[0].deprecatedStatus = .deprecated("Dont use it")
+    remote.flags[0].deprecationStatus = .deprecated("Dont use it")
     git.execute(commandLineArgs: expand("git remote --foo 123"))
 
     XCTAssertEqual(remote.printed, "Flag --foo has been deprecated, Dont use it")
   }
 
   func testItItDoesNotPrintsFlagIfWeDidNotUseTheFlag() {
-    remote.flags[0].deprecatedStatus = .deprecated("Dont use it")
+    remote.flags[0].deprecationStatus = .deprecated("Dont use it")
     git.execute(commandLineArgs: expand("git remote --bar 1"))
 
     XCTAssertEqual(remote.printed, "")
@@ -111,7 +111,7 @@ class CommandExecutionTests: XCTestCase {
 
   func testItItPrintsBothFlagAndCommandAreDeprecated() {
     remote.deprecationStatus = .deprecated("Dont use it")
-    remote.flags[0].deprecatedStatus = .deprecated("Dont use it")
+    remote.flags[0].deprecationStatus = .deprecated("Dont use it")
     git.execute(commandLineArgs: expand("git remote --foo 1"))
 
     XCTAssertEqual(remote.printed, "Command \"remote\" is deprecated, Dont use it\nFlag --foo has been deprecated, Dont use it")

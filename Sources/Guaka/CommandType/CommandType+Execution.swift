@@ -9,7 +9,7 @@
 // MARK: Execution
 extension CommandType {
 
-  public func execute(flags: Flags, args: [String]) {
+  public func execute(flags: Flags, args: [String], config: GuakaConfig = GuakaConfig()) {
     printDeprecationMessages(flags: Array(flags.flags))
 
     // FIXME: Refactor and simplify
@@ -33,11 +33,11 @@ extension CommandType {
     _ = self.findAdequateInheritableRun(forPre: false)?(flags, args)
   }
 
-  public func execute() {
+  public func execute(config: GuakaConfig = GuakaConfig()) {
     execute(commandLineArgs: CommandLine.arguments)
   }
 
-  public func execute(commandLineArgs: [String]) {
+  public func execute(commandLineArgs: [String], config: GuakaConfig = GuakaConfig()) {
     let res = executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
     handleResult(res)
   }
@@ -91,8 +91,10 @@ extension CommandType {
   }
 
   fileprivate func printDeprecationMessages(flags: [Flag]) {
-    if let deprecationMessage = self.deprecationMessageSection {
-      printToConsole(deprecationMessage.joined())
+
+    if let deprecationMessage =
+      DefaultHelpGenerator(command: self).deprecationSection {
+      printToConsole(deprecationMessage)
     }
 
     for flag in flags where flag.didSet && flag.isDeprecated {
