@@ -10,11 +10,11 @@
 extension CommandType {
 
   public var helpMessage: String {
-    return DefaultHelpGenerator(command: self).helpMessage
+    return GuakaConfig.helpGenerator.init(command: self).helpMessage
   }
 
   public var innerHelpMessage: String {
-    return DefaultHelpGenerator(command: self).errorHelpMessage
+    return GuakaConfig.helpGenerator.init(command: self).errorHelpMessage
   }
 
 }

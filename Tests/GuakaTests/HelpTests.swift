@@ -154,6 +154,24 @@ class HelpTests: XCTestCase {
                    "Usage:\n  git do this\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
+  func testCanReplaceTheHelpGeneratorForHelp() {
+
+    struct DummyGenerator: HelpGenerator {
+      let commandHelp: CommandHelp
+      var subCommandsSection: String? = "Usage is this"
+
+      init(commandHelp: CommandHelp) {
+        self.commandHelp = commandHelp
+      }
+    }
+
+    GuakaConfig.helpGenerator = DummyGenerator.self
+    git.usage = "git do this"
+    XCTAssertEqual(git.helpMessage,
+                   "Usage:\n  git do this [flags]\n  git [command]\n\nUsage is thisFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
+    GuakaConfig.helpGenerator = DefaultHelpGenerator.self
+  }
+
   func testNoFlagsNoCommands() {
     git.flags = []
     git.commands = []

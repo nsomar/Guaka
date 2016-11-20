@@ -9,7 +9,7 @@
 // MARK: Execution
 extension CommandType {
 
-  public func execute(flags: Flags, args: [String], config: GuakaConfig = GuakaConfig()) {
+  public func execute(flags: Flags, args: [String]) {
     printDeprecationMessages(flags: Array(flags.flags))
 
     // FIXME: Refactor and simplify
@@ -33,12 +33,13 @@ extension CommandType {
     _ = self.findAdequateInheritableRun(forPre: false)?(flags, args)
   }
 
-  public func execute(config: GuakaConfig = GuakaConfig()) {
+  public func execute() {
     execute(commandLineArgs: CommandLine.arguments)
   }
 
-  public func execute(commandLineArgs: [String], config: GuakaConfig = GuakaConfig()) {
-    let res = executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
+  public func execute(commandLineArgs: [String]) {
+    let res = executeCommand(rootCommand: self,
+                             args: Array(commandLineArgs.dropFirst()))
     handleResult(res)
   }
 
@@ -74,14 +75,15 @@ extension CommandType {
       // Do nothing
       break
     case let .error(error):
-      guard case let CommandErrors.commandGeneralError(command, error) = error else {
+      guard case let CommandError.commandGeneralError(command, error) = error else {
         return
       }
 
-      if let error = error as? CommandErrors {
-        printToConsole(error.errorMessage(forCommand: command))
+      let helpGenerator = GuakaConfig.helpGenerator.init(command: command)
+      if let error = error as? CommandError {
+        printToConsole(helpGenerator.errorString(forError: error))
       } else {
-        printToConsole(CommandErrors.generalError(forCommand: command))
+        printToConsole(helpGenerator.errorString(forError: .unknownError))
       }
       break
     case .message(let message):
@@ -93,7 +95,7 @@ extension CommandType {
   fileprivate func printDeprecationMessages(flags: [Flag]) {
 
     if let deprecationMessage =
-      DefaultHelpGenerator(command: self).deprecationSection {
+      GuakaConfig.helpGenerator.init(command: self).deprecationSection {
       printToConsole(deprecationMessage)
     }
 

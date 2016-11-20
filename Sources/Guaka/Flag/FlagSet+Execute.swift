@@ -22,7 +22,7 @@ extension FlagSet {
       if
         let pendingFlag = pendingFlag,
         token.isFlag {
-        throw CommandErrors.flagNeedsValue(pendingFlag.longName, token.flagName ?? "")
+        throw CommandError.flagNeedsValue(pendingFlag.longName, token.flagName ?? "")
       }
 
       switch token {
@@ -64,13 +64,13 @@ extension FlagSet {
         pendingFlag = pf
 
       case let .invalidFlag(string):
-        throw CommandErrors.wrongFlagPattern(string)
+        throw CommandError.wrongFlagPattern(string)
       }
 
     }
 
     if let pendingFlag = pendingFlag {
-      throw CommandErrors.flagNeedsValue(pendingFlag.longName, "No more flags")
+      throw CommandError.flagNeedsValue(pendingFlag.longName, "No more flags")
     }
 
     return (ret, remainigArgs)
@@ -123,7 +123,7 @@ extension FlagSet {
 
       try values.forEach { flag, value in
         guard var foundFlag = self.flags[flag.longName] else {
-          throw CommandErrors.unexpectedFlagPassed(flag.longName, "\(value)")
+          throw CommandError.unexpectedFlagPassed(flag.longName, "\(value)")
         }
 
         foundFlag.value = value
@@ -137,11 +137,11 @@ extension FlagSet {
   func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
     for flag in requiredFlags {
       guard let preparedFlag = preparedFlags[flag.longName] else {
-        return .error(CommandErrors.flagNotFound(flag.longName))
+        return .error(CommandError.flagNotFound(flag.longName))
       }
 
       if preparedFlag.value == nil {
-        return .error(CommandErrors.requiredFlagsWasNotSet(flag.longName, flag.type))
+        return .error(CommandError.requiredFlagsWasNotSet(flag.longName, flag.type))
       }
     }
 
@@ -150,7 +150,7 @@ extension FlagSet {
 
   private func getFlag(forName name: String) throws -> Flag {
     guard let flag = flags[name] else {
-      throw CommandErrors.flagNotFound(name)
+      throw CommandError.flagNotFound(name)
     }
 
     return flag

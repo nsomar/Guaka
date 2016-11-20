@@ -17,7 +17,7 @@ extension Flag {
       let v = try self.type.fromString(flagValue: value)
       return v as! CommandStringConvertible
     } catch let e as CommandConvertibleError {
-      throw CommandErrors.incorrectFlagValue(self.longName, e.error)
+      throw CommandError.incorrectFlagValue(self.longName, e.error)
     }
 
   }

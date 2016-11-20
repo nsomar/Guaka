@@ -7,5 +7,5 @@
 //
 
 public struct GuakaConfig {
-  public let helpGenerator: HelpGenerator.Type = DefaultHelpGenerator.self
+  public static var helpGenerator: HelpGenerator.Type = DefaultHelpGenerator.self
 }
