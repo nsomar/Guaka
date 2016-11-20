@@ -202,5 +202,13 @@ extension HelpGenerator {
   var informationSection: String? {
     return ["Use \"\(commandHelp.name) [command] --help\" for more information about a command."].joined(separator: "\n")
   }
-  
+
+  func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String? {
+    if let deprecationMessage = flag.deprecationMessage {
+      return "Flag --\(flag.longName) has been deprecated, \(deprecationMessage)"
+    }
+
+    return nil
+  }
+
 }

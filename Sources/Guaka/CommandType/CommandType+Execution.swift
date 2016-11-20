@@ -94,14 +94,16 @@ extension CommandType {
 
   fileprivate func printDeprecationMessages(flags: [Flag]) {
 
-    if let deprecationMessage =
-      GuakaConfig.helpGenerator.init(command: self).deprecationSection {
+    let helpGenerator = GuakaConfig.helpGenerator.init(command: self)
+
+    if let deprecationMessage = helpGenerator.deprecationSection {
       printToConsole(deprecationMessage)
     }
 
-    for flag in flags where flag.didSet && flag.isDeprecated {
-      printToConsole(flag.deprecationMessage)
-    }
+    flags.map { FlagHelp(flag: $0) }
+      .filter { $0.isDeprecated && $0.wasChanged }
+      .flatMap { helpGenerator.deprecationMessage(forDeprecatedFlag: $0) }
+      .forEach { printToConsole($0) }
   }
 
 }

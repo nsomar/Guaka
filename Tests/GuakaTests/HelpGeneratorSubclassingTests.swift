@@ -188,6 +188,27 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     XCTAssertEqual(h.errorHelpMessage.contains("ERROR"), true)
   }
 
+  func testCanOverrideFlagDeprecation() {
+    struct DummyHelp: HelpGenerator {
+      let commandHelp: CommandHelp
+
+      func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String? {
+        return "Flag is wrong \(flag.longName)"
+      }
+
+      init(commandHelp: CommandHelp) {
+        self.commandHelp = commandHelp
+      }
+    }
+
+    GuakaConfig.helpGenerator = DummyHelp.self
+    remote.flags[0].deprecationStatus = .deprecated("Dont use it")
+    git.execute(commandLineArgs: expand("git remote --foo 123"))
+
+    XCTAssertEqual(remote.printed, "Flag is wrong foo")
+    GuakaConfig.helpGenerator = DefaultHelpGenerator.self
+  }
+
   func testCanOverrideAllSection() {
 
     struct DummyHelp: HelpGenerator {

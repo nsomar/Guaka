@@ -25,8 +25,11 @@ public protocol HelpGenerator {
   var exampleSection: String? { get }
   var subCommandsSection: String? { get }
   var flagsSection: String? { get }
+  
   var commandDescriptionSection: String? { get }
   var informationSection: String? { get }
 
   func errorString(forError error: CommandError) -> String
+
+  func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String?
 }

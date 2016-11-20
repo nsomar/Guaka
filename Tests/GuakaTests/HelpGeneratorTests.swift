@@ -104,4 +104,12 @@ class HelpGeneratorTests: XCTestCase {
     XCTAssertEqual(h1.informationSection, ["Use \"show [command] --help\" for more information about a command."].joined(separator: "\n"))
   }
 
+  func testItGeneratesFlagDeprecationMessage() {
+    var f = Flag(longName: "abcd", value: 1)
+    f.deprecationStatus = .deprecated("deprecated")
+    let h1 = DefaultHelpGenerator(command: show)
+
+    XCTAssertEqual(h1.deprecationMessage(forDeprecatedFlag: FlagHelp(flag: f)) , "Flag --abcd has been deprecated, deprecated")
+  }
+
 }
