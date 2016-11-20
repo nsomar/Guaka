@@ -100,7 +100,8 @@ extension CommandType {
 
     var ret: [String] = []
 
-    let localFlagsDescription = fs.localDescription(withLocalFlags: flags)
+    let localFlagsDescription = fs.localFlagDescription(withLocalFlags: flags)
+
     if localFlagsDescription != "" {
       ret.append("Flags:")
       ret.append(localFlagsDescription)
@@ -108,7 +109,7 @@ extension CommandType {
     }
 
 
-    let globalFlagsDescription = fs.globalDescription(withLocalFlags: flags)
+    let globalFlagsDescription = fs.globalFlagsDescription(withLocalFlags: flags)
     if globalFlagsDescription != "" {
       ret.append("Global Flags:")
       ret.append(globalFlagsDescription)

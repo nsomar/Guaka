@@ -36,7 +36,7 @@ extension Bool: CommandStringConvertible {
     throw CommandConvertibleError.conversionError("cannot convert '\(value)' to '\(Bool.self)' ")
   }
 
-  public static var typeDescription: String { return "bool" }
+  public static var typeDescription: String { return "" }
 
 }
 
