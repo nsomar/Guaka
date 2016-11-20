@@ -57,6 +57,8 @@ enum FlagHelpGeneratorUtils {
   }
 
   static func flagValueDescription(flag: FlagHelp) -> String {
+    if flag.isBoolean { return "" }
+
     if let value = flag.value {
       return "(default \(value))"
     }

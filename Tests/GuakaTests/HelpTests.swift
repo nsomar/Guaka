@@ -78,7 +78,7 @@ class HelpTests: XCTestCase {
   func testItGenerateTheFlagsSection() {
     let hg = DefaultHelpGenerator(command: git)
     XCTAssertEqual(hg.flagsSection,
-                   "Flags:\n  -d, --debug     \n  -r, --root int      (default 1)\n  -t, --togge     \n  -v, --verbose   \n\n")
+                   "Flags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\n")
   }
 
   func testItGenerateTheFullHelp() {
@@ -168,7 +168,7 @@ class HelpTests: XCTestCase {
     GuakaConfig.helpGenerator = DummyGenerator.self
     git.usage = "git do this"
     XCTAssertEqual(git.helpMessage,
-                   "Usage:\n  git do this [flags]\n  git [command]\n\nUsage is thisFlags:\n  -d, --debug bool    (default true)\n  -r, --root int      (default 1)\n  -t, --togge bool    (default false)\n  -v, --verbose bool  (default false)\n\nUse \"git [command] --help\" for more information about a command.")
+                   "Usage:\n  git do this [flags]\n  git [command]\n\nUsage is thisFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
     GuakaConfig.helpGenerator = DefaultHelpGenerator.self
   }
 

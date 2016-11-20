@@ -55,7 +55,7 @@ class FlagTests: XCTestCase {
     let f2 = Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
 
     let s2 = FlagHelpGeneratorUtils.flagPrintableDescription(flag: FlagHelp(flag: f2))
-    XCTAssertEqual(s2, "Here is a desc (default true)")
+    XCTAssertEqual(s2, "Here is a desc ")
 
     let f3 = Flag(longName: "debug", shortName: "d", value: "hello")
 

@@ -45,7 +45,7 @@ class FlagHelpTests: XCTestCase {
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.value as! Bool, true)
-    XCTAssertEqual(fh.typeDescription, "bool")
+    XCTAssertEqual(fh.typeDescription, "")
   }
 
   func testItGeneratesNamesWithIntValue() {
