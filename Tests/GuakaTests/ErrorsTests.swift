@@ -56,6 +56,29 @@ class ErrorTests: XCTestCase {
     XCTAssertEqual(e, "Error: wrong flag value passed for flag: \'debug\' Error when converting x to int\nThis is the help\n\nwrong flag value passed for flag: \'debug\' Error when converting x to int\nexit status 255")
   }
 
+  func testItHelpInErrorCanBeReplacesCompletely() {
+
+    struct DummyGenerator: HelpGenerator {
+      let commandHelp: CommandHelp
+
+      func errorString(forError error: CommandError) -> String {
+        return "An Error \(error)"
+      }
+
+      init(commandHelp: CommandHelp) {
+        self.commandHelp = commandHelp
+      }
+    }
+
+    git.usage = "git do this"
+
+    let error = CommandError.incorrectFlagValue("debug", "Error when converting x to int")
+    let e = DummyGenerator.init(command: git)
+      .errorString(forError: error)
+
+    XCTAssertEqual(e, "An Error incorrectFlagValue(\"debug\", \"Error when converting x to int\")")
+  }
+
   func testItPrintsIncorrectFlagValueFoundErrorError() {
     let error = CommandError.incorrectFlagValue("debug", "error when converting x to bool")
     let e = DefaultHelpGenerator(command: git).errorMessage(forError: error)
