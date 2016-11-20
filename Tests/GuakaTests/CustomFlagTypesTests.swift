@@ -58,7 +58,7 @@ class CustomFlagTypesTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("--list cat"))
       XCTFail()
-    } catch CommandErrors.incorrectFlagValue(let x, let y) {
+    } catch CommandError.incorrectFlagValue(let x, let y) {
       XCTAssertEqual(x, "list")
       XCTAssertEqual(y, "cannot convert cat to list")
     } catch {
@@ -125,7 +125,7 @@ class CustomFlagTypesTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("--love blah"))
       XCTFail()
-    } catch CommandErrors.incorrectFlagValue(let x, let y) {
+    } catch CommandError.incorrectFlagValue(let x, let y) {
       XCTAssertEqual(x, "love")
       XCTAssertEqual(y, "Cannot create animal from blah")
     } catch {

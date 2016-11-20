@@ -38,7 +38,8 @@ extension CommandType {
   }
 
   public func execute(commandLineArgs: [String]) {
-    let res = executeCommand(rootCommand: self, args: Array(commandLineArgs.dropFirst()))
+    let res = executeCommand(rootCommand: self,
+                             args: Array(commandLineArgs.dropFirst()))
     handleResult(res)
   }
 
@@ -74,14 +75,15 @@ extension CommandType {
       // Do nothing
       break
     case let .error(error):
-      guard case let CommandErrors.commandGeneralError(command, error) = error else {
+      guard case let CommandError.commandGeneralError(command, error) = error else {
         return
       }
 
-      if let error = error as? CommandErrors {
-        printToConsole(error.errorMessage(forCommand: command))
+      let helpGenerator = GuakaConfig.helpGenerator.init(command: command)
+      if let error = error as? CommandError {
+        printToConsole(helpGenerator.errorString(forError: error))
       } else {
-        printToConsole(CommandErrors.generalError(forCommand: command))
+        printToConsole(helpGenerator.errorString(forError: .unknownError))
       }
       break
     case .message(let message):
@@ -91,13 +93,17 @@ extension CommandType {
   }
 
   fileprivate func printDeprecationMessages(flags: [Flag]) {
-    if let deprecationMessage = self.deprecationMessageSection {
-      printToConsole(deprecationMessage.joined())
+
+    let helpGenerator = GuakaConfig.helpGenerator.init(command: self)
+
+    if let deprecationMessage = helpGenerator.deprecationSection {
+      printToConsole(deprecationMessage)
     }
 
-    for flag in flags where flag.didSet && flag.isDeprecated {
-      printToConsole(flag.deprecationMessage)
-    }
+    flags.map { FlagHelp(flag: $0) }
+      .filter { $0.isDeprecated && $0.wasChanged }
+      .flatMap { helpGenerator.deprecationMessage(forDeprecatedFlag: $0) }
+      .forEach { printToConsole($0) }
   }
 
 }

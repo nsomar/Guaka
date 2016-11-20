@@ -17,52 +17,10 @@ extension Flag {
       let v = try self.type.fromString(flagValue: value)
       return v as! CommandStringConvertible
     } catch let e as CommandConvertibleError {
-      throw CommandErrors.incorrectFlagValue(self.longName, e.error)
+      throw CommandError.incorrectFlagValue(self.longName, e.error)
     }
 
   }
 
 }
 
-
-extension Flag {
-
-  var flagPrintableName: String {
-    var nameParts: [String] = []
-
-    nameParts.append("  ")
-    if let shortName = shortName {
-      nameParts.append("-\(shortName), ")
-    } else {
-      nameParts.append("    ")
-    }
-
-    nameParts.append("--\(longName)")
-    nameParts.append(" \(self.type.typeDescription)")
-
-    return nameParts.joined()
-  }
-
-  var flagPrintableDescription: String {
-    if description.characters.count == 0 {
-      return self.flagValueDescription
-    }
-
-    return "\(description) \(flagValueDescription)"
-  }
-
-  var flagValueDescription: String {
-    if isBool { return "" }
-    
-    if let value = value {
-      return "(default \(value))"
-    }
-
-    if required {
-      return "(required)"
-    }
-    
-    return ""
-  }
-  
-}

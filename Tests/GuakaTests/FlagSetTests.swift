@@ -128,7 +128,7 @@ class FlagSetTests: XCTestCase {
     do {
       _ = try fs.getPreparedFlags(withFlagValues: values)
       XCTFail()
-    } catch CommandErrors.unexpectedFlagPassed(let x, let y)  {
+    } catch CommandError.unexpectedFlagPassed(let x, let y)  {
       XCTAssertEqual(x, "test2")
       XCTAssertEqual(y, "Hello")
     } catch {
@@ -185,7 +185,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
     if case .error(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("bla", _) = e {
+      if case CommandError.requiredFlagsWasNotSet("bla", _) = e {
       } else {
         XCTFail()
       }
@@ -209,7 +209,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
     if case .error(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("bla", _) = e {
+      if case CommandError.requiredFlagsWasNotSet("bla", _) = e {
       } else {
         XCTFail()
       }
@@ -233,7 +233,7 @@ class FlagSetTests: XCTestCase {
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
     if case .error(let e) = res {
-      if case CommandErrors.requiredFlagsWasNotSet("xxx", _) = e {
+      if case CommandError.requiredFlagsWasNotSet("xxx", _) = e {
       } else {
         XCTFail()
       }

@@ -132,7 +132,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("---"))
       XCTFail()
-    } catch CommandErrors.wrongFlagPattern(let str) {
+    } catch CommandError.wrongFlagPattern(let str) {
       XCTAssertEqual(str, "---")
     } catch {
       XCTFail()
@@ -151,7 +151,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-b -d"))
       XCTFail()
-    } catch let CommandErrors.flagNeedsValue(name, val) {
+    } catch let CommandError.flagNeedsValue(name, val) {
       XCTAssertEqual(name, "bla")
       XCTAssertEqual(val, "d")
     } catch {
@@ -162,7 +162,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("--bla -d"))
       XCTFail()
-    } catch let CommandErrors.flagNeedsValue(name, val) {
+    } catch let CommandError.flagNeedsValue(name, val) {
       XCTAssertEqual(name, "bla")
       XCTAssertEqual(val, "d")
     } catch {
@@ -182,7 +182,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-d --bla"))
       XCTFail()
-    } catch let CommandErrors.flagNeedsValue(name, val) {
+    } catch let CommandError.flagNeedsValue(name, val) {
       XCTAssertEqual(name, "bla")
       XCTAssertEqual(val, "No more flags")
     } catch {
@@ -193,7 +193,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-d -b"))
       XCTFail()
-    } catch let CommandErrors.flagNeedsValue(name, val) {
+    } catch let CommandError.flagNeedsValue(name, val) {
       XCTAssertEqual(name, "bla")
       XCTAssertEqual(val, "No more flags")
     } catch {
@@ -260,7 +260,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-bxd"))
       XCTFail()
-    } catch let CommandErrors.flagNeedsValue(name, val) {
+    } catch let CommandError.flagNeedsValue(name, val) {
       XCTAssertEqual(name, "debug")
       XCTAssertEqual(val, "No more flags")
     } catch {
@@ -323,7 +323,7 @@ class ParsingTests: XCTestCase {
     do {
       _ = try fs.parse(args: expand("-bx1234s5"))
       XCTFail()
-    } catch let CommandErrors.incorrectFlagValue(name, error) {
+    } catch let CommandError.incorrectFlagValue(name, error) {
       XCTAssertEqual(name, "xxx")
       XCTAssertEqual(error, "cannot convert \'1234s5\' to \'Int\' ")
     } catch {

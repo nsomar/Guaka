@@ -28,7 +28,7 @@ func executeCommand(rootCommand: CommandType, args: [String]) -> Result {
 
     command.execute(flags: Flags(flags: preparedFlags), args: positionalArguments)
   } catch {
-    return .error(CommandErrors.commandGeneralError(command, error))
+    return .error(CommandError.commandGeneralError(command, error))
   }
 
   return .success

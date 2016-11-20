@@ -7,50 +7,19 @@
 //
 
 
-public enum CommandErrors: Error {
+public enum CommandError: Error {
 
   case wrongFlagPattern(String)
-  case commandAlreadyInserterd(CommandType)
+  case flagNeedsValue(String, String)
   case flagNotFound(String)
 
-  case flagNeedsValue(String, String)
   case requiredFlagsWasNotSet(String, Any.Type)
   case unexpectedFlagPassed(String, String)
   case commandGeneralError(CommandType, Error)
 
+  case unknownError
+
   case incorrectFlagValue(String, String)
-}
 
-extension CommandErrors {
-
-  var error: String {
-    switch self {
-    case let .flagNotFound(flag):
-      return "unknown shorthand flag: '\(flag)'"    case let .requiredFlagsWasNotSet(flag, type):
-      return "required flag was not set: '\(flag)' expected type: '\(type)'"
-    case let .incorrectFlagValue(flag, error):
-      return "wrong flag value passed for flag: '\(flag)' \(error)"
-    default:
-      return "Error: General error encountered"
-    }
-  }
-
-  func errorMessage(forCommand command: CommandType) -> String {
-    return [
-      "Error: \(error)",
-      command.innerHelpMessage,
-      "\n\(error)",
-      "exit status 255"
-    ].joined(separator: "\n")
-  }
-
-  static func generalError(forCommand command: CommandType) -> String {
-    return [
-      "Error: General error encountered",
-      command.innerHelpMessage,
-      "\nGeneral error encountered",
-      "exit status 255"
-      ].joined(separator: "\n")
-  }
-
+  case commandAlreadyInserterd(CommandType)
 }
