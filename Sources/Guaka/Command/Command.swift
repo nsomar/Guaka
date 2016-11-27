@@ -324,7 +324,7 @@ public class Command {
   ///
   /// - parameter statusCode: the status code to report
   /// - parameter errorMessage: additinal error message to print
-  public func fail(statusCode: Int, errorMessage: String? = nil) {
+  public func fail(statusCode: Int, errorMessage: String? = nil) -> Never {
     if let errorMessage = errorMessage {
       printToConsole(errorMessage)
     }
