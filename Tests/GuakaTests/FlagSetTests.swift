@@ -81,7 +81,7 @@ class FlagSetTests: XCTestCase {
       Flag(longName: "debug", value: true): false,
       Flag(longName: "bla", value: 1): 20,
       Flag(longName: "test", value: ""): "Hello"
-    ] as [Flag : CommandStringConvertible]
+    ] as [Flag : FlagValueStringConvertible]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -102,7 +102,7 @@ class FlagSetTests: XCTestCase {
     let values = [
       Flag(longName: "debug", value: true): false,
       Flag(longName: "test", value: ""): "Hello"
-      ] as [Flag : CommandStringConvertible]
+      ] as [Flag : FlagValueStringConvertible]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -123,7 +123,7 @@ class FlagSetTests: XCTestCase {
     let values = [
       Flag(longName: "debug", value: true): false,
       Flag(longName: "test2", value: ""): "Hello"
-      ] as [Flag : CommandStringConvertible]
+      ] as [Flag : FlagValueStringConvertible]
 
     do {
       _ = try fs.getPreparedFlags(withFlagValues: values)

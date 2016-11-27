@@ -8,6 +8,9 @@
 
 enum FlagHelpGeneratorUtils {
 
+  /// Generate a string message for the list of flag
+  ///
+  /// - parameter flags: flags to generate help for
   static func description(forFlags flags: [FlagHelp]) -> String {
 
     let notDeprecatedFlags = flags.filter{ $0.isDeprecated == false }
@@ -32,6 +35,7 @@ enum FlagHelpGeneratorUtils {
     return zip(names, descriptions).map { $0 + $1 }.joined(separator: "\n")
   }
 
+  /// Return the flag printable name
   static func flagPrintableName(flag: FlagHelp) -> String {
     var nameParts: [String] = []
 
@@ -48,6 +52,7 @@ enum FlagHelpGeneratorUtils {
     return nameParts.joined()
   }
 
+  /// Return the flag printable description
   static func flagPrintableDescription(flag: FlagHelp) -> String {
     if flag.description == "" {
       return flagValueDescription(flag: flag)

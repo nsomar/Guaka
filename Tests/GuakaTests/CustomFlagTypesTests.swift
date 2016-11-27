@@ -13,10 +13,10 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithACustomType() {
 
-    struct CustomType: CommandStringConvertible {
+    struct CustomType: FlagValueStringConvertible {
       let val: String
 
-      static func fromString(flagValue value: String) throws -> Any {
+      static func fromString(flagValue value: String) throws -> CustomType {
         return CustomType(val: value)
       }
 
@@ -39,11 +39,11 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithACustomTypeThatGeneratesAnError() {
 
-    struct CustomType: CommandStringConvertible {
+    struct CustomType: FlagValueStringConvertible {
       let val: String
 
-      static func fromString(flagValue value: String) throws -> Any {
-        throw CommandConvertibleError.conversionError("cannot convert \(value) to \(typeDescription)")
+      static func fromString(flagValue value: String) throws -> CustomType {
+        throw FlagValueConversationError.conversionError("cannot convert \(value) to \(typeDescription)")
       }
 
       static var typeDescription: String { return "list" }
@@ -68,14 +68,14 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithAnEnumWtihSuccess() {
 
-    enum Animals: String, CommandStringConvertible {
+    enum Animals: String, FlagValueStringConvertible {
       case dog = "dog"
       case cat = "cat"
       case donkey = "donkey"
 
-      static func fromString(flagValue value: String) throws -> Any {
+      static func fromString(flagValue value: String) throws -> Animals {
         guard let animal = Animals(rawValue: value) else {
-          throw CommandConvertibleError.conversionError("Cannot create animal from \(value)")
+          throw FlagValueConversationError.conversionError("Cannot create animal from \(value)")
         }
         return animal
       }
@@ -100,14 +100,14 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithAnEnumWtihError() {
 
-    enum Animals: String, CommandStringConvertible {
+    enum Animals: String, FlagValueStringConvertible {
       case dog = "dog"
       case cat = "cat"
       case donkey = "donkey"
 
-      static func fromString(flagValue value: String) throws -> Any {
+      static func fromString(flagValue value: String) throws -> Animals {
         guard let animal = Animals(rawValue: value) else {
-          throw CommandConvertibleError.conversionError("Cannot create animal from \(value)")
+          throw FlagValueConversationError.conversionError("Cannot create animal from \(value)")
         }
         return animal
       }

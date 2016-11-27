@@ -6,6 +6,21 @@
 //
 //
 
+
+/// Flags represent an abstraction on a list of flags
+/// It provides method to get the flags by name
+/// And functions to get int, string, bool and custom types
+///
+/// ------
+/// Example
+///
+/// ```
+/// // flags: Flags
+/// flags.getInt(name: "verbose") // return integer value of flag verbose if possible
+/// flags.getBool(name: "verbose") // return boolean value of flag verbose if possible
+/// flags.getString(name: "user") // return string value of flag user if possible
+/// flags.get(name: "debug", type: YourType.self) // get the value of debug if it is of YourType
+/// ```
 public struct Flags {
 
   let flagsDict: [String: Flag]
@@ -78,7 +93,7 @@ public struct Flags {
   /// - parameter type: the type of the flag
   ///
   /// - returns: the value if the flag is found
-  public func get<T: CommandStringConvertible>(name: String, type: T.Type) -> T? {
+  public func get<T: FlagValueStringConvertible>(name: String, type: T.Type) -> T? {
     return flagsDict[name]?.value as? T
   }
 

@@ -57,13 +57,13 @@ class CommandExecutionTests: XCTestCase {
   func testItCatchesExceptionsInExecution() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 --www 123"))
-    XCTAssertEqual(git.printed, "Error: unknown shorthand flag: \'www\'\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.\n\nunknown shorthand flag: \'www\'\nexit status 255")
+    XCTAssertEqual(git.printed, "Error: unknown shorthand flag: \'www\'\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.\n\nunknown shorthand flag: \'www\'\nexit status 255")
   }
 
   func testItCatchesTheHelp() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))
-    XCTAssertEqual(git.printed, "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.")
+    XCTAssertEqual(git.printed, "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
   func testItCatchesTheHelpThatIsOverriden() {
@@ -81,21 +81,21 @@ class CommandExecutionTests: XCTestCase {
 
     //git.execute
     git.execute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))
-    XCTAssertEqual(git.printed, "Usage is thisAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.")
+    XCTAssertEqual(git.printed, "Usage is thisAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
 
     GuakaConfig.helpGenerator = DefaultHelpGenerator.self
   }
 
   func testItCatchesTheCorrectAlias() {
     remote.aliases = ["rem1", "rem2"]
-    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem1"))
+    let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem1"))
     XCTAssertEqual(cmd.name, remote.name)
   }
 
   func testItCatchesTheCorrectAlias2() {
     remote.aliases = ["rem1", "rem2"]
     show.aliases = ["s1", "s2"]
-    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem2 s1"))
+    let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem2 s1"))
     XCTAssertEqual(cmd.name, show.name)
   }
 

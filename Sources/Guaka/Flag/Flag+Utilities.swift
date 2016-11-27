@@ -11,15 +11,14 @@ import Foundation
 
 extension Flag {
 
-  func convertValueToInnerType(value: String) throws -> CommandStringConvertible {
-
+  /// Converts the value from string to the internal flag value type
+  /// Throws exception if cannot convert
+  func convertValueToInnerType(value: String) throws -> FlagValueStringConvertible {
     do {
-      let v = try self.type.fromString(flagValue: value)
-      return v as! CommandStringConvertible
-    } catch let e as CommandConvertibleError {
+      return try self.type.fromString(flagValue: value)
+    } catch let e as FlagValueConversationError {
       throw CommandError.incorrectFlagValue(self.longName, e.error)
     }
-
   }
 
 }
