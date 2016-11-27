@@ -201,7 +201,7 @@ extension HelpGenerator {
   }
 
   var informationSection: String? {
-    return ["Use \"\(commandHelp.name) [command] --help\" for more information about a command."].joined(separator: "\n")
+    return ["Use \"\(commandHelp.fullName) [command] --help\" for more information about a command."].joined(separator: "\n")
   }
 
   func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String? {

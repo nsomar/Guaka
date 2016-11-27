@@ -86,14 +86,14 @@ class HelpTests: XCTestCase {
                    "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
 
     XCTAssertEqual(remote.helpMessage,
-                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.")
+                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
 
     show.shortMessage = "Show short usage"
     XCTAssertEqual(show.helpMessage,
-                   "Show short usage\n\nUsage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\nUse \"show [command] --help\" for more information about a command.")
+                   "Show short usage\n\nUsage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\nUse \"git remote show [command] --help\" for more information about a command.")
 
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  git rebase [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  git rebase [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }
 
   func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
@@ -119,32 +119,32 @@ class HelpTests: XCTestCase {
   func testItPrintsCommandDeprecatedOnTopOfDeprecatedCommand() {
     remote.deprecationStatus = .deprecated("Dont use this")
     XCTAssertEqual(remote.helpMessage,
-                   "Command \"remote\" is deprecated, Dont use this\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.")
+                   "Command \"remote\" is deprecated, Dont use this\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
   func testItFiltersOutDeprecatedFlags() {
     remote.flags[0].deprecationStatus = .deprecated("Dont use this")
     XCTAssertEqual(remote.helpMessage,
-                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"remote [command] --help\" for more information about a command.")
+                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
   func testIfAllFlagsAreDeprecatedItDoesNotShowFlags() {
     rebase.flags[0].deprecationStatus = .deprecated("Dont use this")
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  git rebase [flags]\n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  git rebase [flags]\n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }
 
   func testItPrintsTheExample() {
     rebase.example = "run git rebase blabla"
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  git rebase [flags]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  git rebase [flags]\n\nExamples:\nrun git rebase blabla\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }
 
   func testItPrintsTheUsageSection() {
     rebase.usage = "rebase bla bla bla"
     XCTAssertEqual(rebase.name, "rebase")
     XCTAssertEqual(rebase.helpMessage,
-                   "Usage:\n  git rebase bla bla bla [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"rebase [command] --help\" for more information about a command.")
+                   "Usage:\n  git rebase bla bla bla [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }
 
   func testItDoesNotPrintFlagsIfCommandHaveZeroFlags() {
