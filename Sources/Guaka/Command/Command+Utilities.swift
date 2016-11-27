@@ -31,7 +31,7 @@ extension Command {
 // MARK: Priave
 extension Command {
 
-  
+
   /// Return the path of a command
   /// if command git had a command named show that had a command named origin
   /// The path of origin is [git, show, origin]
@@ -90,12 +90,26 @@ extension Command {
   /// Example:
   ///    let x = Command.name(forUsage: "run [arguments]")
   ///    x //"run"
-  static func name(forUsage usage: String) -> String {
-    if let index = usage.find(string: " ") {
-      return usage[usage.startIndex..<index]
-    } else {
-      return usage
+  static func name(forUsage usage: String) throws -> String {
+    if usage.characters.count == 0 {
+      throw CommandError.wrongCommandUsageString(usage)
     }
-  }
 
+    var name = ""
+    if let index = usage.find(string: " ") {
+      name = usage[usage.startIndex..<index]
+    } else {
+      name = usage
+    }
+
+    if name.characters.count == 0 ||
+      name.characters.contains("/") ||
+      name.characters.contains("\\") ||
+      name.characters.first! == "-" {
+      throw CommandError.wrongCommandUsageString(usage)
+    }
+    
+    return name
+  }
+  
 }

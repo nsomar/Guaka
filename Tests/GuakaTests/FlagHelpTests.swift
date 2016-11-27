@@ -12,7 +12,7 @@ import XCTest
 class FlagHelpTests: XCTestCase {
 
   func testItGeneratesNamesWithLongName() {
-    let flag = Flag(longName: "debug", value: true)
+    let flag = try! Flag(longName: "debug", value: true)
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.longName, "debug")
@@ -23,7 +23,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithShortName() {
-    let flag = Flag(longName: "debug",  shortName: "d", value: true)
+    let flag = try! Flag(longName: "debug",  shortName: "d", value: true)
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.longName, "debug")
@@ -31,7 +31,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithDeprecationStatus() {
-    var flag = Flag(longName: "debug",  shortName: "d", value: true)
+    var flag = try! Flag(longName: "debug",  shortName: "d", value: true)
     flag.deprecationStatus = .deprecated("deprecated")
     let fh = FlagHelp(flag: flag)
 
@@ -40,7 +40,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithValue() {
-    var flag = Flag(longName: "debug",  shortName: "d", value: true)
+    var flag = try! Flag(longName: "debug",  shortName: "d", value: true)
     flag.deprecationStatus = .deprecated("deprecated")
     let fh = FlagHelp(flag: flag)
 
@@ -49,7 +49,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithIntValue() {
-    var flag = Flag(longName: "debug",  shortName: "d", value: 1)
+    var flag = try! Flag(longName: "debug",  shortName: "d", value: 1)
     flag.deprecationStatus = .deprecated("deprecated")
     let fh = FlagHelp(flag: flag)
 
@@ -58,14 +58,14 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithDescription() {
-    let flag = Flag(longName: "debug",  shortName: "d", value: 1, description: "abcdef")
+    let flag = try! Flag(longName: "debug",  shortName: "d", value: 1, description: "abcdef")
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.description, "abcdef")
   }
 
   func testItGeneratesNamesWithRequiredFlags() {
-    let flag = Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
+    let flag = try! Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.isRequired, true)
@@ -74,7 +74,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithRequiredFlagsThatWasSet() {
-    var flag = Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
+    var flag = try! Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
     flag.value = "abc"
     let fh = FlagHelp(flag: flag)
 
@@ -84,7 +84,7 @@ class FlagHelpTests: XCTestCase {
   }
 
   func testItGeneratesNamesWithThatWereChanged() {
-    var flag = Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
+    var flag = try! Flag(longName: "debug",  shortName: "d", type: String.self, required: true)
     flag.didSet = true
     let fh = FlagHelp(flag: flag)
 

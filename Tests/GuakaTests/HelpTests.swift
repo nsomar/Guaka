@@ -97,7 +97,7 @@ class HelpTests: XCTestCase {
   }
 
   func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
-    git.add(flags: [Flag(longName: "hello", type: Int.self, required: true)])
+    git.add(flags: [try! Flag(longName: "hello", type: Int.self, required: true)])
     git.execute(commandLineArgs: expand("git -h"))
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug      \n      --hello int  (required)\n  -r, --root int   (default 1)\n  -t, --togge      \n  -v, --verbose    \n\nUse \"git [command] --help\" for more information about a command.")

@@ -16,7 +16,7 @@ class DummyCommand: Command {
 
   public init(name: String, flags: [Flag],
               parent: Command? = nil, run: Run? = nil) throws {
-    super.init(usage: name, shortMessage: nil, longMessage: nil, flags: flags, run: run)
+    try super.init(usage: name, shortMessage: nil, longMessage: nil, flags: flags, run: run)
   }
 
   func execute(flags: [String : Flag], args: [String]) {
@@ -51,9 +51,9 @@ func setupTestSamples() {
   show = try! DummyCommand(
     name: "show",
     flags: [
-      Flag(longName: "foo", value: "-", inheritable: false),
-      Flag(longName: "bar", value: "-", inheritable: false),
-      Flag(longName: "yy", value: true, inheritable: false),
+      try! Flag(longName: "foo", value: "-", inheritable: false),
+      try! Flag(longName: "bar", value: "-", inheritable: false),
+      try! Flag(longName: "yy", value: true, inheritable: false),
       ],
     run: { flags, args in
       commandExecuted = show
@@ -63,10 +63,10 @@ func setupTestSamples() {
   remote = try! DummyCommand(
     name: "remote",
     flags: [
-      Flag(longName: "foo", value: "-", inheritable: true),
-      Flag(longName: "remote", value: true, inheritable: true),
-      Flag(longName: "bar", value: "-", inheritable: false),
-      Flag(longName: "xx", value: true, inheritable: false),
+      try! Flag(longName: "foo", value: "-", inheritable: true),
+      try! Flag(longName: "remote", value: true, inheritable: true),
+      try! Flag(longName: "bar", value: "-", inheritable: false),
+      try! Flag(longName: "xx", value: true, inheritable: false),
       ],
     run: { flags, args in
       commandExecuted = remote
@@ -76,7 +76,7 @@ func setupTestSamples() {
   rebase = try! DummyCommand(
     name: "rebase",
     flags: [
-      Flag(longName: "varvar", shortName: "v", value: false, inheritable: true),
+      try! Flag(longName: "varvar", shortName: "v", value: false, inheritable: true),
       ],
     run: { flags, args in
       commandExecuted = rebase
@@ -86,16 +86,16 @@ func setupTestSamples() {
   git = try! DummyCommand(
     name: "git",
     flags: [
-      Flag(longName: "debug", shortName: "d", value: true, inheritable: true),
-      Flag(longName: "togge", shortName: "t", value: false, inheritable: false),
-      Flag(longName: "root", shortName: "r", value: 1, inheritable: false),
+      try! Flag(longName: "debug", shortName: "d", value: true, inheritable: true),
+      try! Flag(longName: "togge", shortName: "t", value: false, inheritable: false),
+      try! Flag(longName: "root", shortName: "r", value: 1, inheritable: false),
       ],
     run: { flags, args in
       commandExecuted = git
       executed = (flags, args)
   })
 
-  git.add(subCommands: rebase, remote)
-  git.add(flag: Flag(longName: "verbose", shortName: "v", value: false, inheritable: true))
-  remote.add(subCommands: show)
+  git.add(subCommands: [rebase, remote])
+  git.add(flag: try! Flag(longName: "verbose", shortName: "v", value: false, inheritable: true))
+  remote.add(subCommands: [show])
 }

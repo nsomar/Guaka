@@ -69,13 +69,16 @@ public class Command {
 
   /// The command uasage oneliner string.
   /// This is printed in the usage section.
+  /// The usage must contain the command name as its first word
+  ///
+  /// Correct usages strings:
+  /// - login [name]
+  /// - login [flags] name
   public var usage: String
 
 
-  /// The command name, this is the first string in the usage
-  public var name: String {
-    return Command.name(forUsage: usage)
-  }
+  /// The command name, this is the first word in the usage string
+  public let name: String
 
 
   /// The short usages string
@@ -172,6 +175,17 @@ public class Command {
   /// - parameter flags:             Command list of flags
   /// - parameter configuration:     Confuguration block to configure the command
   /// - parameter run:               Callback called when the command is executed
+  ///
+  /// - throws: exception if the usage is incorrect (empty, or has wrong command name format)
+  ///
+  /// Discussion:
+  /// The command usage must be a string that contains the command name as the first word.
+  /// 
+  /// Some correct usages:
+  /// - login [name]
+  /// - login [flags] name
+  ///
+  /// The first word of the usage will be the command name
   public init(usage: String,
               shortMessage: String? = nil,
               longMessage: String? = nil,
@@ -181,7 +195,7 @@ public class Command {
               deprecationStatus: DeprecationStatus = .notDeprecated,
               flags: [Flag] = [],
               configuration: Configuration? = nil,
-              run: Run? = nil) {
+              run: Run? = nil) throws {
     self.usage = usage
 
     self.shortMessage = shortMessage
@@ -195,6 +209,8 @@ public class Command {
     self.flags = flags
 
     self.run = run
+
+    self.name = try Command.name(forUsage: usage)
 
     if let parent = parent {
       self.parent = parent
@@ -257,7 +273,7 @@ public class Command {
   /// let subcommand2 = ...
   /// command.add(subCommands: [subCommand1, subCommand2])
   /// ```
-  public func add(subCommands commands: Command...) {
+  public func add(subCommands commands: [Command]) {
     commands.forEach { add(subCommand: $0) }
   }
 

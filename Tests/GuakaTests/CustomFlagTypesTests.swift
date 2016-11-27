@@ -25,7 +25,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        Flag(longName: "list", type: CustomType.self),
+        try! Flag(longName: "list", type: CustomType.self),
         ]
     )
 
@@ -51,7 +51,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        Flag(longName: "list", type: CustomType.self),
+        try! Flag(longName: "list", type: CustomType.self),
         ]
     )
 
@@ -86,7 +86,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        Flag(longName: "love", type: Animals.self, required: true),
+        try! Flag(longName: "love", type: Animals.self, required: true),
         ]
     )
 
@@ -118,7 +118,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        Flag(longName: "love", type: Animals.self, required: true),
+        try! Flag(longName: "love", type: Animals.self, required: true),
         ]
     )
 

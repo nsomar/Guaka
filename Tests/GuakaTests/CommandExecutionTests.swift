@@ -139,7 +139,7 @@ class CommandExecutionTests: XCTestCase {
 
   func testItCatchesRequiredFlagNotSet() {
     //git.execute
-    git.add(flag: Flag(longName: "req", type: String.self, required: true))
+    git.add(flag: try! Flag(longName: "req", type: String.self, required: true))
     git.execute(commandLineArgs: expand("git"))
     XCTAssertEqual(git.printed, "Error: required flag was not set: \'req\' expected type: \'String\'\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug       \n      --req string  (required)\n  -r, --root int    (default 1)\n  -t, --togge       \n  -v, --verbose     \n\nUse \"git [command] --help\" for more information about a command.\n\nrequired flag was not set: \'req\' expected type: \'String\'\nexit status 255")
   }
