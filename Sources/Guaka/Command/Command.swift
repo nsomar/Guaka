@@ -59,6 +59,11 @@
 ///   print("test called")
 /// }
 /// ```
+/// After creating a command, to execute it do:
+/// ```
+/// let command = ...
+/// command.execute()
+/// ```
 public class Command {
 
 
