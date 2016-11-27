@@ -13,11 +13,13 @@
 /// - flagNeedsValue:          Flag requires a value that was not set
 /// - flagNotFound:            Flag with name cannot be found
 /// - requiredFlagsWasNotSet:  Required flag was not set
-/// - unexpectedFlagPassed:    parsed an unexpected flag name
-/// - commandGeneralError:     general command related error
-/// - unknownError:            unknown error occured
-/// - incorrectFlagValue:      an incorrect value type was passed to the flag
-/// - commandAlreadyInserterd: command has already been inserted as a subcommand
+/// - unexpectedFlagPassed:    Parsed an unexpected flag name
+/// - commandGeneralError:     General command related error
+/// - unknownError:            Unknown error occured
+/// - incorrectFlagValue:      An incorrect value type was passed to the flag
+/// - wrongCommandUsageString: Wrong usage string was passed to the command
+/// - wrongFlagLongName:       Wrong long name was passed for flag
+/// - wrongFlagShortName:      Wrong long name was passed for flag
 public enum CommandError: Error {
 
   /// Received a wrong flag patter, such as `---f`
@@ -44,6 +46,12 @@ public enum CommandError: Error {
   /// an incorrect value type was passed to the flag
   case incorrectFlagValue(String, String)
 
-  /// command has already been inserted as a subcommand
-  case commandAlreadyInserterd(Command)
+  /// Wrong usage string was passed to the command
+  case wrongCommandUsageString(String)
+
+  /// Wrong long name was passed for flag
+  case wrongFlagLongName(String)
+
+  /// Wrong short name was passed for flag
+  case wrongFlagShortName(String)
 }

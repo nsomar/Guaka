@@ -21,5 +21,30 @@ extension Flag {
     }
   }
 
+  func checkFlagLongName() throws {
+    if longName.characters.contains("-") ||
+      longName.characters.contains(" ") ||
+      longName.characters.contains("/") ||
+      longName.characters.contains("\\") ||
+      longName.characters.count == 0 {
+      throw CommandError.wrongFlagLongName(longName)
+    }
+  }
+
+  func checkFlagShortName() throws {
+    guard let shortName = shortName else {
+      return
+    }
+    
+    if shortName.characters.contains("-") ||
+      shortName.characters.contains(" ") ||
+      shortName.characters.contains("/") ||
+      shortName.characters.contains("\\") ||
+      shortName.characters.count == 0 ||
+      shortName.characters.count > 1 {
+      throw CommandError.wrongFlagShortName(shortName)
+    }
+  }
+  
 }
 

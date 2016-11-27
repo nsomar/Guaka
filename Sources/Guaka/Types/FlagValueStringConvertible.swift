@@ -29,7 +29,7 @@
 /// ```
 /// We can then use user to define flag type:
 /// ```
-/// let flag = Flag(longName: "debug", type: User.self)
+/// let flag = try! Flag(longName: "debug", type: User.self)
 /// ```
 public protocol FlagValueStringConvertible {
 

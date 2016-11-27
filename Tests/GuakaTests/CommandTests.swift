@@ -17,7 +17,7 @@ class CommandTests: XCTestCase {
 
   func testItCanAddCommands() {
     XCTAssertEqual(git.commands.count, 2)
-    git.add(subCommands: show)
+    git.add(subCommands: [show])
     XCTAssertEqual(git.commands.count, 3)
   }
 
@@ -35,13 +35,13 @@ class CommandTests: XCTestCase {
 
   func testItCanAddFlags() {
     XCTAssertEqual(git.flags.count, 4)
-    git.add(flag: Flag(longName: "--new", type: Int.self))
+    git.add(flag: try! Flag(longName: "new", type: Int.self))
     XCTAssertEqual(git.flags.count, 5)
   }
 
   func testItCanAddMultipleFlags() {
     XCTAssertEqual(git.flags.count, 4)
-    git.add(flags: [Flag(longName: "--new1", type: Int.self), Flag(longName: "--new2", type: Int.self)])
+    git.add(flags: [try! Flag(longName: "new1", type: Int.self), try! Flag(longName: "new2", type: Int.self)])
     XCTAssertEqual(git.flags.count, 6)
   }
 
@@ -52,8 +52,41 @@ class CommandTests: XCTestCase {
   }
 
   func testItGetsNameForUsage() {
-    XCTAssertEqual(Command.name(forUsage: "git"), "git")
-    XCTAssertEqual(Command.name(forUsage: "show this and that"), "show")
+    XCTAssertEqual(try! Command.name(forUsage: "git"), "git")
+    XCTAssertEqual(try! Command.name(forUsage: "git show/ab/c"), "git")
+    XCTAssertEqual(try! Command.name(forUsage: "show this and that"), "show")
+  }
+
+  func testItThrowsErrorForWrongUsage() {
+
+    do {
+      _ = try Command.name(forUsage: " git")
+      XCTFail()
+    } catch CommandError.wrongCommandUsageString { } catch {
+      XCTFail()
+    }
+
+    do {
+      _ = try Command.name(forUsage: "")
+      XCTFail()
+    } catch CommandError.wrongCommandUsageString { } catch {
+      XCTFail()
+    }
+
+    do {
+      _ = try Command.name(forUsage: "a/b")
+      XCTFail()
+    } catch CommandError.wrongCommandUsageString { } catch {
+      XCTFail()
+    }
+
+    do {
+      _ = try Command.name(forUsage: "- show it")
+      XCTFail()
+    } catch CommandError.wrongCommandUsageString { } catch {
+      XCTFail()
+    }
+
   }
   
 }
