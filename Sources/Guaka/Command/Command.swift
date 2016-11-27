@@ -97,7 +97,7 @@ public class Command {
   /// This defines if a command is deprecated or not, default not deprecated
   public var deprecationStatus = DeprecationStatus.notDeprecated
 
-  
+
   /// The flags available for this command
   /// This list contains only the local flags added to the command
   public var flags: [Flag]
@@ -159,7 +159,7 @@ public class Command {
   public var helpMessage: String {
     return GuakaConfig.helpGenerator.init(command: self).helpMessage
   }
-  
+
   /// Initialize a command
   ///
   /// - parameter usage:             Command usage oneliner
@@ -323,7 +323,12 @@ public class Command {
   /// Call this method when you want to exit and print the help message
   ///
   /// - parameter statusCode: the status code to report
-  public func fail(statusCode: Int) {
+  /// - parameter errorMessage: additinal error message to print
+  public func fail(statusCode: Int, errorMessage: String? = nil) {
+    if let errorMessage = errorMessage {
+      printToConsole(errorMessage)
+    }
+
     printToConsole(helpMessage)
     exit(Int32(statusCode))
   }
@@ -332,5 +337,5 @@ public class Command {
   func printToConsole(_ string: String) {
     print(string)
   }
-
+  
 }
