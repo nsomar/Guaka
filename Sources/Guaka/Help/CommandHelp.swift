@@ -6,35 +6,69 @@
 //
 //
 
+
+/// Structure that represents a Command information.
+///
+/// When the help is about to be printed, a `CommandHelp` is generated from the current `Command`.
+/// A `CommandHelp` represents all the info required to print the help message of a command.
+///
+/// a `HelpGenerator` is created and passed this `CommandHelp`.
+/// the `HelpGenerator` is used to print the help message string
 public struct CommandHelp {
 
+  /// The command name
   public let name: String
+
+  /// The command full name with the name of all its parents. For example `git show help`
   public let fullName: String
 
+  /// The command usage string
   public let usage: String
+
+  /// The command full usage string containg the full name of the command (that contain the parents)
   public let fullUsage: String
 
+  /// The command long description message.
   public let longDescriptionMessage: String?
+
+  /// The command short description message.
   public let shortDescriptionMessage: String?
 
+  /// Does this command have an example
   public let hasExample: Bool
+
+  /// The command example message
   public let example: String?
 
+  /// Is this command deprecated
   public let isDeprecated: Bool
+
+  /// The command deprication message
   public let deprecationMessage: String?
 
+  /// Does this command have aliases
   public let hasAliases: Bool
+
+  /// The command aliases array
   public let aliases: [String]
 
+  /// Does this command have sub commands
   public let hasSubCommands: Bool
+
+  /// The command subcommands
   public let subCommands: [CommandHelp]
 
+  /// Does this command have flags
   public let hasFlags: Bool
 
+  /// The command local flags. These are the flags that the command defines.
   public let localFlags: [FlagHelp]
+
+  /// The command global flags. These are the flags the command inherited from its parents.
+  /// Contains a list of inheritable flags.
   public let globalFlags: [FlagHelp]
 
-  init(command: CommandType) {
+  init(command: Command) {
     name = command.name
     usage = command.usage
 
@@ -65,15 +99,18 @@ public struct CommandHelp {
     hasFlags = flags.local.count + flags.global.count > 0
   }
 
-  private static func fullPath(forCommand command: CommandType) -> String {
+  /// Full path `git show origin`
+  private static func fullPath(forCommand command: Command) -> String {
     return path(forCommand: command) + command.name
   }
 
-  private static func fullUsage(forCommand command: CommandType) -> String {
+  /// Full path `git show origin use as its`
+  private static func fullUsage(forCommand command: Command) -> String {
     return path(forCommand: command) + command.usage
   }
 
-  private static func path(forCommand command: CommandType) -> String {
+  /// Return a commands path
+  private static func path(forCommand command: Command) -> String {
     if command.path.count <= 1 {
       return ""
     } else {
@@ -81,11 +118,13 @@ public struct CommandHelp {
     }
   }
 
-  private static func subCommands(command: CommandType) -> [CommandHelp] {
+  /// Return a command sub commands
+  private static func subCommands(command: Command) -> [CommandHelp] {
     return command.commands.map { CommandHelp(command: $0) }.sorted { $0.name < $1.name }
   }
 
-  private static func flags(command: CommandType) -> (local: [FlagHelp], global: [FlagHelp]) {
+  /// Return a command flags
+  private static func flags(command: Command) -> (local: [FlagHelp], global: [FlagHelp]) {
     return flags(forFlagSet: command.flagSet, flags: Array(command.flags))
   }
 

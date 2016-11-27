@@ -1,7 +1,7 @@
 import XCTest
 @testable import Guaka
 
-class CommandTypeTest: XCTestCase {
+class CommandTest: XCTestCase {
 
   override func setUp() {
     setupTestSamples()

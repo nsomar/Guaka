@@ -1,24 +1,37 @@
 //
-//  Execute.swift
-//  CommandLine
+//  FlagSet+Parsing.swift
+//  Guaka
 //
-//  Created by Omar Abdelhafith on 30/10/2016.
+//  Created by Omar Abdelhafith on 26/11/2016.
 //
 //
 
 import StringScanner
 
+
 extension FlagSet {
 
-  func parse(args: [String]) throws -> ([Flag: CommandStringConvertible], [String]) {
-    var ret = [Flag: CommandStringConvertible]()
+  /// Pares the arguments to return the flag values and the positional arguments
+  ///
+  /// - parameter args: the arguments to parse
+  ///
+  /// - throws: throws exception if received wrong arguments
+  ///
+  /// - returns: The flag values and the positional arguments
+  func parse(args: [String]) throws -> ([Flag: FlagValueStringConvertible], [String]) {
+    var ret = [Flag: FlagValueStringConvertible]()
     var remainigArgs = [String]()
 
     var pendingFlag: Flag?
 
+    // Iterate all args
     for arg in args {
+
+      // Tokenize
       let token = ArgTokenType(fromString: arg)
 
+      // If we have pending flags that needs a value, and the current token is flag
+      // return flagNeedsValue exception
       if
         let pendingFlag = pendingFlag,
         token.isFlag {
@@ -26,6 +39,7 @@ extension FlagSet {
       }
 
       switch token {
+
       case let .longFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
         try ret[flag] = flag.convertValueToInnerType(value: value)
@@ -69,6 +83,7 @@ extension FlagSet {
 
     }
 
+    // If we finished parsing and we have a flag without value, throw flagNeedsValue exception
     if let pendingFlag = pendingFlag {
       throw CommandError.flagNeedsValue(pendingFlag.longName, "No more flags")
     }
@@ -76,9 +91,11 @@ extension FlagSet {
     return (ret, remainigArgs)
   }
 
-  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: CommandStringConvertible], Flag?) {
+  /// Parses `-abcd=123` flag set
+  /// Converts it to: `[a: true, b: true, c: true, d: 123]`
+  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: FlagValueStringConvertible], Flag?) {
     let scanner = StringScanner(string: name)
-    var ret = [Flag: CommandStringConvertible]()
+    var ret = [Flag: FlagValueStringConvertible]()
 
     while true {
       let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
@@ -116,62 +133,53 @@ extension FlagSet {
     return (ret, nil)
   }
 
-  func getPreparedFlags(withFlagValues values: [Flag: CommandStringConvertible])
-    throws -> [String: Flag] {
-
-      var returnFlags = self.getFlagsWithLongNames()
-
-      try values.forEach { flag, value in
-        guard var foundFlag = self.flags[flag.longName] else {
-          throw CommandError.unexpectedFlagPassed(flag.longName, "\(value)")
-        }
-
-        foundFlag.value = value
-        foundFlag.didSet = true
-        returnFlags[foundFlag.longName] = foundFlag
-      }
-
-      return returnFlags
-  }
-
-  func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
-    for flag in requiredFlags {
-      guard let preparedFlag = preparedFlags[flag.longName] else {
-        return .error(CommandError.flagNotFound(flag.longName))
-      }
-
-      if preparedFlag.value == nil {
-        return .error(CommandError.requiredFlagsWasNotSet(flag.longName, flag.type))
-      }
+  /// Check if the flag is a boolean
+  func isBool(flagName: String) -> Bool {
+    guard let flag = flags[flagName] else {
+      return false
     }
 
-    return .success
+    return flag.isBool
   }
 
+  /// Is flag token satisfied
+  ///
+  /// - parameter token: the flag token
+  ///
+  /// - returns: true if the flag is satisfied
+  func isFlagSatisfied(token: ArgTokenType) -> Bool {
+    switch token {
+    case .shortFlagWithEqual:
+      fallthrough
+    case .longFlagWithEqual:
+      fallthrough
+    case .invalidFlag:
+      fallthrough
+    case .positionalArgument:
+      fallthrough
+    case .shortMultiFlag(_):
+      return true
+
+    case let .shortFlag(name):
+      return isBool(flagName: name)
+    case let .longFlag(name):
+      return isBool(flagName: name)
+    }
+  }
+
+  /// Get a flag with a name
+  ///
+  /// - parameter name: the flag name
+  ///
+  /// - throws: flagNotFound if flag is not found
+  ///
+  /// - returns: the flag if found
   private func getFlag(forName name: String) throws -> Flag {
     guard let flag = flags[name] else {
       throw CommandError.flagNotFound(name)
     }
-
+    
     return flag
   }
-
-  private func getFlagsWithLongNames() -> [String: Flag] {
-    var returnFlags = [String: Flag]()
-    self.flags.forEach { key, flag in
-      if key == flag.longName {
-        returnFlags[key] = flag
-      }
-    }
-
-    return returnFlags
-  }
-
+  
 }
-
-func += <K, V> (left: inout [K: V], right: [K: V]) {
-  for (k, v) in right {
-    left.updateValue(v, forKey: k)
-  }
-}
-

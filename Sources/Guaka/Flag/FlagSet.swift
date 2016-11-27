@@ -6,11 +6,19 @@
 //
 //
 
+
+/// FlagSet represents a list of flags
 struct FlagSet {
 
+  /// Map of flags
   let flags: [String: Flag]
+
+  /// List of required flags
   let requiredFlags: [Flag]
 
+  /// Initialize wit ha set of flags
+  ///
+  /// - parameter flags: list of flags
   init(flags: [Flag]) {
     var flagMap = [String: Flag]()
 
@@ -31,38 +39,16 @@ struct FlagSet {
     self.flags = flagsMap
     self.requiredFlags = FlagSet.requiredFlags(flags: flags.values)
   }
-
-  func isBool(flagName: String) -> Bool {
-    guard let flag = flags[flagName] else {
-      return false
-    }
-
-    return flag.isBool
-  }
-
-  func isFlagSatisfied(token: ArgTokenType) -> Bool {
-    switch token {
-    case .shortFlagWithEqual:
-      fallthrough
-    case .longFlagWithEqual:
-      fallthrough
-    case .invalidFlag:
-      fallthrough
-    case .positionalArgument:
-      fallthrough
-    case .shortMultiFlag(_):
-      return true
-
-    case let .shortFlag(name):
-      return isBool(flagName: name)
-    case let .longFlag(name):
-      return isBool(flagName: name)
-    }
-  }
 }
 
 
 extension FlagSet {
+
+  /// Get the list of required flags
+  ///
+  /// - parameter flags: the flags to check
+  ///
+  /// - returns: the required flags
   static func requiredFlags<T: Sequence>(flags: T) -> [Flag]
   where T.Iterator.Element == Flag {
     let unique = Set(flags)
@@ -74,6 +60,11 @@ extension FlagSet {
 
 extension FlagSet {
 
+  /// Get the global flags based on the local flags
+  ///
+  /// - parameter flags: the local flags
+  ///
+  /// - returns: the global flags
   func globalFlags(withLocalFlags flags: [Flag]) -> [Flag] {
     let allFlags = Set(self.flags.values)
     let localFlags = Set(flags)
@@ -85,6 +76,7 @@ extension FlagSet {
 
 extension FlagSet {
 
+  /// Returns an updated FlagSet appending the help flag
   func flagSetAppendingHelp() -> FlagSet {
     var flags = self.flags
     flags["help"] = helpFlag
@@ -97,19 +89,4 @@ extension FlagSet {
     return Flag(longName: "help", shortName: "h", value: false, inheritable: true, description: "Show help")
   }
 
-}
-
-extension Flag {
-
-  var isDeprecated: Bool {
-    if case .deprecated = deprecationStatus { return true}
-    return false
-  }
-
-  var deprecationMessage: String {
-    if case let .deprecated(message) = deprecationStatus {
-      return "Flag --\(longName) has been deprecated, \(message)"
-    }
-    return ""
-  }
 }

@@ -13,44 +13,148 @@
 #endif
 
 
-public class Command: CommandType {
+/// Command class representing a Command that can be executed.
+///
+/// ----
+/// Examples:
+///
+/// Create a simple command
+///
+/// ```
+/// var newCommand = Command(usage: "new") { flags, args in
+///
+/// }
+/// ```
+///
+/// Create a command with costumizations
+/// ```
+/// var newCommand = Command(usage: "new",
+///                          shortMessage: "Use new to generate a new thing",
+///                          longMessage: "Long description",
+///                          example: "Example",
+///                          aliases: ["create", "generate"]) { flags, args in
+///
+/// }
+/// ```
+///
+/// Create a command with configuration block and an execute block
+///
+/// ```
+/// var rootCommand = Command(
+///   usage: "test", configuration: configuration, run: execute)
+///
+///
+/// private func configuration(command: Command) {
+///
+///   command.add(flags: [
+///     // Add your flags here
+///     ]
+///   )
+///
+///   // Other configurations
+/// }
+///
+/// private func execute(flags: Flags, args: [String]) {
+///   // Execute code here
+///   print("test called")
+/// }
+/// ```
+public class Command {
 
+
+  /// The command uasage oneliner string.
+  /// This is printed in the usage section.
+  public var usage: String
+
+
+  /// The command name, this is the first string in the usage
   public var name: String {
     return Command.name(forUsage: usage)
   }
 
-  public var usage: String
 
-  public var commands: [CommandType] = []
-
-  public var inheritablePreRun: ConditionalRun?
-  public var preRun: ConditionalRun?
-  public var run: Run?
-  public var postRun: ConditionalRun?
-  public var inheritablePostRun: ConditionalRun?
-
-  public var aliases: [String] = []
-
+  /// The short usages string
+  /// This string will be visible when the help of the command is executed
   public var shortMessage: String?
+
+
+  /// The long usages string
+  /// This string will be visible when the help of the command is executed
   public var longMessage: String?
 
+
+  /// The example section of the command
+  /// This will be visible when displaying the command help
   public var example: String?
 
-  public var flags: [Flag]
 
+  /// The command deprecation status.
+  /// This defines if a command is deprecated or not, default not deprecated
   public var deprecationStatus = DeprecationStatus.notDeprecated
 
-  public var parent: CommandType? {
+  
+  /// The flags available for this command
+  /// This list contains only the local flags added to the command
+  public var flags: [Flag]
+
+
+  /// The subcommands this command has
+  public var commands: [Command] = []
+
+
+  /// The parent of this command.
+  /// If the command is the root command, the parent will be nil.
+  public var parent: Command? {
     willSet {
       if
-        let oldParent = parent as? Command,
-        let newParent = newValue as? Command,
+        let oldParent = parent,
+        let newParent = newValue,
         newParent !== oldParent {
         newParent.add(subCommand: self, setParent: false)
       }
     }
   }
 
+  /// After the parsing matches the subcommand, preRun is executed before exacuting run
+  /// If preRun returns true, the run is executed next
+  /// If preRun returns false, the execution ends
+  public var preRun: ConditionalRun?
+
+
+  /// After the parsing matches the subcommand, preRun is executed before exacuting run
+  /// If preRun returns true, run is executed next
+  /// If preRun returns false, the execution ends
+  /// If the current command has an inheritablePostRun, then its called on it.
+  /// Otherwise it will be executed on its parent, until the root command
+  public var inheritablePreRun: ConditionalRun?
+
+
+  /// After the parsing matches the subcommand, run is called after preRun
+  /// the callback registered for preRun must return true for run to be called
+  public var run: Run?
+
+
+  /// After the parsing matches the subcommand, postRun is called after run
+  /// If postRun returns true, then inheritablePostRun is executed next
+  /// If postRun returns false, the execution ends
+  public var postRun: ConditionalRun?
+
+
+  /// After the parsing matches the subcommand, postRun is called after run
+  /// If the current command has an inheritablePostRun, then its called on it.
+  /// Otherwise it will be executed on its parent, until the root command
+  public var inheritablePostRun: ConditionalRun?
+
+  /// The command aliases
+  /// The command will be callable by its name or by any of the aliases set here
+  public var aliases: [String] = []
+
+  /// Get the help message for the command
+  /// The console help message for the command
+  public var helpMessage: String {
+    return GuakaConfig.helpGenerator.init(command: self).helpMessage
+  }
+  
   /// Initialize a command
   ///
   /// - parameter usage:             Command usage oneliner
@@ -101,7 +205,7 @@ public class Command: CommandType {
   /// - parameter name: the command name to get
   ///
   /// - returns: return a command if found
-  public subscript(withName name: String) -> CommandType? {
+  public subscript(withName name: String) -> Command? {
     for command in commands where
       command.name == name || command.aliases.contains(name) {
         return command
@@ -115,12 +219,21 @@ public class Command: CommandType {
   ///
   /// - parameter command:    the command to add
   /// - parameter setParent:  set self as parent of the passed command
+  ///
+  /// ----
+  /// Examples:
+  ///
+  /// ```
+  /// let command = ...
+  /// let subcommand = ...
+  /// command.add(subCommand: subCommand)
+  /// ```
   public func add(subCommand command: Command, setParent: Bool = true) {
     if setParent {
       command.parent = self
     }
 
-    if commands.contains(where: { $0.equals(other: command) }) == false {
+    if commands.contains(where: { $0 === command }) == false {
       commands.append(command)
     }
   }
@@ -129,6 +242,16 @@ public class Command: CommandType {
   /// Add a list of commands
   ///
   /// - parameter commands: the commands to add
+  ///
+  /// ----
+  /// Examples:
+  ///
+  /// ```
+  /// let command = ...
+  /// let subcommand1 = ...
+  /// let subcommand2 = ...
+  /// command.add(subCommands: [subCommand1, subCommand2])
+  /// ```
   public func add(subCommands commands: Command...) {
     commands.forEach { add(subCommand: $0) }
   }
@@ -138,7 +261,7 @@ public class Command: CommandType {
   ///
   /// - parameter test: the test to run agains the command
   /// Returning true from this callback deletes the command
-  public func removeCommand(passingTest test: (CommandType) -> Bool) {
+  public func removeCommand(passingTest test: (Command) -> Bool) {
     if let index = commands.index(where: { test($0) }) {
       commands.remove(at: index)
     }
@@ -148,6 +271,15 @@ public class Command: CommandType {
   /// Adds a flag
   ///
   /// - parameter flag: the flag to add
+  ///
+  /// ----
+  /// Examples:
+  ///
+  /// ```
+  /// let command = ...
+  /// let flag = ...
+  /// command.add(flag: flag)
+  /// ```
   public func add(flag: Flag) {
     flags.append(flag)
   }
@@ -156,6 +288,16 @@ public class Command: CommandType {
   /// Adds a list of flag
   ///
   /// - parameter flag: the flags to add
+  ///
+  /// ----
+  /// Examples:
+  ///
+  /// ```
+  /// let command = ...
+  /// let flag1 = ...
+  /// let flag2 = ...
+  /// command.add(flags: [flag1, flag2])
+  /// ```
   public func add(flags: [Flag]) {
     self.flags.append(contentsOf: flags)
   }
@@ -171,10 +313,6 @@ public class Command: CommandType {
     }
   }
 
-  public func printToConsole(_ string: String) {
-    print(string)
-  }
-
 
   /// Fail, print the help message and exit the application
   /// Call this method when you want to exit and print the help message
@@ -185,8 +323,9 @@ public class Command: CommandType {
     exit(Int32(statusCode))
   }
 
-  public func equals(other: CommandType) -> Bool {
-    let command: AnyObject = other as AnyObject
-    return command === self
+  /// Print a string to console. This method is for enabling testability only
+  func printToConsole(_ string: String) {
+    print(string)
   }
+
 }

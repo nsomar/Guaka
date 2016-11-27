@@ -6,6 +6,7 @@
 //
 //
 
+/// Default help generation strategy
 struct DefaultHelpGenerator: HelpGenerator {
 
   let commandHelp: CommandHelp

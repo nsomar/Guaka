@@ -8,6 +8,16 @@
 import StringScanner
 
 
+
+/// tokenize enum
+///
+/// - longFlag:                matches flags like `--verbose`
+/// - longFlagWithEqual:       matches flags like `--verbose=1`
+/// - shortFlag:               matches flags like `-v`
+/// - shortFlagWithEqual:      matches flags like `-v=1`
+/// - shortMultiFlag:          matches flags like `-abc`
+/// - invalidFlag:             matches invalid flags like `---`
+/// - positionalArgument:      matches positional arguments that are not flags
 enum ArgTokenType {
 
   case longFlag(String), longFlagWithEqual(String, String)
@@ -16,6 +26,7 @@ enum ArgTokenType {
   case invalidFlag(String)
   case positionalArgument(String)
 
+  /// Is the token a boolean flag
   var isFlag: Bool {
     switch self {
     case .longFlag:
@@ -34,6 +45,7 @@ enum ArgTokenType {
     }
   }
 
+  /// Is it a flag that requires values
   var requiresValue: Bool {
     switch self {
     case .longFlag:
@@ -48,6 +60,7 @@ enum ArgTokenType {
     }
   }
 
+  /// Returns the flag name if the token is a flag
   var flagName: String? {
     switch self {
     case let .longFlag(name):
@@ -86,10 +99,7 @@ enum ArgTokenType {
 
 extension ArgTokenType {
 
-  fileprivate static func hasEqual(_ string: String) -> Bool {
-    return string.characters.first { $0 == "=" } != nil
-  }
-
+  /// Parses a long flag, like `--verbose`
   fileprivate static func parseLongFlag(_ string: String) -> ArgTokenType {
     let scanner = StringScanner(string: string)
     _ = scanner.drop(length: 2)
@@ -102,6 +112,7 @@ extension ArgTokenType {
     }
   }
 
+  /// Parses a short flag like `-a`
   fileprivate static func parseShortFlag(_ string: String) -> ArgTokenType {
     let scanner = StringScanner(string: string)
     _ = scanner.drop(length: 1)
@@ -125,6 +136,7 @@ extension ArgTokenType {
     }
   }
 
+  /// Parses a `-a=` to (a, 1) and `--abc=123` to (abc, 123)
   fileprivate static func parseEqual(_ scanner: StringScanner) -> (String, String) {
     var name = "", value = ""
 
@@ -139,6 +151,8 @@ extension ArgTokenType {
     return (name, value)
   }
 
+  /// Is the scanned flag multiple flags
+  /// Return true for `-abc`
   fileprivate static func isMultiFlag(_ scanner: StringScanner) -> Bool {
     if case .value (let str) = scanner.peek(untilString: "=") {
       return str.characters.count > 1
@@ -147,4 +161,8 @@ extension ArgTokenType {
     return scanner.remainingString.characters.count > 1
   }
 
+  /// Return true if the string has equal. like `-a=1`, `-abc=1` and `--verbose=one`
+  fileprivate static func hasEqual(_ string: String) -> Bool {
+    return string.characters.first { $0 == "=" } != nil
+  }
 }

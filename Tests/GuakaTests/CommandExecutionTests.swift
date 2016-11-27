@@ -88,14 +88,14 @@ class CommandExecutionTests: XCTestCase {
 
   func testItCatchesTheCorrectAlias() {
     remote.aliases = ["rem1", "rem2"]
-    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem1"))
+    let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem1"))
     XCTAssertEqual(cmd.name, remote.name)
   }
 
   func testItCatchesTheCorrectAlias2() {
     remote.aliases = ["rem1", "rem2"]
     show.aliases = ["s1", "s2"]
-    let (cmd, _) = actualCommand(forCommand: git, args: expand("rem2 s1"))
+    let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem2 s1"))
     XCTAssertEqual(cmd.name, show.name)
   }
 

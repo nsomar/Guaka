@@ -6,10 +6,13 @@
 //
 //
 
+/// Result enum
+///
+/// - success: success
+/// - message: success but with a message
+/// - error:   error occured
 enum Result {
   case success
   case message(String)
   case error(Error)
-  //  CommandType, Error)
-  //case flagError(Error)
 }

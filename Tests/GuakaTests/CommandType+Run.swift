@@ -1,5 +1,5 @@
 //
-//  CommandType+Run.swift
+//  Command+Run.swift
 //  Guaka
 //
 //  Created by Omar Abdelhafith on 10/11/2016.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import Guaka
 
-class CommandTypeRunTests: XCTestCase {
+class CommandRunTests: XCTestCase {
 
   override func setUp() {
     setupTestSamples()

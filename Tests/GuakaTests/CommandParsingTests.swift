@@ -17,7 +17,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommandWithMultipleArguments() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "222", "show"])
+                                        arguments: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "222", "show"])
 
     XCTAssertEqual(command.name, "show")
     XCTAssertEqual(args, ["-vd1", "-v", "--bar", "1", "--foo", "222"])
@@ -25,7 +25,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand1() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "show"])
+                                        arguments: ["-vd1", "-v", "--bar", "1", "remote", "--foo", "show"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["-vd1", "-v", "--bar", "1", "--foo", "show"])
@@ -33,7 +33,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand2() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-vd1", "-v", "--bar", "remote"])
+                                        arguments: ["-vd1", "-v", "--bar", "remote"])
 
     XCTAssertEqual(command.name, "git")
     XCTAssertEqual(args, ["-vd1", "-v", "--bar", "remote"])
@@ -41,7 +41,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand3() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-v", "-w", "remote"])
+                                        arguments: ["-v", "-w", "remote"])
 
     XCTAssertEqual(command.name, "git")
     XCTAssertEqual(args, ["-v", "-w", "remote"])
@@ -49,7 +49,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand4() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-v", "-w", "1", "remote"])
+                                        arguments: ["-v", "-w", "1", "remote"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["-v", "-w", "1"])
@@ -57,7 +57,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand5() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["-v", "-t", "remote"])
+                                        arguments: ["-v", "-t", "remote"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["-v", "-t"])
@@ -65,7 +65,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand6() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["remote", "--xx"])
+                                        arguments: ["remote", "--xx"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--xx"])
@@ -73,7 +73,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand7() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["--xx", "remote"])
+                                        arguments: ["--xx", "remote"])
 
     XCTAssertEqual(command.name, "git")
     XCTAssertEqual(args, ["--xx", "remote"])
@@ -81,7 +81,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand8() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["--xx=1", "remote"])
+                                        arguments: ["--xx=1", "remote"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--xx=1"])
@@ -89,7 +89,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand9() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["--bar", "1", "remote"])
+                                        arguments: ["--bar", "1", "remote"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--bar", "1"])
@@ -97,7 +97,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand10() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["remote", "--bar", "1"])
+                                        arguments: ["remote", "--bar", "1"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--bar", "1"])
@@ -105,7 +105,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand11() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["--xx", "first", "remote", "second"])
+                                        arguments: ["--xx", "first", "remote", "second"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--xx", "first", "second"])
@@ -113,7 +113,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand12() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["remote", "--yy", "show"])
+                                        arguments: ["remote", "--yy", "show"])
 
     XCTAssertEqual(command.name, "remote")
     XCTAssertEqual(args, ["--yy", "show"])
@@ -121,7 +121,7 @@ class CommandParsingTests: XCTestCase {
 
   func testItCanGetACommand13() {
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["remote", "show", "--yy"])
+                                        arguments: ["remote", "show", "--yy"])
 
     XCTAssertEqual(command.name, "show")
     XCTAssertEqual(args, ["--yy"])
@@ -130,10 +130,10 @@ class CommandParsingTests: XCTestCase {
   func testItCanGetACommandEvenIfUsageIsLong() {
     show.usage = "show bla bla"
     let (command, args) = actualCommand(forCommand: git,
-                                        args: ["remote", "show", "--yy"])
-
+                                        arguments: ["remote", "show", "--yy"])
+    
     XCTAssertEqual(command.name, "show")
     XCTAssertEqual(args, ["--yy"])
   }
-
+  
 }

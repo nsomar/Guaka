@@ -7,9 +7,10 @@
 //
 
 
+// MARK: - Default HelpGenerator functions implementation
 extension HelpGenerator {
 
-  init(command: CommandType) {
+  init(command: Command) {
     self.init(commandHelp: CommandHelp(command: command))
   }
 
