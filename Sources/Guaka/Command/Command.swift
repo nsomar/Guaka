@@ -220,33 +220,6 @@ public class Command {
     }
   }
 
-  /// Initialize a command
-  ///
-  /// - parameter usage:             Command usage oneliner
-  /// - parameter shortMessage:      (Optional)Short usage string. Defaults to nil
-  /// - parameter flags:             (Optional)Command list of flags. Defaults to emoty array
-  /// - parameter run:               Callback called when the command is executed
-  ///
-  /// - throws: exception if the usage is incorrect (empty, or has wrong command name format)
-  ///
-  /// ----
-  /// Discussion:
-  ///
-  /// The command usage must be a string that contains the command name as the first word.
-  ///
-  /// Some correct usages strings:
-  /// - login [name]
-  /// - login [flags] name
-  ///
-  /// The first word of the usage will be the command name
-  ///
-  /// ----
-//  public convenience init(usage: String,
-//                          shortMessage: String? = nil,
-//                          flags: [Flag] = [],
-//                          run: Run?) {
-//    self.init(usage: usage, shortMessage: shortMessage, longMessage: nil, flags: flags, run: run)
-//  }
 
   /// Initialize a command
   ///

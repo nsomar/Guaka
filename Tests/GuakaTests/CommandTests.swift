@@ -58,7 +58,6 @@ class CommandTests: XCTestCase {
   }
 
   func testItThrowsErrorForWrongUsage() {
-//    let c = Command(
     do {
       _ = try Command.name(forUsage: " git")
       XCTFail()

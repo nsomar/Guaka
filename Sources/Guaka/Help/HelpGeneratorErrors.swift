@@ -8,7 +8,7 @@
 
 extension HelpGenerator {
 
-  func errorString(forError error: CommandError) -> String {
+  public func errorString(forError error: CommandError) -> String {
     return [
       "Error: \(errorMessage(forError: error))",
       errorHelpMessage,
