@@ -25,6 +25,12 @@ extension HelpGenerator {
       return "required flag was not set: '\(flag)' expected type: '\(type)'"
     case let .incorrectFlagValue(flag, error):
       return "wrong flag value passed for flag: '\(flag)' \(error)"
+    case let .wrongCommandUsageString(name):
+      return "wrong command name used.\nCommand name of '\(name)' is not allowed."
+    case let .wrongFlagLongName(name):
+      return "wrong flag long name used.\nFlag name of '\(name)' is not allowed."
+    case let .wrongFlagShortName(name):
+      return "wrong flag short name used.\nFlag name of '\(name)' is not allowed."
     default:
       return "General error encountered"
     }

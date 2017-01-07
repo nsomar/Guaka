@@ -89,23 +89,23 @@ class CommandExecutionTests: XCTestCase {
   func testItCatchesTheCorrectAlias() {
     remote.aliases = ["rem1", "rem2"]
     let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem1"))
-    XCTAssertEqual(cmd.name, remote.name)
+    XCTAssertEqual(cmd.nameOrEmpty, remote.nameOrEmpty)
   }
 
   func testItCatchesTheCorrectAlias2() {
     remote.aliases = ["rem1", "rem2"]
     show.aliases = ["s1", "s2"]
     let (cmd, _) = actualCommand(forCommand: git, arguments: expand("rem2 s1"))
-    XCTAssertEqual(cmd.name, show.name)
+    XCTAssertEqual(cmd.nameOrEmpty, show.nameOrEmpty)
   }
 
   func testItCanGetCommandToExecute() {
     //git.execute
     let c1 = git.commandToExecute(commandLineArgs: expand("git remote --foo show --xx --bar=123 -h"))
-    XCTAssertEqual(c1.name, "remote")
+    XCTAssertEqual(c1.nameOrEmpty, "remote")
 
     let c2 = git.commandToExecute(commandLineArgs: expand("git remote show --xx --bar=123 -h"))
-    XCTAssertEqual(c2.name, "show")
+    XCTAssertEqual(c2.nameOrEmpty, "show")
   }
 
   func testItPrintsThatCommandIsDeprecatedWhenExecutingCommand() {
@@ -139,7 +139,7 @@ class CommandExecutionTests: XCTestCase {
 
   func testItCatchesRequiredFlagNotSet() {
     //git.execute
-    git.add(flag: try! Flag(longName: "req", type: String.self, required: true))
+    git.add(flag: Flag(longName: "req", type: String.self, description: "", required: true))
     git.execute(commandLineArgs: expand("git"))
     XCTAssertEqual(git.printed, "Error: required flag was not set: \'req\' expected type: \'String\'\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug       \n      --req string  (required)\n  -r, --root int    (default 1)\n  -t, --togge       \n  -v, --verbose     \n\nUse \"git [command] --help\" for more information about a command.\n\nrequired flag was not set: \'req\' expected type: \'String\'\nexit status 255")
   }

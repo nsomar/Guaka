@@ -13,10 +13,10 @@ extension Flag {
 
   /// Converts the value from string to the internal flag value type
   /// Throws exception if cannot convert
-  func convertValueToInnerType(value: String) throws -> FlagValueStringConvertible {
+  func convertValueToInnerType(value: String) throws -> FlagValue {
     do {
       return try self.type.fromString(flagValue: value)
-    } catch let e as FlagValueConversationError {
+    } catch let e as FlagValueError {
       throw CommandError.incorrectFlagValue(self.longName, e.error)
     }
   }

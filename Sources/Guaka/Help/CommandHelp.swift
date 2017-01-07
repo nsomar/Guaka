@@ -69,7 +69,7 @@ public struct CommandHelp {
   public let globalFlags: [FlagHelp]
 
   init(command: Command) {
-    name = command.name
+    name = (try? command.name()) ?? ""
     usage = command.usage
 
     fullUsage = CommandHelp.fullUsage(forCommand: command)
@@ -101,7 +101,7 @@ public struct CommandHelp {
 
   /// Full path `git show origin`
   private static func fullPath(forCommand command: Command) -> String {
-    return path(forCommand: command) + command.name
+    return path(forCommand: command) + command.nameOrEmpty
   }
 
   /// Full path `git show origin use as its`

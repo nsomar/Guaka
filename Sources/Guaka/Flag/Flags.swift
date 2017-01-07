@@ -93,7 +93,7 @@ public struct Flags {
   /// - parameter type: the type of the flag
   ///
   /// - returns: the value if the flag is found
-  public func get<T: FlagValueStringConvertible>(name: String, type: T.Type) -> T? {
+  public func get<T: FlagValue>(name: String, type: T.Type) -> T? {
     return flagsDict[name]?.value as? T
   }
 

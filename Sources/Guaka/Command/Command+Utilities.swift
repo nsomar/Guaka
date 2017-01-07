@@ -76,7 +76,7 @@ extension Command {
     }
 
     var mut = accumolator
-    mut.append(cmd.name)
+    mut.append(cmd.nameOrEmpty)
     return getPath(cmd: cmd.parent, accumolator: mut)
   }
 

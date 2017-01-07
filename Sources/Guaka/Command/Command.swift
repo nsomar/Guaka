@@ -72,13 +72,10 @@ public class Command {
   /// The usage must contain the command name as its first word
   ///
   /// Correct usages strings:
+  ///
   /// - login [name]
   /// - login [flags] name
   public var usage: String
-
-
-  /// The command name, this is the first word in the usage string
-  public let name: String
 
 
   /// The short usages string
@@ -103,7 +100,7 @@ public class Command {
 
   /// The flags available for this command
   /// This list contains only the local flags added to the command
-  public var flags: [Flag]
+  public var flags: [Flag] = []
 
 
   /// The subcommands this command has
@@ -163,39 +160,46 @@ public class Command {
     return GuakaConfig.helpGenerator.init(command: self).helpMessage
   }
 
+  var nameOrEmpty: String  {
+    return (try? Command.name(forUsage: usage)) ?? ""
+  }
+
   /// Initialize a command
   ///
   /// - parameter usage:             Command usage oneliner
-  /// - parameter shortMessage:      Short usage string
-  /// - parameter longMessage:       Long usage string
-  /// - parameter example:           Example show when printing the help message
-  /// - parameter parent:            The command parent
-  /// - parameter aliases:           List of command aliases
-  /// - parameter deprecationStatus: Command deprecation status
-  /// - parameter flags:             Command list of flags
-  /// - parameter configuration:     Confuguration block to configure the command
-  /// - parameter run:               Callback called when the command is executed
+  /// - parameter shortMessage:      (Optional)Short usage string. Defaults to nil
+  /// - parameter longMessage:       (Optional)Long usage string. Defaults to nil
+  /// - parameter flags:             (Optional)Command list of flags. Defaults to emoty array
+  /// - parameter example:           (Optional)Example show when printing the help message. Defaults to nil
+  /// - parameter parent:            (Optional)The command parent. Defaults to nil
+  /// - parameter aliases:           (Optional)List of command aliases. Defaults to empty array
+  /// - parameter deprecationStatus: (Optional)Command deprecation status. . Defaults to .notDeprecated
+  /// - parameter run:               (Optional)Callback called when the command is executed. Defaults to nil
   ///
   /// - throws: exception if the usage is incorrect (empty, or has wrong command name format)
   ///
+  /// ----
   /// Discussion:
+  ///
   /// The command usage must be a string that contains the command name as the first word.
-  /// 
-  /// Some correct usages:
+  ///
+  /// Some correct usages strings:
+  ///
   /// - login [name]
   /// - login [flags] name
   ///
   /// The first word of the usage will be the command name
+  ///
+  /// ----
   public init(usage: String,
               shortMessage: String? = nil,
               longMessage: String? = nil,
+              flags: [Flag] = [],
               example: String? = nil,
               parent: Command? = nil,
               aliases: [String] = [],
               deprecationStatus: DeprecationStatus = .notDeprecated,
-              flags: [Flag] = [],
-              configuration: Configuration? = nil,
-              run: Run? = nil) throws {
+              run: Run? = nil) {
     self.usage = usage
 
     self.shortMessage = shortMessage
@@ -210,13 +214,60 @@ public class Command {
 
     self.run = run
 
-    self.name = try Command.name(forUsage: usage)
-
     if let parent = parent {
       self.parent = parent
       parent.add(subCommand: self)
     }
+  }
 
+  /// Initialize a command
+  ///
+  /// - parameter usage:             Command usage oneliner
+  /// - parameter shortMessage:      (Optional)Short usage string. Defaults to nil
+  /// - parameter flags:             (Optional)Command list of flags. Defaults to emoty array
+  /// - parameter run:               Callback called when the command is executed
+  ///
+  /// - throws: exception if the usage is incorrect (empty, or has wrong command name format)
+  ///
+  /// ----
+  /// Discussion:
+  ///
+  /// The command usage must be a string that contains the command name as the first word.
+  ///
+  /// Some correct usages strings:
+  /// - login [name]
+  /// - login [flags] name
+  ///
+  /// The first word of the usage will be the command name
+  ///
+  /// ----
+//  public convenience init(usage: String,
+//                          shortMessage: String? = nil,
+//                          flags: [Flag] = [],
+//                          run: Run?) {
+//    self.init(usage: usage, shortMessage: shortMessage, longMessage: nil, flags: flags, run: run)
+//  }
+
+  /// Initialize a command
+  ///
+  /// - parameter usage:             Command usage oneliner
+  /// - parameter configuration:     Confuguration block to configure the command
+  /// - parameter run:               Callback called when the command is executed
+  ///
+  /// - throws: exception if the usage is incorrect (empty, or has wrong command name format)
+  ///
+  /// Discussion:
+  /// The command usage must be a string that contains the command name as the first word.
+  ///
+  /// Some correct usages strings:
+  /// - login [name]
+  /// - login [flags] name
+  ///
+  /// The first word of the usage will be the command name
+  public convenience init(usage: String,
+                          configuration: Configuration?,
+                          run: Run?) {
+    self.init(usage: usage, shortMessage: nil, longMessage: nil, flags: [], run: run)
     configuration?(self)
   }
 
@@ -227,8 +278,9 @@ public class Command {
   ///
   /// - returns: return a command if found
   public subscript(withName name: String) -> Command? {
+
     for command in commands where
-      command.name == name || command.aliases.contains(name) {
+      command.nameOrEmpty == name || command.aliases.contains(name) {
         return command
     }
 
@@ -341,17 +393,16 @@ public class Command {
   /// - parameter statusCode: the status code to report
   /// - parameter errorMessage: additinal error message to print
   public func fail(statusCode: Int, errorMessage: String? = nil) -> Never {
-    if let errorMessage = errorMessage {
-      printToConsole(errorMessage)
-    }
-
-    printToConsole(helpMessage)
+    printToConsole(errorMessage ?? helpMessage)
     exit(Int32(statusCode))
   }
-
+  
   /// Print a string to console. This method is for enabling testability only
   func printToConsole(_ string: String) {
     print(string)
   }
-  
+
+  func name() throws -> String {
+    return try Command.name(forUsage: usage)
+  }
 }

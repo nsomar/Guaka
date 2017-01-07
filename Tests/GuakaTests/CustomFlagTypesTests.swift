@@ -13,7 +13,7 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithACustomType() {
 
-    struct CustomType: FlagValueStringConvertible {
+    struct CustomType: FlagValue {
       let val: String
 
       static func fromString(flagValue value: String) throws -> CustomType {
@@ -25,7 +25,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "list", type: CustomType.self),
+        Flag(longName: "list", type: CustomType.self, description: ""),
         ]
     )
 
@@ -39,11 +39,11 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithACustomTypeThatGeneratesAnError() {
 
-    struct CustomType: FlagValueStringConvertible {
+    struct CustomType: FlagValue {
       let val: String
 
       static func fromString(flagValue value: String) throws -> CustomType {
-        throw FlagValueConversationError.conversionError("cannot convert \(value) to \(typeDescription)")
+        throw FlagValueError.conversionError("cannot convert \(value) to \(typeDescription)")
       }
 
       static var typeDescription: String { return "list" }
@@ -51,7 +51,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "list", type: CustomType.self),
+        Flag(longName: "list", type: CustomType.self, description: ""),
         ]
     )
 
@@ -68,14 +68,14 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithAnEnumWtihSuccess() {
 
-    enum Animals: String, FlagValueStringConvertible {
+    enum Animals: String, FlagValue {
       case dog = "dog"
       case cat = "cat"
       case donkey = "donkey"
 
       static func fromString(flagValue value: String) throws -> Animals {
         guard let animal = Animals(rawValue: value) else {
-          throw FlagValueConversationError.conversionError("Cannot create animal from \(value)")
+          throw FlagValueError.conversionError("Cannot create animal from \(value)")
         }
         return animal
       }
@@ -86,7 +86,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "love", type: Animals.self, required: true),
+        Flag(longName: "love", type: Animals.self, description: "", required: true),
         ]
     )
 
@@ -100,14 +100,14 @@ class CustomFlagTypesTests: XCTestCase {
 
   func testItCanSetAFlagWithAnEnumWtihError() {
 
-    enum Animals: String, FlagValueStringConvertible {
+    enum Animals: String, FlagValue {
       case dog = "dog"
       case cat = "cat"
       case donkey = "donkey"
 
       static func fromString(flagValue value: String) throws -> Animals {
         guard let animal = Animals(rawValue: value) else {
-          throw FlagValueConversationError.conversionError("Cannot create animal from \(value)")
+          throw FlagValueError.conversionError("Cannot create animal from \(value)")
         }
         return animal
       }
@@ -118,7 +118,7 @@ class CustomFlagTypesTests: XCTestCase {
 
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "love", type: Animals.self, required: true),
+        Flag(longName: "love", type: Animals.self, description: "", required: true),
         ]
     )
 

@@ -1,5 +1,5 @@
 //
-//  FlagValueStringConvertible.swift
+//  FlagValue.swift
 //  CommandLine
 //
 //  Created by Omar Abdelhafith on 30/10/2016.
@@ -15,7 +15,7 @@
 /// Flag with User type
 ///
 /// ```
-/// struct User: FlagValueStringConvertible {
+/// struct User: FlagValue {
 ///   let name: String
 ///
 ///   static func fromString(flagValue value: String) throws -> User {
@@ -31,14 +31,14 @@
 /// ```
 /// let flag = try! Flag(longName: "debug", type: User.self)
 /// ```
-public protocol FlagValueStringConvertible {
+public protocol FlagValue {
 
   /// Create a command string convertible from string
   ///
   /// - parameter value: the string to be converted
   ///
   /// - throws: exception thrown if cannot convert from string.
-  /// The exception of type FlagValueConversationError
+  /// The exception of type FlagValueError
   ///
   /// ----
   /// Example
@@ -46,7 +46,7 @@ public protocol FlagValueStringConvertible {
   /// Create a correct user from string
   ///
   /// ```
-  /// struct User: FlagValueStringConvertible {
+  /// struct User: FlagValue {
   ///   let name: String
   ///
   ///   static func fromString(flagValue value: String) throws -> User {
@@ -62,12 +62,12 @@ public protocol FlagValueStringConvertible {
   /// Return a parsing error
   ///
   /// ```
-  /// struct User: FlagValueStringConvertible {
+  /// struct User: FlagValue {
   ///   let name: String
   ///
   ///   static func fromString(flagValue value: String) throws -> User {
   ///     if value == "wrong" {
-  ///         throw FlagValueConversationError.conversionError("wrong user passed")
+  ///         throw FlagValueError.conversionError("wrong user passed")
   ///     }
   ///     return User(name: value)
   ///   }
@@ -84,7 +84,7 @@ public protocol FlagValueStringConvertible {
   /// -----
   /// Example
   /// ```
-  /// struct User: FlagValueStringConvertible {
+  /// struct User: FlagValue {
   ///   let name: String
   ///
   ///   static func fromString(flagValue value: String) throws -> User {
@@ -109,7 +109,7 @@ public protocol FlagValueStringConvertible {
 }
 
 
-/// Error to throw when converting string to FlagValueStringConvertible
+/// Error to throw when converting string to FlagValue
 ///
 /// - conversionError: conversation error string
 /// This string will be used to be printed to the console
@@ -117,12 +117,12 @@ public protocol FlagValueStringConvertible {
 /// ----
 /// Example
 /// ```
-/// struct User: FlagValueStringConvertible {
+/// struct User: FlagValue {
 ///   let name: String
 ///
 ///   static func fromString(flagValue value: String) throws -> User {
 ///     if value == "wrong" {
-///         throw FlagValueConversationError.conversionError("wrong user passed")
+///         throw FlagValueError.conversionError("wrong user passed")
 ///     }
 ///     return User(name: value)
 ///   }
@@ -132,7 +132,7 @@ public protocol FlagValueStringConvertible {
 ///   }
 /// }
 /// ```
-public enum FlagValueConversationError: Error {
+public enum FlagValueError: Error {
 
   /// Conversation error happened while parsing string to type
   /// This string will be used to be printed to the console
@@ -140,12 +140,12 @@ public enum FlagValueConversationError: Error {
   /// ----
   /// Example
   /// ```
-  /// struct User: FlagValueStringConvertible {
+  /// struct User: FlagValue {
   ///   let name: String
   ///
   ///   static func fromString(flagValue value: String) throws -> User {
   ///     if value == "wrong" {
-  ///         throw FlagValueConversationError.conversionError("wrong user passed")
+  ///         throw FlagValueError.conversionError("wrong user passed")
   ///     }
   ///     return User(name: value)
   ///   }
@@ -166,7 +166,7 @@ public enum FlagValueConversationError: Error {
 }
 
 
-extension Bool: FlagValueStringConvertible {
+extension Bool: FlagValue {
 
   public static func fromString(flagValue value: String) throws -> Bool {
     if value == "1" {
@@ -177,7 +177,7 @@ extension Bool: FlagValueStringConvertible {
       return b
     }
 
-    throw FlagValueConversationError.conversionError("cannot convert '\(value)' to '\(Bool.self)' ")
+    throw FlagValueError.conversionError("cannot convert '\(value)' to '\(Bool.self)' ")
   }
 
   public static var typeDescription: String { return "" }
@@ -185,11 +185,11 @@ extension Bool: FlagValueStringConvertible {
 }
 
 
-extension Int: FlagValueStringConvertible {
+extension Int: FlagValue {
 
   public static func fromString(flagValue value: String) throws -> Int {
     guard let val = Int(value) else {
-      throw FlagValueConversationError.conversionError("cannot convert '\(value)' to '\(Int.self)' ")
+      throw FlagValueError.conversionError("cannot convert '\(value)' to '\(Int.self)' ")
     }
 
     return val
@@ -200,7 +200,7 @@ extension Int: FlagValueStringConvertible {
 }
 
 
-extension String: FlagValueStringConvertible {
+extension String: FlagValue {
 
   public static func fromString(flagValue value: String) throws -> String {
     return value

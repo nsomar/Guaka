@@ -10,7 +10,8 @@
 /// Flag struct representing a flag
 ///
 /// ----
-/// Example
+/// Example:
+///
 /// Create a flag with a default value
 /// ```
 /// let flag = try! try! Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
@@ -48,7 +49,7 @@ public struct Flag: Hashable {
 
 
   /// Flag value type.
-  public let type: FlagValueStringConvertible.Type
+  public let type: FlagValue.Type
 
 
   /// Set the flag to be required/
@@ -57,8 +58,8 @@ public struct Flag: Hashable {
 
 
   /// Flag value.
-  /// The value can be `int`, `bool`, `string` or any other type that implements `FlagValueStringConvertible`
-  public var value: FlagValueStringConvertible?
+  /// The value can be `int`, `bool`, `string` or any other type that implements `FlagValue`
+  public var value: FlagValue?
 
 
   /// Flag deprecation status.
@@ -83,24 +84,30 @@ public struct Flag: Hashable {
 
   /// Creats a new flag
   ///
+  /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
   /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
-  /// - parameter shortName:   Flag short name, the short name must be 1 alpha numeric character
   /// - parameter value:       Flag default value
-  /// - parameter inheritable: Flag inheritable status
   /// - parameter description: Flag description to be shown when displaying command help
+  /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
   ///
-  /// - throws: throws exceptions if flag names are incorrect
+  /// -----
+  /// Discussion: 
   ///
+  /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
+  ///
+  /// -----
   /// Example:
+  ///
   /// Create a flag with a default value
   /// ```
   /// let flag = try! Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
   /// ```
-  public init(longName: String,
-              shortName: String? = nil,
-              value: FlagValueStringConvertible,
-              inheritable: Bool = true,
-              description: String = "") throws {
+  /// -----
+  public init(shortName: String? = nil,
+              longName: String,
+              value: FlagValue,
+              description: String,
+              inheritable: Bool = false) {
 
     self.longName = longName
     self.shortName = shortName
@@ -109,34 +116,36 @@ public struct Flag: Hashable {
     self.description = description
     self.type = type(of: value)
     self.required = true
-
-    try checkFlagLongName()
-    try checkFlagShortName()
   }
-
 
   /// Creats a new flag
   ///
+  /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
   /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
-  /// - parameter shortName:   Flag short name, the short name must be 1 alpha numeric character
   /// - parameter type:        Flag value type
-  /// - parameter required:    Flag requirement status
-  /// - parameter inheritable: Flag inheritable status
   /// - parameter description: Flag description to be shown when displaying command help
+  /// - parameter required:    (Optional)Flag requirement status. Defaults to false
+  /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
   ///
-  /// - throws: throws exceptions if flag names are incorrect
+  /// -----
+  /// Discussion:
   ///
+  /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
+  ///
+  /// -----
   /// Example:
+  ///
   /// Create a flag with a default value
   /// ```
   /// let flag = try! Flag(longName: "debug", type: Int.self, required: true)
   /// ```
-  public init(longName: String,
-              shortName: String? = nil,
-              type: FlagValueStringConvertible.Type,
+  /// -----
+  public init(shortName: String? = nil,
+              longName: String,
+              type: FlagValue.Type,
+              description: String,
               required: Bool = false,
-              inheritable: Bool = false,
-              description: String = "") throws {
+              inheritable: Bool = false) {
 
     self.longName = longName
     self.shortName = shortName
@@ -144,7 +153,9 @@ public struct Flag: Hashable {
     self.inheritable = inheritable
     self.description = description
     self.required = required
+  }
 
+  func validate() throws {
     try checkFlagLongName()
     try checkFlagShortName()
   }

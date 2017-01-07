@@ -18,8 +18,8 @@ extension FlagSet {
   /// - throws: throws exception if received wrong arguments
   ///
   /// - returns: The flag values and the positional arguments
-  func parse(args: [String]) throws -> ([Flag: FlagValueStringConvertible], [String]) {
-    var ret = [Flag: FlagValueStringConvertible]()
+  func parse(args: [String]) throws -> ([Flag: FlagValue], [String]) {
+    var ret = [Flag: FlagValue]()
     var remainigArgs = [String]()
 
     var pendingFlag: Flag?
@@ -93,9 +93,9 @@ extension FlagSet {
 
   /// Parses `-abcd=123` flag set
   /// Converts it to: `[a: true, b: true, c: true, d: 123]`
-  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: FlagValueStringConvertible], Flag?) {
+  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: FlagValue], Flag?) {
     let scanner = StringScanner(string: name)
-    var ret = [Flag: FlagValueStringConvertible]()
+    var ret = [Flag: FlagValue]()
 
     while true {
       let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
