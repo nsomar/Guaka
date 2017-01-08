@@ -160,8 +160,7 @@ The easiest way to use guaka is by using `guaka` command line app. This CLI app 
 First lets install `guaka` using brew:
 
 ```
-> brew tap getGuaka/tap 
-> brew install guaka
+> brew install getGuaka/tap/guaka
 ```
 
 Check that `guaka` is installed:
