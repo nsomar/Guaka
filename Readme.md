@@ -146,7 +146,7 @@ The easiest way to use guaka is by using `guaka` command line app. This CLI app 
 First lets install `guaka` using brew:
 
 ```
-> brew install getGuaka/tap/guaka
+> brew install oarrabi/tap/guaka
 ```
 
 Check that `guaka` is installed:
@@ -243,7 +243,7 @@ import PackageDescription
 
 let package = Package(name: "YourPackage",
   dependencies: [
-    .Package(url: "https://github.com/getGuaka/Guaka.git", majorVersion: 0),
+    .Package(url: "https://github.com/oarrabi/Guaka.git", majorVersion: 0),
   ]
 )
 ```
