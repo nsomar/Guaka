@@ -115,6 +115,8 @@ let command = Command(usage: "mycommand") { flags, args in
 }
 ```
 
+Check the [Command documentation](http://help.getguaka.com/Classes/Command.html)
+
 ### Flag
 A `Flag` represent an option or switch that a `Command` accepts. Guaka supports both short and long flag formats (inline with POSIX flags).
 
@@ -132,6 +134,8 @@ let command = Command(usage: "ps", flags: [flag]) { flags, args in
 
 Above we defined a `Flag` with `all` as longName  and a default value of `false`.    
 To read this flag in the command we use `flags.getBool(...)` which returns the flag value.
+
+Check the [Flag documentation](http://help.getguaka.com/Structs/Flag.html)
 
 ## Installation
 You can install Guaka using Swift package manager (SPM).   
@@ -235,6 +239,7 @@ command.add(flags: [
 
 Now save the file and build it with `swift build`. Run the built binary `./.build/debug/git -h` and check the created command structure.
 
+Check [add flag documentation](http://help.getguaka.com/Classes/Command.html#/s:FC5Guaka7Command3addFT4flagVS_4Flag_T_)
 
 ### Manually implementing Guaka
 Alternatively you can create a Guaka command line app by implementing `Guaka` in a swift project.
@@ -287,6 +292,8 @@ You should get:
 You passed ["Hello from cli"] to your Guaka app!
 ```
 
+Check the [Command documentation](http://help.getguaka.com/Classes/Command.html)
+
 #### Adding a flag to the command
 Lets proceed at adding a flag. Go to `main.swift` and change it to the following:
 
@@ -319,6 +326,8 @@ Now lets test it by building and running the command:
 Version is 1.0.0
 ```
 
+Check [add flag documentation](http://help.getguaka.com/Classes/Command.html#/s:FC5Guaka7Command3addFT4flagVS_4Flag_T_)
+
 #### Adding a subcommand
 To add a subcommand we alter `main.swift`. Add the following before calling `command.execute()`
 
@@ -344,6 +353,8 @@ Now build and run the command:
 Inside subcommand
 ```
 
+Check [add sub command](Check [add flag documentation](http://help.getguaka.com/Classes/Command.html#/s:FC5Guaka7Command3addFT4flagVS_4Flag_T_))
+
 #### Displaying the command help message
 Guaka automatically generates help for your commands. We can get the help by running:
 
@@ -365,10 +376,14 @@ Use "hello [command] --help" for more information about a command.
 
 Notice how the command the sub-command and flag info are displayed.
 
+Read more about the [help message](http://help.getguaka.com/Protocols/HelpGenerator.html)
+
 ## Documentation
 
 ### Command documentation
 `Command` represents the main class in Guaka. It encapsulates a command or subcommand that Guaka defines.
+
+For the full [Command documentation](http://help.getguaka.com/Classes/Command.html)
 
 #### Usage and Run block
 As minimum a command needs a usage string and a `Run` block. The usage string describe how this command can be used.
@@ -398,6 +413,8 @@ Command(usage: "...",
 ```
 
 At minimum you need to pass the `usage` and the `run` block. Refer to the code documentation for info about the parameters.
+
+Check the [Flags documentation](http://help.getguaka.com/Structs/Flags.html)
 
 #### Adding Sub-commands to the command
 Commands are organized in a tree structure. Each command can have zero, one or many sub-commands associated with it.
@@ -605,6 +622,7 @@ Now we can get the version by calling:
 
 A `Flag` represent an option or switch that a `Command` accepts. Guaka defines 4 types of flags; integer, boolean, string and custom types.
 
+Check the full [Flag documentation](http://help.getguaka.com/Structs/Flag.html)
 
 #### Creating a flag with default value
 To create a `Flag` with default value, we call do the following:
@@ -696,6 +714,8 @@ HELLO WORLD
 - `func getInt(name: String) -> Int?`
 - `func getString(name: String) -> String?`
 - `func get<T: FlagValue>(name: String, type: T.Type) -> T?`
+
+Check the full [Flags documentation](http://help.getguaka.com/Structs/Flags.html)
 
 #### Inheritable flags
 Flags that are set to a parent `Command` can be also inherited to the sub-commands by passing `true` to the `inheritable` argument in the flag construcutor.
@@ -791,6 +811,8 @@ wrong flag value passed for flag: 'lang' Wrong language passed
 exit status 255
 ```
 
+Check the full [FlagValue documentation](http://help.getguaka.com/Protocols/FlagValue.html) and the [FlagValueError documentation](http://help.getguaka.com/Enums/FlagValueError.html).
+
 ### Help costumization
 Guaka allows you to costumize the format of the generated help. You can do that by implementing the `HelpGenerator` and passing your class to `GuakaConfig.helpGenerator`.
 
@@ -818,6 +840,7 @@ GuakaConfig.helpGenerator = CustomHelp.self
 
 Any `HelpGenerator` subclass will have a `commandHelp` variable which is an instance of `CommandHelp` structure. This strucutre contains all the info available for a command.
 
+Check the full [HelpGenerator documentation](http://help.getguaka.com/Protocols/HelpGenerator.html)
 
 ## Tests
 Tests can be found [here](https://github.com/oarrabi/Guaka/tree/master/Tests).
