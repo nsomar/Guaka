@@ -39,10 +39,10 @@ class CommandTest: XCTestCase {
 
   func testItCanGetTheRoot() {
     let r1 = git.root
-    XCTAssertEqual(r1.name, "git")
+    XCTAssertEqual(r1.nameOrEmpty, "git")
 
     let r2 = show.root
-    XCTAssertEqual(r2.name, "git")
+    XCTAssertEqual(r2.nameOrEmpty, "git")
   }
 
   func testItCanGetThePathOfACommand() {

@@ -97,7 +97,7 @@ class HelpTests: XCTestCase {
   }
 
   func testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing() {
-    git.add(flags: [try! Flag(longName: "hello", type: Int.self, required: true)])
+    git.add(flags: [Flag(longName: "hello", type: Int.self, description: "", required: true)])
     git.execute(commandLineArgs: expand("git -h"))
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug      \n      --hello int  (required)\n  -r, --root int   (default 1)\n  -t, --togge      \n  -v, --verbose    \n\nUse \"git [command] --help\" for more information about a command.")
@@ -142,7 +142,7 @@ class HelpTests: XCTestCase {
 
   func testItPrintsTheUsageSection() {
     rebase.usage = "rebase bla bla bla"
-    XCTAssertEqual(rebase.name, "rebase")
+    XCTAssertEqual(rebase.nameOrEmpty, "rebase")
     XCTAssertEqual(rebase.helpMessage,
                    "Usage:\n  git rebase bla bla bla [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }

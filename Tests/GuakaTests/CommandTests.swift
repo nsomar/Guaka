@@ -29,19 +29,19 @@ class CommandTests: XCTestCase {
 
   func testItCanRemoveACommands() {
     XCTAssertEqual(git.commands.count, 2)
-    git.removeCommand { $0.name == "remote" }
+    git.removeCommand { $0.usage == "remote" }
     XCTAssertEqual(git.commands.count, 1)
   }
 
   func testItCanAddFlags() {
     XCTAssertEqual(git.flags.count, 4)
-    git.add(flag: try! Flag(longName: "new", type: Int.self))
+    git.add(flag: Flag(longName: "new", type: Int.self, description: ""))
     XCTAssertEqual(git.flags.count, 5)
   }
 
   func testItCanAddMultipleFlags() {
     XCTAssertEqual(git.flags.count, 4)
-    git.add(flags: [try! Flag(longName: "new1", type: Int.self), try! Flag(longName: "new2", type: Int.self)])
+    git.add(flags: [Flag(longName: "new1", type: Int.self, description: ""), Flag(longName: "new2", type: Int.self, description: "")])
     XCTAssertEqual(git.flags.count, 6)
   }
 
@@ -58,7 +58,6 @@ class CommandTests: XCTestCase {
   }
 
   func testItThrowsErrorForWrongUsage() {
-
     do {
       _ = try Command.name(forUsage: " git")
       XCTFail()
@@ -87,6 +86,31 @@ class CommandTests: XCTestCase {
       XCTFail()
     }
 
+  }
+
+  func testItCanBeInitializedWith3Params() {
+
+    class flag {
+      public init(usage: String,
+                  shortMessage: String? = nil,
+                  longMessage: String? = nil,
+                  flags: [Flag],
+                  example: String? = nil,
+                  parent: Command? = nil,
+                  aliases: [String] = [],
+                  deprecationStatus: DeprecationStatus = .notDeprecated,
+                  run: Run? = nil) throws{
+      }
+
+      public init(usage: String,
+                  shortMessage: String,
+                  flags: [Flag] = [],
+                  run: Run?) throws {}
+
+      public init(usage: String,
+                  configuration: Configuration?,
+                  run: Run?) {}
+    }
   }
   
 }

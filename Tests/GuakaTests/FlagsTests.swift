@@ -13,8 +13,8 @@ class FlagsTests: XCTestCase {
 
   func testItReuturnInt() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: true),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: true, description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     XCTAssertEqual(f.getInt(name: "bla"), 1)
@@ -22,8 +22,8 @@ class FlagsTests: XCTestCase {
 
   func testItReuturnBool() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: false),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: false, description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     XCTAssertEqual(f.getBool(name: "debug"), false)
@@ -31,8 +31,8 @@ class FlagsTests: XCTestCase {
 
   func testItReuturnString() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     XCTAssertEqual(f.getString(name: "debug"), "123")
@@ -40,8 +40,8 @@ class FlagsTests: XCTestCase {
 
   func testItGetsAFlag() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     XCTAssertEqual(f["debug"]?.value as? String, "123")
@@ -49,8 +49,8 @@ class FlagsTests: XCTestCase {
 
   func testItGetsAFlagValue() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     XCTAssertEqual(f[valueForName: "bla"] as? Int, 1)
@@ -58,8 +58,8 @@ class FlagsTests: XCTestCase {
 
   func testItGetsAFlagValueForAType() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     let v = f.get(name: "debug", type: String.self)
@@ -68,8 +68,8 @@ class FlagsTests: XCTestCase {
 
   func testItHandlesBadFlagNames() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     let v = f.get(name: "debug222", type: String.self)
@@ -78,8 +78,8 @@ class FlagsTests: XCTestCase {
 
   func testItHandlesBadFlagType() {
     let flags =
-      ["debug": try! Flag(longName: "debug", value: "123"),
-       "bla": try! Flag(longName: "bla", value: 1)]
+      ["debug": Flag(longName: "debug", value: "123", description: ""),
+       "bla": Flag(longName: "bla", value: 1, description: "")]
 
     let f = Flags(flags: flags)
     let v = f.get(name: "debug", type: Int.self)

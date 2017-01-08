@@ -14,12 +14,11 @@ extension Command {
     execute(commandLineArgs: CommandLine.arguments)
   }
 
-
   /// Executes a command with a list of arguments
   ///
   /// - parameter commandLineArgs: the arguments passed to the executable
   /// The arguments include the name of the exacutable as the first input
-  /// 
+  ///
   /// -----
   /// Example:
   /// ```
@@ -46,6 +45,36 @@ extension Command {
   /// ```
   public func commandToExecute(commandLineArgs: [String]) -> Command {
     return actualCommand(forCommand: self, arguments: Array(commandLineArgs.dropFirst())).0
+  }
+
+  /// Validate a Command it flags and subcommands
+  ///
+  /// - Throws: error if command, subcommands or flags are not valid
+  public func validate() throws {
+    _ = try self.name()
+
+    for flag in self.flags {
+      try flag.validate()
+    }
+
+    for command in self.commands {
+      try command.validate()
+    }
+  }
+
+  /// Validate a Command it flags and subcommands
+  ///
+  /// - Throws: error if command, subcommands or flags are not valid
+  func validateAndExitIfNeeded() {
+    do {
+      try validate()
+    } catch let e as CommandError {
+      fail(statusCode: -2, errorMessage: e.localizedDescription)
+    } catch let e as FlagValueError {
+      fail(statusCode: -2, errorMessage: e.error)
+    } catch {
+      fail(statusCode: -2, errorMessage: "Unknown error ocurred")
+    }
   }
 
 
@@ -124,7 +153,7 @@ extension Command {
     }
   }
 
-  
+
   /// Prints the deprecation message
   fileprivate func printDeprecationMessages(flags: [Flag]) {
 

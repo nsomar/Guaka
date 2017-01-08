@@ -105,7 +105,7 @@ class HelpGeneratorTests: XCTestCase {
   }
 
   func testItGeneratesFlagDeprecationMessage() {
-    var f = try! Flag(longName: "abcd", value: 1)
+    var f = Flag(longName: "abcd", value: 1, description: "")
     f.deprecationStatus = .deprecated("deprecated")
     let h1 = DefaultHelpGenerator(command: show)
 

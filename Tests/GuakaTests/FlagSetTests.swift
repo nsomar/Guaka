@@ -14,8 +14,8 @@ class FlagSetTests: XCTestCase {
   func testItKnowsIfFlagIsBoolean() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", value: 1)
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", value: 1, description: "")
       ]
     )
 
@@ -32,8 +32,8 @@ class FlagSetTests: XCTestCase {
   func testItKnowsIfTokenIsSatisfied() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", shortName: "d", value: true),
-        try! Flag(longName: "bla", shortName: "b", value: 1)
+        Flag(shortName: "d", longName: "debug", value: true, description: ""),
+        Flag(shortName: "b", longName: "bla", value: 1, description: "")
       ]
     )
 
@@ -71,17 +71,17 @@ class FlagSetTests: XCTestCase {
   func testItGetsPreparedFlags() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", value: 1),
-        try! Flag(longName: "test", value: "")
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", value: 1, description: ""),
+        Flag(longName: "test", value: "", description: "")
       ]
     )
 
     let values = [
-      try! Flag(longName: "debug", value: true): false,
-      try! Flag(longName: "bla", value: 1): 20,
-      try! Flag(longName: "test", value: ""): "Hello"
-    ] as [Flag : FlagValueStringConvertible]
+      Flag(longName: "debug", value: true, description: ""): false,
+      Flag(longName: "bla", value: 1, description: ""): 20,
+      Flag(longName: "test", value: "", description: ""): "Hello"
+    ] as [Flag : FlagValue]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -93,16 +93,16 @@ class FlagSetTests: XCTestCase {
   func testItGetsDeafaultValueForPreparedFlags() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", value: 1),
-        try! Flag(longName: "test", value: "")
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", value: 1, description: ""),
+        Flag(longName: "test", value: "", description: "")
       ]
     )
 
     let values = [
-      try! Flag(longName: "debug", value: true): false,
-      try! Flag(longName: "test", value: ""): "Hello"
-      ] as [Flag : FlagValueStringConvertible]
+      Flag(longName: "debug", value: true, description: ""): false,
+      Flag(longName: "test", value: "", description: ""): "Hello"
+      ] as [Flag : FlagValue]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -114,16 +114,16 @@ class FlagSetTests: XCTestCase {
   func testItThrowsErrorForUnexpectedFlags() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", value: 1),
-        try! Flag(longName: "test", value: "")
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", value: 1, description: ""),
+        Flag(longName: "test", value: "", description: "")
       ]
     )
 
     let values = [
-      try! Flag(longName: "debug", value: true): false,
-      try! Flag(longName: "test2", value: ""): "Hello"
-      ] as [Flag : FlagValueStringConvertible]
+      Flag(longName: "debug", value: true, description: ""): false,
+      Flag(longName: "test2", value: "", description: ""): "Hello"
+      ] as [Flag : FlagValue]
 
     do {
       _ = try fs.getPreparedFlags(withFlagValues: values)
@@ -139,9 +139,9 @@ class FlagSetTests: XCTestCase {
   func testAppendsHelpToFlagSet() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", value: 1),
-        try! Flag(longName: "test", value: "")
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", value: 1, description: ""),
+        Flag(longName: "test", value: "", description: "")
       ]
     ).flagSetAppendingHelp()
 
@@ -152,8 +152,8 @@ class FlagSetTests: XCTestCase {
   func testItCanGetRequiredFlags1() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -163,8 +163,8 @@ class FlagSetTests: XCTestCase {
   func testItCanGetRequiredFlags2() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: false),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: false),
         ]
     )
 
@@ -174,8 +174,8 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithError() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -197,9 +197,9 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlags() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
-        try! Flag(longName: "xxx", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
+        Flag(longName: "xxx", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -221,9 +221,9 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlagsEvenIfSomeAreSet() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
-        try! Flag(longName: "xxx", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
+        Flag(longName: "xxx", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -245,8 +245,8 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfFlagIsSet() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -264,9 +264,9 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfMultipleFlagIsSet() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: true),
-        try! Flag(longName: "xxx", type: Int.self, required: true),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: true),
+        Flag(longName: "xxx", type: Int.self, description: "", required: true),
         ]
     )
 
@@ -284,8 +284,8 @@ class FlagSetTests: XCTestCase {
   func testItMakesSureAllRequiredFlagsAreSetWithSuccessIfNoRequiredFlags() {
     let fs = FlagSet(
       flags: [
-        try! Flag(longName: "debug", value: true),
-        try! Flag(longName: "bla", type: Int.self, required: false),
+        Flag(longName: "debug", value: true, description: ""),
+        Flag(longName: "bla", type: Int.self, description: "", required: false),
         ]
     )
 

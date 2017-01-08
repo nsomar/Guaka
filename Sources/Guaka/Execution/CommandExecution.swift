@@ -8,7 +8,7 @@ import StringScanner
 ///
 /// - returns: The execution result
 func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
-
+  
   let (command, arguments) = actualCommand(forCommand: rootCommand, arguments: arguments)
   let flagSet = command.flagSet
 
@@ -52,7 +52,7 @@ extension FlagSet {
   /// - parameter values: the flag values
   ///
   /// - returns: a map of flag long name and Flag with value set
-  func getPreparedFlags(withFlagValues values: [Flag: FlagValueStringConvertible])
+  func getPreparedFlags(withFlagValues values: [Flag: FlagValue])
     throws -> [String: Flag] {
 
       var returnFlags = self.getFlagsWithLongNames()

@@ -23,7 +23,7 @@ public struct FlagHelp {
 
 
   /// Flag value.
-  public let value: FlagValueStringConvertible?
+  public let value: FlagValue?
 
 
   /// Flag type description message
