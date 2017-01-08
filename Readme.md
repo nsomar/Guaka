@@ -17,6 +17,7 @@ Also, it is currently in early stages of development and may do scary stuff incl
 ### [Yes](https://news.ycombinator.com/item?id=3067434)
 
 ## Why?
+- **Easy to use**: With Guaka generator you can create your command line in 2 minutes.
 - **It can be statically linked**: No libFoundation, and does no rely on many third-party libs.
 - **POSIX compliant flag parsing**: Handles both short and long flag names. Flag names can appear anywhere.
 - **Create modern and familiar command line apps**: Inspired and aims to enable the creating of CLIs in the vein of widely used projects: Docker, Kubernetes, OpenShift and Hugo, etc.
@@ -30,7 +31,6 @@ Also, it is currently in early stages of development and may do scary stuff incl
 - [Introduction](#introduction)
   - [Command](#command)
   - [Flag](#flag)
-- [Installation](#installation)
 - [Getting started](#getting-started)
   - [Using Guaka generator](#using-guaka-generator)
   - [Manually implementing Guaka](#manually-implementing-guaka)
@@ -136,20 +136,6 @@ Above we defined a `Flag` with `all` as longName  and a default value of `false`
 To read this flag in the command we use `flags.getBool(...)` which returns the flag value.
 
 Check the [Flag documentation](http://docs.getguaka.com/Structs/Flag.html)
-
-## Installation
-You can install Guaka using Swift package manager (SPM).   
-Add Guaka as dependency in your `Package.swift`
-
-```swift
-import PackageDescription
-
-let package = Package(name: "YourPackage",
-  dependencies: [
-    .Package(url: "https://github.com/getGuaka/Guaka.git", majorVersion: 0),
-  ]
-)
-```
 
 ## Getting started
 You can create you Guaka command line application using the `guaka` generator app or by manually creating a swift project.
