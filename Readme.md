@@ -617,6 +617,18 @@ Now we can get the version by calling:
 > main sub --version
 ```
 
+#### Exiting early from a command
+
+In some sitiuation you might want to exit early from a command you can use `command.fail(statusCode: errorCode, errorMessage: "Error message")`
+
+```swift
+let printCommand = Command(usage: "print",
+                           parent: rootCommand) { _, _ in
+    // Error happened
+    printCommand.fail(statusCode: 1, errorMessage: "Some error happaned")
+}
+```
+
 ### Flag documentation
 
 A `Flag` represent an option or switch that a `Command` accepts. Guaka defines 4 types of flags; integer, boolean, string and custom types.
