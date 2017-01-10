@@ -9,7 +9,7 @@
 <p align="center">
 <br/>
 <br/>
-<img src="Misc/logo.svg" height=150px/>
+<img src="https://rawgit.com/oarrabi/Guaka/master/Misc/logo.svg" height=150px/>
 <br/><br/><br/><br/>
 </p>
 
