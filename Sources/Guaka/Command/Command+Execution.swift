@@ -68,7 +68,7 @@ extension Command {
   func validateAndExitIfNeeded() {
     do {
       try validate()
-    } catch let e as CommandError {
+    } catch is CommandError {
       fail(statusCode: -2, errorMessage: "General Error")
     } catch let e as FlagValueError {
       fail(statusCode: -2, errorMessage: e.error)
