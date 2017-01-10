@@ -6,7 +6,6 @@
 //
 //
 
-import Foundation
 @testable import Guaka
 
 class DummyCommand: Command {

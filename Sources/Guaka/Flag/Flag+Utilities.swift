@@ -6,9 +6,6 @@
 //
 //
 
-import Foundation
-
-
 extension Flag {
 
   /// Converts the value from string to the internal flag value type

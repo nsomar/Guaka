@@ -69,7 +69,7 @@ extension Command {
     do {
       try validate()
     } catch let e as CommandError {
-      fail(statusCode: -2, errorMessage: e.localizedDescription)
+      fail(statusCode: -2, errorMessage: "General Error")
     } catch let e as FlagValueError {
       fail(statusCode: -2, errorMessage: e.error)
     } catch {
