@@ -42,7 +42,7 @@ Guaka is both a swift library and a command line application that help generate 
 - [Getting started](#getting-started)
   - [Using Guaka generator](#using-guaka-generator)
   - [Manually implementing Guaka](#manually-implementing-guaka)
-- [Cross-Platform utility libraries - aka batteries](#cross-Platform-utility-libraries-aka-batteries)
+- [Cross-Platform utility libraries - aka batteries](#cross-platform-utility-libraries-aka-batteries)
 - [Documentation](#documentation)
   - [Command documentation](#command-documentation)
   - [Flag documentation](#flag-documentation)
