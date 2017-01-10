@@ -6,22 +6,31 @@
 [![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/Guaka)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-`Guaka` is the smartest and most beautiful (POSIX compliant) Command line framework for Swift. Inspired by [cobra](https://github.com/spf13/cobra).   
+<p align="center">
+<br/>
+<br/>
+<img src="Misc/logo.svg" height=150px/>
+<br/><br/><br/><br/>
+</p>
 
-Guaka is both a swift library and a command line application that help generate Guaka projects.
+`Guaka` - Smart and beautiful POSIX compliant CLI framework for Swift.   
+It helps you create modern and familiar CLI apps in the vein of widely used projects such as: Docker, Kubernetes, OpenShift, Hugo and more!.
 
-Also, it is currently in early stages of development and may do scary stuff including and not limited to eat your laundry and/or scare your neighbours.
+Guaka is both a swift library and a command line application that help generate Guaka projects. Inspired by the amazing [Cobra package](https://github.com/spf13/cobra) from the Golang's ecosystem.
 
 ## Is it any good?
 
 ### [Yes](https://news.ycombinator.com/item?id=3067434)
 
 ## Why?
-- **Easy to use**: With Guaka generator you can create your command line in 2 minutes.
-- **It can be statically linked**: No libFoundation, and does no rely on many third-party libs.
-- **POSIX compliant flag parsing**: Handles both short and long flag names. Flag names can appear anywhere.
-- **Create modern and familiar command line apps**: Inspired and aims to enable the creating of CLIs in the vein of widely used projects: Docker, Kubernetes, OpenShift and Hugo, etc.
-- **Safe and crash free**: 100% safe code (e.g no unsafe code) also extensively covered with tests and with use cases.
+- **Simple and idiomatic API**: No rocket science here! Full modern CLI apps in a few lines of code.
+- **Easy to use**: With the Guaka generator you can bootstrap your own CLI in matter of minutes.
+- **Lightweight and portable**: No libFoundation and friends, can be statically linked.
+- **POSIX compliant**: Short and long flags, flags can appear anywhere.
+- **Safe and crash free**: 100% safe code as in: unsafe code.
+- **Tested**: Close to 100% test coverage and 100% dog fooded (the Guaka CLI app is written in, yes you guessed, Guaka ;).
+- **Documented**: Lots of docs and samples.
+- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/oarrabi/FileUtils.git), [regular expressions](https://github.com/oarrabi/Regex.git), [launching processes](https://github.com/oarrabi/Process.git) and [dealing with the environment variables](https://github.com/oarrabi/Env.git) so you can be productive instantaneously.
 
 ----
 
@@ -34,10 +43,11 @@ Also, it is currently in early stages of development and may do scary stuff incl
 - [Getting started](#getting-started)
   - [Using Guaka generator](#using-guaka-generator)
   - [Manually implementing Guaka](#manually-implementing-guaka)
+- [Cross-Platform utility libraries - aka batteries](#cross-Platform-utility-libraries-aka-batteries)
 - [Documentation](#documentation)
   - [Command documentation](#command-documentation)
   - [Flag documentation](#flag-documentation)
-  - [Help costumization](#help-costumization)
+  - [Help customization](#help-customization)
 - [Tests](#tests)
 - [Future work](#future-work)
 - [Contributing](#Contributing)
@@ -48,6 +58,7 @@ Also, it is currently in early stages of development and may do scary stuff incl
 - [x] [POSIX-Compliant](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html) flags: Handles short and long flags (-f, --flag)
 - [x] Commands can have code sub-commands. Allowing you to create CLI apps similar to git `git remote show`
 - [x] Inheritable and non-inheritable flags. Create root flags that are inherited from all the command's sub-commands
+- [x] Batteries included: With our [FileUtils](https://github.com/oarrabi/FileUtils.git), [Regex](https://github.com/oarrabi/Regex.git), [Process](https://github.com/oarrabi/Process.git) and [Env](https://github.com/oarrabi/Env.git) cross-platform libraries you can be productive instantaneously.
 - [x] Automatically generates help message for your commands, sub-commands and flags
 - [x] Handles user input errors with useful help messages
 - [x] Customizable help and error messages
@@ -362,6 +373,17 @@ Use "hello [command] --help" for more information about a command.
 Notice how the command the sub-command and flag info are displayed.
 
 Read more about the [help message](http://docs.getguaka.com/Protocols/HelpGenerator.html)
+
+## Cross-Platform utility libraries aka batteries
+
+Writing a command line application is more than just parsing the command line arguments and flags. 
+
+Swift ecosystem is still very young and lacks of a cross-platform standard library. We did not wanted to make Guaka depend on libFoundation, so we rolled up our sleeves and built a few small cross-platform (as in whenever there is a usable C standard library) libraries. so you don't have to and can be productive instantaneously. Also , they are usable on their own. You are welcome to use them too! <3:
+
+- [FileUtils](https://github.com/oarrabi/FileUtils.git): Help you work with files, directories and paths. 
+- [Regex](https://github.com/oarrabi/Regex.git): Match and capture regex.
+- [Process](https://github.com/oarrabi/Process.git): Launch external programs and capture their standard output and standard error.
+- [Env](https://github.com/oarrabi/Env.git): Read and write environment variables sent to your process.
 
 ## Documentation
 
