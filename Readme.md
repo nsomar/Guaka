@@ -6,13 +6,17 @@
 [![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/Guaka)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-`Guaka` Smart and beautiful POSIX compliant CLI framework for Swift. 
+<p align="center">
+<br/>
+<br/>
+<img src="Misc/logo.svg" height=150px/>
+<br/><br/><br/><br/>
+</p>
 
-Create modern and familiar CLI apps in the vein of widely used projects such as: Docker, Kubernetes, OpenShift, Hugo and more!.
+`Guaka` - Smart and beautiful POSIX compliant CLI framework for Swift.   
+It helps you create modern and familiar CLI apps in the vein of widely used projects such as: Docker, Kubernetes, OpenShift, Hugo and more!.
 
-Guaka is both a swift library and a command line application that help generate Guaka projects.
-
-Inspired by the amazing [Cobra package](https://github.com/spf13/cobra) from the Golang's ecosystem.
+Guaka is both a swift library and a command line application that help generate Guaka projects. Inspired by the amazing [Cobra package](https://github.com/spf13/cobra) from the Golang's ecosystem.
 
 ## Is it any good?
 
