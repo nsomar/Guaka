@@ -374,7 +374,7 @@ Read more about the [help message](http://docs.getguaka.com/Protocols/HelpGenera
 
 Writing a command line application is more than just parsing the command line arguments and flags. 
 
-Swift ecosystem is still very young e.g no cross platform stdlib and we did not wanted to make Guaka depend on libFoundation, so we rolled up our sleeves and made these babies cross-platform swift libraries so you can be productive instantaneously:
+Swift ecosystem is still very young and lacks of a cross-platform standard library. We did not wanted to make Guaka depend on libFoundation, so we rolled up our sleeves and built a few small cross-platform (as in whenever there is a usable C standard library) libraries. so you don't have to and can be productive instantaneously. Also , they are usable on their own. You are welcome to use them too! <3:
 
 - [FileUtils](https://github.com/oarrabi/FileUtils.git): Help you work with files, directories and paths. 
 - [Regex](https://github.com/oarrabi/Regex.git): Match and capture regex.
