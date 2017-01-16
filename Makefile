@@ -22,4 +22,4 @@ doc:
 
 copy-docs:
 	make doc
-	scp -r docs getGuaka:/var/blog/nsomar/Guaka/Help
+	scp -r docs getGuaka:/var/www/guaka/help
