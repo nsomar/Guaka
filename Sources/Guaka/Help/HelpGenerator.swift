@@ -13,7 +13,7 @@
 /// Alternatively, override one of the sections only to alter that section.
 ///
 /// When the help is about to be printed, a `CommandHelp` is generated from the current `Command`.
-/// a `HelpGenerator` is created and passed this `CommandHelp`. 
+/// a `HelpGenerator` is created and passed this `CommandHelp`.
 /// the `HelpGenerator` is used to print the help message string
 ///
 /// -----
@@ -130,7 +130,7 @@ public protocol HelpGenerator {
   /// Use "command [command] --help" for more information about a command.
   /// ```
   var deprecationSection: String? { get }
-  
+
   /// Return command description section to be printed for when the command help is printed.
   /// Returning nil ignores this section from the help message.
   ///
@@ -430,4 +430,29 @@ public protocol HelpGenerator {
   /// this flag is deprecated
   /// ```
   func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String?
+
+  /// Returns a suggestion message string when a unrecognized command is passed to the root command.
+  /// Returning nil does not show the message
+  ///
+  /// ----
+  /// Examples:
+  /// ```
+  /// public func suggestionMessage(original: String, suggestion: String) -> String? {
+  ///  return [
+  ///    "\(commandHelp.name): '\(original)' is not a \(commandHelp.name) command. See '\(commandHelp.name) --help'.",
+  ///    "",
+  ///    "Did you mean this?",
+  ///    "  \(suggestion)"].joined(separator: "\n")
+  /// }
+  /// ```
+  ///
+  /// The suggestion message
+  ///
+  /// ```
+  /// git: 'rbase' is not a git command. See 'git --help'.
+  ///
+  /// Did you mean this?
+  ///   rebase
+  /// ```
+  func suggestionMessage(original: String, suggestion: String) -> String?
 }

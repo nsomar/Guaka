@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import XCTest
 @testable import Guaka
 
@@ -14,7 +15,7 @@ class ValidationTests: XCTestCase {
   override func setUp() {
     setupTestSamples()
   }
-  
+
   func testValidateEmptyName() {
     let c = Command(usage: "")
 
@@ -26,7 +27,7 @@ class ValidationTests: XCTestCase {
     } catch {
       XCTFail()
     }
-    
+
   }
 
   func testValidateWrongName() {
@@ -56,7 +57,7 @@ class ValidationTests: XCTestCase {
     } catch {
       XCTFail()
     }
-    
+
   }
 
   func testValidateCommandWithFlagsWithWrongLongName() {
@@ -88,7 +89,7 @@ class ValidationTests: XCTestCase {
     } catch {
       XCTFail()
     }
-    
+
   }
 
 }

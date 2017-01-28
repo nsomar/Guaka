@@ -1,7 +1,8 @@
 import XCTest
-@testable import ProcessTests
+@testable import GuakaTests
+
 
 XCTMain([
-     testCase(RunTests.allTests),
-     testCase(ProcessTests.allTests),
+     testCase(LevenshteinTests.allTests),
+     testCase(CommandExecutionTests.allTests),
 ])

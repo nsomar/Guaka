@@ -7,7 +7,9 @@
 //
 
 import XCTest
+import Foundation
 @testable import Guaka
+
 
 class HelpGeneratorSubclassingTests: XCTestCase {
 
