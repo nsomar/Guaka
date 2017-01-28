@@ -67,13 +67,13 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] Command and Flag aliasing; you can alias a command or a flag to different names
 - [x] Define code that runs before the command and after the command is executed
 - [x] Aptly documented: lots of documentation in code (we tried)
+- [x] Levenshtein distance for subcommand names
 
 Planned Features:
 - [ ] Generate Markdown documentation
-- [ ] Levenshtein distance for subcommand names
 - [ ] Man pages and bash/zsh/tcsh completions
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
-- [ ] Carthage and Cocoapod support
+- [ ] Carthage and Cocoapod support (maybe?)
 
 ## Introduction
 
@@ -151,13 +151,21 @@ Check the [Flag documentation](http://docs.getguaka.com/Structs/Flag.html)
 You can create you Guaka command line application using the `guaka` generator app or by manually creating a swift project.
 
 ### Using Guaka generator
-The easiest way to use guaka is by using `guaka` command line app. This CLI app helps you generate a Guaka project.
+The easiest way to use guaka is by using `guaka` generator command line app. This CLI app helps you generate a Guaka project.
 
 First lets install `guaka` using brew:
 
 ```
 > brew install oarrabi/tap/guaka
 ```
+
+As an alternative, you can install `guaka` using the installation script (This works on macOS and Linux):
+
+```
+> curl https://raw.githubusercontent.com/oarrabi/Guaka-Generator/master/scripts/install.sh -sSf | bash
+```
+
+(Note: For other installation options check [Guaka Generator readme](https://github.com/oarrabi/Guaka-Generator#installing).)
 
 Check that `guaka` is installed:
 
@@ -870,8 +878,8 @@ swift test
 
 ## Future work
 
+- [x] Levenshtein distance for subcommand names
 - [ ] Generate Markdown documentation
-- [ ] Levenshtein distance for subcommand names
 - [ ] Man pages and bash/zsh/tcsh completions
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
 - [ ] Carthage and Cocoapod support
