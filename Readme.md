@@ -67,10 +67,10 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] Command and Flag aliasing; you can alias a command or a flag to different names
 - [x] Define code that runs before the command and after the command is executed
 - [x] Aptly documented: lots of documentation in code (we tried)
+- [x] Levenshtein distance for subcommand names
 
 Planned Features:
 - [ ] Generate Markdown documentation
-- [ ] Levenshtein distance for subcommand names
 - [ ] Man pages and bash/zsh/tcsh completions
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
 - [ ] Carthage and Cocoapod support (maybe?)
@@ -878,8 +878,8 @@ swift test
 
 ## Future work
 
+- [x] Levenshtein distance for subcommand names
 - [ ] Generate Markdown documentation
-- [ ] Levenshtein distance for subcommand names
 - [ ] Man pages and bash/zsh/tcsh completions
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
 - [ ] Carthage and Cocoapod support
