@@ -160,6 +160,11 @@ public class Command {
     return GuakaConfig.helpGenerator.init(command: self).helpMessage
   }
 
+  /// Returns the suggestion message for the original command
+  func suggestionMessage(original: String, suggestion: String) -> String? {
+    return GuakaConfig.helpGenerator.init(command: self).suggestionMessage(original: original, suggestion: suggestion)
+  }
+
   var nameOrEmpty: String  {
     return (try? Command.name(forUsage: usage)) ?? ""
   }

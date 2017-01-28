@@ -8,8 +8,13 @@ import StringScanner
 ///
 /// - returns: The execution result
 func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
-  
+
   let (command, arguments) = actualCommand(forCommand: rootCommand, arguments: arguments)
+
+  if let result = suggestion(forCommand: command, rootCommand: rootCommand, arguments: arguments) {
+    return result
+  }
+
   let flagSet = command.flagSet
 
   let flagSetWithHelp = flagSet.flagSetAppendingHelp()
@@ -41,6 +46,19 @@ func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
   }
 
   return .success
+}
+
+func suggestion(forCommand command: Command, rootCommand: Command, arguments: [String]) -> Result? {
+  guard rootCommand === command else { return nil }
+
+  guard let argument = arguments.first else { return nil }
+
+  let alternatives = rootCommand.commands.map { try! $0.name() }
+  let suggestion = Levenshtein.shortestDistance(forSource: argument, withChoices: alternatives)
+
+  guard let suggestionMessage = command.suggestionMessage(original: argument, suggestion: suggestion) else { return nil }
+
+  return .message(suggestionMessage)
 }
 
 

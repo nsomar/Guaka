@@ -212,4 +212,11 @@ extension HelpGenerator {
     return nil
   }
 
+  public func suggestionMessage(original: String, suggestion: String) -> String? {
+    return [
+      "\(commandHelp.name): '\(original)' is not a \(commandHelp.name) command. See '\(commandHelp.name) --help'.",
+      "",
+      "Did you mean this?",
+      "  \(suggestion)"].joined(separator: "\n")
+  }
 }
