@@ -27,6 +27,7 @@
 /// ```
 ///
 /// Create a command with costumizations
+///
 /// ```
 /// var newCommand = Command(usage: "new",
 ///                          shortMessage: "Use new to generate a new thing",
@@ -59,11 +60,14 @@
 ///   print("test called")
 /// }
 /// ```
+///
 /// After creating a command, to execute it do:
+///
 /// ```
 /// let command = ...
 /// command.execute()
 /// ```
+///
 public class Command {
 
 
@@ -279,6 +283,7 @@ public class Command {
   /// let subcommand = ...
   /// command.add(subCommand: subCommand)
   /// ```
+  ///
   public func add(subCommand command: Command, setParent: Bool = true) {
     if setParent {
       command.parent = self
@@ -303,6 +308,7 @@ public class Command {
   /// let subcommand2 = ...
   /// command.add(subCommands: [subCommand1, subCommand2])
   /// ```
+  ///
   public func add(subCommands commands: [Command]) {
     commands.forEach { add(subCommand: $0) }
   }
@@ -331,6 +337,7 @@ public class Command {
   /// let flag = ...
   /// command.add(flag: flag)
   /// ```
+  ///
   public func add(flag: Flag) {
     flags.append(flag)
   }
@@ -349,6 +356,7 @@ public class Command {
   /// let flag2 = ...
   /// command.add(flags: [flag1, flag2])
   /// ```
+  ///
   public func add(flags: [Flag]) {
     self.flags.append(contentsOf: flags)
   }

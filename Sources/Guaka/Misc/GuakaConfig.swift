@@ -19,6 +19,7 @@ public struct GuakaConfig {
   /// Example
   ///
   /// Altering the full help message returned
+  ///
   /// ```
   /// struct SampleGenerator: HelpGenerator {
   ///   let commandHelp: CommandHelp
@@ -37,6 +38,7 @@ public struct GuakaConfig {
   ///
   /// Altering only two sections, usage and subcommands from help.
   /// The overall structure of the help will be the same, only the usage and subcommands will be altered
+  ///
   /// ```
   /// struct SampleGenerator: HelpGenerator {
   ///   let commandHelp: CommandHelp
@@ -55,8 +57,10 @@ public struct GuakaConfig {
   ///  }
   ///
   /// ```
+  ///
   /// Removing a section from the help.
   /// Remove the usage section.
+  ///
   /// ```
   /// struct SampleGenerator: HelpGenerator {
   ///   let commandHelp: CommandHelp
@@ -70,5 +74,6 @@ public struct GuakaConfig {
   ///    }
   ///  }
   /// ```
+  ///
   public static var helpGenerator: HelpGenerator.Type = DefaultHelpGenerator.self
 }

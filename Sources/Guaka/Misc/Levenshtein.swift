@@ -1,4 +1,12 @@
+//
+//  Levenshtein.swift
+//  Guaka
+//
+//  Created by Jose Narvaez on 19/11/2016.
+//
+//
 
+/// Calculates the distance between two strings
 enum Levenshtein {
   static func distance(source: String, target: String) -> Int {
     if source == target { return 0 }

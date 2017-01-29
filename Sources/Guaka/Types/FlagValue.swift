@@ -27,10 +27,13 @@
 ///   }
 /// }
 /// ```
+///
 /// We can then use user to define flag type:
+///
 /// ```
 /// let flag = try! Flag(longName: "debug", type: User.self)
 /// ```
+///
 public protocol FlagValue {
 
   /// Create a command string convertible from string
@@ -77,12 +80,14 @@ public protocol FlagValue {
   ///   }
   /// }
   /// ```
+  ///
   static func fromString(flagValue value: String) throws -> Self
 
   /// Return a decription to be printed when priting the command help
   ///
   /// -----
   /// Example
+  ///
   /// ```
   /// struct User: FlagValue {
   ///   let name: String
@@ -99,12 +104,14 @@ public protocol FlagValue {
   /// ```
   ///
   /// When printing the help, the `typeDescription` will be used.
+  ///
   /// ```
   /// Flags:
   ///   -u, --user         A user structure
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   static var typeDescription: String { get }
 }
 
@@ -116,6 +123,7 @@ public protocol FlagValue {
 ///
 /// ----
 /// Example
+///
 /// ```
 /// struct User: FlagValue {
 ///   let name: String
@@ -132,6 +140,7 @@ public protocol FlagValue {
 ///   }
 /// }
 /// ```
+///
 public enum FlagValueError: Error {
 
   /// Conversation error happened while parsing string to type
@@ -139,6 +148,7 @@ public enum FlagValueError: Error {
   ///
   /// ----
   /// Example
+  ///
   /// ```
   /// struct User: FlagValue {
   ///   let name: String
@@ -155,6 +165,7 @@ public enum FlagValueError: Error {
   ///   }
   /// }
   /// ```
+  ///
   case conversionError(String)
 
   var error: String {
