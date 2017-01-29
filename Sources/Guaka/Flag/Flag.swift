@@ -13,19 +13,23 @@
 /// Example:
 ///
 /// Create a flag with a default value
+///
 /// ```
 /// let flag = try! try! Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
 /// ```
 ///
 /// Create a non required flag without value
+///
 /// ```
 /// let flag = try! Flag(longName: "debug", type: Int.self)
 /// ```
 ///
 /// Create a required flag without value
+///
 /// ```
 /// let flag = try! Flag(longName: "debug", type: Int.self, required: true)
 /// ```
+///
 public struct Flag: Hashable {
 
 
@@ -99,9 +103,11 @@ public struct Flag: Hashable {
   /// Example:
   ///
   /// Create a flag with a default value
+  ///
   /// ```
   /// let flag = try! Flag(longName: "debug", shortName: "d", value: true, description: "Here is a desc")
   /// ```
+  ///
   /// -----
   public init(shortName: String? = nil,
               longName: String,
@@ -136,9 +142,11 @@ public struct Flag: Hashable {
   /// Example:
   ///
   /// Create a flag with a default value
+  ///
   /// ```
   /// let flag = try! Flag(longName: "debug", type: Int.self, required: true)
   /// ```
+  ///
   /// -----
   public init(shortName: String? = nil,
               longName: String,

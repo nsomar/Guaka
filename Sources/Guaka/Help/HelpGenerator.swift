@@ -19,6 +19,7 @@
 /// -----
 ///
 /// The help has this format
+///
 /// ```
 /// Usage:
 ///   command [flags]
@@ -40,6 +41,7 @@
 ///
 /// Use "command [command] --help" for more information about a command.
 /// ```
+///
 public protocol HelpGenerator {
 
   /// Command Help instance
@@ -58,6 +60,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var helpMessage: String {
   ///   return "the help"
@@ -69,6 +72,7 @@ public protocol HelpGenerator {
   /// ```
   /// the help
   /// ```
+  ///
   var helpMessage: String { get }
 
   /// Return the message to be printed after printing the error occured
@@ -78,6 +82,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var errorHelpMessage: String {
   ///   return "the help"
@@ -90,6 +95,7 @@ public protocol HelpGenerator {
   /// Some error occured
   /// the help
   /// ```
+  ///
   var errorHelpMessage: String { get }
 
   /// Returns the deprecation for this command
@@ -99,6 +105,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var deprecationSection: String? {
   ///   return "this command is deprecated"
@@ -129,6 +136,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var deprecationSection: String? { get }
 
   /// Return command description section to be printed for when the command help is printed.
@@ -136,6 +144,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var commandDescriptionSection: String? {
   ///   return "this is the command"
@@ -166,6 +175,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var commandDescriptionSection: String? { get }
 
   /// Return the usage secion to be printed for when the command help is printed.
@@ -173,6 +183,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var usageSection: String? {
   ///   return "use as"
@@ -200,6 +211,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var usageSection: String? { get }
 
   /// Return the aliases section to be printed for when the command help is printed.
@@ -207,6 +219,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var aliasesSection: String? {
   ///   return "my aliases are 1, 2"
@@ -235,6 +248,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var aliasesSection: String? { get }
 
   /// Return the example section to be printed for when the command help is printed.
@@ -242,6 +256,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var exampleSection: String? {
   ///   return "some examples"
@@ -270,6 +285,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var exampleSection: String? { get }
 
   /// Return the subcommands section to be printed for when the command help is printed.
@@ -277,6 +293,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var subCommandsSection: String? {
   ///   return "Some sub commands" //should iterate the commands yourself
@@ -304,6 +321,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var subCommandsSection: String? { get }
 
   /// Return the flags description section to be printed for when the command help is printed.
@@ -311,6 +329,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var flagsSection: String? {
   ///   return "the flags I have" // iterate the flags
@@ -338,6 +357,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   var flagsSection: String? { get }
 
   /// Return command information description section to be printed for when the command help is printed.
@@ -345,6 +365,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// var informationSection: String? {
   ///   return "command info to get help"
@@ -374,6 +395,7 @@ public protocol HelpGenerator {
   ///
   /// command info to get help
   /// ```
+  ///
   var informationSection: String? { get }
 
   /// Return the string printed when an error occur.
@@ -381,6 +403,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// func errorString(forError error: CommandError) -> String {
   ///   return "error occured"
@@ -411,6 +434,7 @@ public protocol HelpGenerator {
   ///
   /// Use "command [command] --help" for more information about a command.
   /// ```
+  ///
   func errorString(forError error: CommandError) -> String
 
   /// Return the string printed when a flag is deprecated.
@@ -418,6 +442,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String? {
   ///   return "this flag is deprecated"
@@ -429,6 +454,7 @@ public protocol HelpGenerator {
   /// ```
   /// this flag is deprecated
   /// ```
+  ///
   func deprecationMessage(forDeprecatedFlag flag: FlagHelp) -> String?
 
   /// Returns a suggestion message string when a unrecognized command is passed to the root command.
@@ -436,6 +462,7 @@ public protocol HelpGenerator {
   ///
   /// ----
   /// Examples:
+  ///
   /// ```
   /// public func suggestionMessage(original: String, suggestion: String) -> String? {
   ///  return [
@@ -454,5 +481,6 @@ public protocol HelpGenerator {
   /// Did you mean this?
   ///   rebase
   /// ```
+  ///
   func suggestionMessage(original: String, suggestion: String) -> String?
 }

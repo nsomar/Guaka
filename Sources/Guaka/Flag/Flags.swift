@@ -21,6 +21,7 @@
 /// flags.getString(name: "user") // return string value of flag user if possible
 /// flags.get(name: "debug", type: YourType.self) // get the value of debug if it is of YourType
 /// ```
+///
 public struct Flags {
 
   let flagsDict: [String: Flag]

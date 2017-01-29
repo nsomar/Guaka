@@ -21,9 +21,11 @@ extension Command {
   ///
   /// -----
   /// Example:
+  ///
   /// ```
   /// rootCommand.execute(commandLineArgs: CommandLine.arguments)
   /// ```
+  ///
   public func execute(commandLineArgs: [String]) {
     let res = executeCommand(rootCommand: self,
                              arguments: Array(commandLineArgs.dropFirst()))
@@ -40,9 +42,11 @@ extension Command {
   ///
   /// -----
   /// Example:
+  ///
   /// ```
   /// let command = rootCommand.commandToExecute(commandLineArgs: CommandLine.arguments)
   /// ```
+  ///
   public func commandToExecute(commandLineArgs: [String]) -> Command {
     return actualCommand(forCommand: self, arguments: Array(commandLineArgs.dropFirst())).0
   }
