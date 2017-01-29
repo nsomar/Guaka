@@ -11,10 +11,6 @@ func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
 
   let (command, arguments) = actualCommand(forCommand: rootCommand, arguments: arguments)
 
-  if let result = suggestion(forCommand: command, rootCommand: rootCommand, arguments: arguments) {
-    return result
-  }
-
   let flagSet = command.flagSet
 
   let flagSetWithHelp = flagSet.flagSetAppendingHelp()
@@ -22,6 +18,10 @@ func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
   do {
     let (optionFlags, positionalArguments) = try flagSetWithHelp.parse(args: arguments)
 
+    if let result = suggestion(forCommand: command, rootCommand: rootCommand, arguments: positionalArguments) {
+      return result
+    }
+    
     // Prepare a map of flag
     var preparedFlags = try flagSetWithHelp.getPreparedFlags(withFlagValues: optionFlags)
 

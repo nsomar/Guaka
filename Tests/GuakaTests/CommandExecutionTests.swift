@@ -151,9 +151,21 @@ class CommandExecutionTests: XCTestCase {
   }
 
   func testItSuggestsAlterntivesWhenNotMatchingFlags() {
-    git.execute(commandLineArgs: expand("git rbase --foo 1 --bar"))
+    git.execute(commandLineArgs: expand("git rbase -v"))
 
     XCTAssertEqual(git.printed, "git: 'rbase' is not a git command. See 'git --help'.\n\nDid you mean this?\n  rebase")
+  }
+
+  func testItShouldNotShowSuggestionIfFlagIsPassed() {
+    git.execute(commandLineArgs: expand("git --help"))
+
+    XCTAssertFalse(git.printed.contains("is not a git command"))
+  }
+
+  func testItShouldShowHelpIfHelpFlagIsPassedToWrongCommand() {
+    git.execute(commandLineArgs: expand("git rbase --help"))
+
+    XCTAssertTrue(git.printed.contains("is not a git command"))
   }
 
   static var allTests : [(String, (CommandExecutionTests) -> () throws -> Void)] {
