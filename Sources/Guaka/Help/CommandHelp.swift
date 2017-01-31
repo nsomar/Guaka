@@ -52,6 +52,10 @@ public struct CommandHelp {
   /// The command aliases array
   public let aliases: [String]
 
+  /// The alias used to call the command
+  /// Since the command can be called with different aliases. This variable holds the alias used
+  public let aliasUsedToCallCommand: String
+
   /// Does this command have sub commands
   public let hasSubCommands: Bool
 
@@ -84,6 +88,8 @@ public struct CommandHelp {
     hasAliases = command.aliases.count > 0
     aliases = command.aliases
 
+    aliasUsedToCallCommand = command.aliasUsedToCallCommand ?? command.nameOrEmpty
+
     let commands = CommandHelp.subCommands(command: command)
 
     hasSubCommands = commands.count > 0
@@ -101,12 +107,29 @@ public struct CommandHelp {
 
   /// Full path `git show origin`
   private static func fullPath(forCommand command: Command) -> String {
-    return path(forCommand: command) + command.nameOrEmpty
+    return path(forCommand: command) + (command.aliasUsedToCallCommand ?? command.nameOrEmpty)
   }
 
   /// Full path `git show origin use as its`
   private static func fullUsage(forCommand command: Command) -> String {
-    return path(forCommand: command) + command.usage
+    var usage = command.usage
+
+    if let aliasUsed = command.aliasUsedToCallCommand {
+      let additionalPart = usageAfterSpace(forCommand: command)
+      usage = aliasUsed + additionalPart
+    }
+
+    return path(forCommand: command) + usage
+  }
+
+  /// Get the additional part after the space
+  /// If usage is `show abcd` returns ` abcd`
+  /// If usage is `show` return ``
+  private static func usageAfterSpace(forCommand command: Command) -> String {
+    let usage = command.usage
+    guard let index = usage.find(string: " ") else { return "" }
+
+    return usage[from: index]
   }
 
   /// Return a commands path
