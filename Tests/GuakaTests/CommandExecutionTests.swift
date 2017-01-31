@@ -168,6 +168,14 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertTrue(git.printed.contains("is not a git command"))
   }
 
+  func testItShouldBotShowSuggestionIfDoesNotHaveSubcomamnds() {
+    git.commands = []
+    git.execute(commandLineArgs: expand("git \"Hello from cli\""))
+
+    XCTAssertEqual(git.printed, "")
+    XCTAssertEqual(try! commandExecuted?.name(), "git")
+  }
+
   static var allTests : [(String, (CommandExecutionTests) -> () throws -> Void)] {
     return [
       ("testItSuggestsAlterntivesWhenNotMatchingNoFlags", testItSuggestsAlterntivesWhenNotMatchingNoFlags),

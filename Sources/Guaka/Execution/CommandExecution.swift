@@ -50,6 +50,7 @@ func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
 
 func suggestion(forCommand command: Command, rootCommand: Command, arguments: [String]) -> Result? {
   guard rootCommand === command else { return nil }
+  guard rootCommand.commands.count != 0 else { return nil }
 
   guard let argument = arguments.first else { return nil }
 
