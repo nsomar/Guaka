@@ -5,11 +5,12 @@
 <br/><br/><br/><br/>
 </p>
 
+[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+![Swift Version](https://img.shields.io/badge/Swift-3.0-orange.svg)
 [![Build Status](https://travis-ci.org/oarrabi/Guaka.svg?branch=master)](https://travis-ci.org/oarrabi/Guaka)
 [![codecov](https://codecov.io/gh/oarrabi/Guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/Guaka)
 [![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/Guaka)
-[![Language: Swift](https://img.shields.io/badge/language-swift-orange.svg)](https://travis-ci.org/oarrabi/Guaka)
-[![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg) 
 
 
 `Guaka` - Smart and beautiful POSIX compliant CLI framework for Swift.   
