@@ -42,6 +42,8 @@ func actualCommand(forCommand command: Command, arguments: [String]) -> (Command
       return (command, arguments)
   }
 
+  nextCommand.aliasUsedToCallCommand = first
+  
   let remainingArgs = remove(argument: first, fromArguments: arguments)
 
   return actualCommand(forCommand: nextCommand, arguments: remainingArgs)

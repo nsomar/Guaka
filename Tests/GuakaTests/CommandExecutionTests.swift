@@ -66,6 +66,13 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(git.printed, "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
+  func testItCatchesTheHelpForTheCorrectAlias() {
+    //git.execute
+    remote.aliases = ["remote2"]
+    git.execute(commandLineArgs: expand("git remote2 -h"))
+    XCTAssertEqual(git.printed, "Usage:\n  git remote2 [flags]\n  git remote2 [command]\n\nAliases:\n  remote, remote2\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote2 [command] --help\" for more information about a command.")
+  }
+
   func testItCatchesTheHelpThatIsOverriden() {
     struct DummyGenerator: HelpGenerator {
       let commandHelp: CommandHelp

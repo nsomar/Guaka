@@ -97,7 +97,7 @@ extension HelpGenerator {
       return nil
     }
 
-    return ["Command \"\(commandHelp.name)\" is deprecated, \(message)"].joined(separator: "\n")
+    return ["Command \"\(commandHelp.aliasUsedToCallCommand)\" is deprecated, \(message)"].joined(separator: "\n")
   }
 
   public var commandDescriptionSection: String? {
@@ -214,7 +214,7 @@ extension HelpGenerator {
 
   public func suggestionMessage(original: String, suggestion: String) -> String? {
     return [
-      "\(commandHelp.name): '\(original)' is not a \(commandHelp.name) command. See '\(commandHelp.name) --help'.",
+      "\(commandHelp.aliasUsedToCallCommand): '\(original)' is not a \(commandHelp.aliasUsedToCallCommand) command. See '\(commandHelp.aliasUsedToCallCommand) --help'.",
       "",
       "Did you mean this?",
       "  \(suggestion)"].joined(separator: "\n")

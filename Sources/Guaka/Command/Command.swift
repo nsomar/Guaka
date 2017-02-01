@@ -173,6 +173,10 @@ public class Command {
     return (try? Command.name(forUsage: usage)) ?? ""
   }
 
+  /// We can call the command with different aliases
+  /// This varialbe hold the alias used
+  var aliasUsedToCallCommand: String?
+
   /// Initialize a command
   ///
   /// - parameter usage:             Command usage oneliner

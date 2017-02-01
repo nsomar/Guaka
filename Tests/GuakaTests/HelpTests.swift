@@ -147,6 +147,14 @@ class HelpTests: XCTestCase {
                    "Usage:\n  git rebase bla bla bla [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rebase [command] --help\" for more information about a command.")
   }
 
+  func testItPrintsTheUsageSectionWhenAnAliasIsUsed() {
+    rebase.usage = "rebase bla bla bla"
+    rebase.aliasUsedToCallCommand = "rbase"
+    XCTAssertEqual(rebase.nameOrEmpty, "rebase")
+    XCTAssertEqual(rebase.helpMessage,
+                   "Usage:\n  git rbase bla bla bla [flags]\n\nFlags:\n  -v, --varvar   \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git rbase [command] --help\" for more information about a command.")
+  }
+
   func testItDoesNotPrintFlagsIfCommandHaveZeroFlags() {
     git.flags = []
     git.usage = "git do this"

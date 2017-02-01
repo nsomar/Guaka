@@ -196,6 +196,37 @@ To create the `git` command we described above, we do the following:
 > guaka create git
 ```
 
+The generated Guaka swift project structure will look like:
+
+```
+├── Package.swift
+└── Sources
+    ├── main.swift
+    ├── root.swift
+    └── setup.swift
+```
+
+Let's run this newly created project.
+
+```
+> swift build
+```
+
+The generated built binary will be located under `./.build/debug/git`.
+
+```
+> ./.build/debug/git --help
+```
+
+Which will print out:
+
+```
+Usage:
+  git
+
+Use "git [command] --help" for more information about a command.
+```
+
 #### guaka add
 After running `guaka create` we have a skeleton Guaka project. This project will only have a root command.
 
@@ -217,7 +248,6 @@ Next, lets add a sub-command for `remote`:
 The generated Guaka swift project structure will look like:
 
 ```
-.
 ├── Package.swift
 └── Sources
     ├── main.swift
