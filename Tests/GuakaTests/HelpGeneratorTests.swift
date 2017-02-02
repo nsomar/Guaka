@@ -38,6 +38,13 @@ class HelpGeneratorTests: XCTestCase {
     XCTAssertEqual(h2.deprecationSection, "Command \"show\" is deprecated, Dont use it")
   }
 
+  func testItGeneratesErrorDeprecationMessageWhenAlias() {
+    show.deprecationStatus = .deprecated("Dont use it")
+    show.aliasUsedToCallCommand = "shw"
+    let h1 = DefaultHelpGenerator(command: show)
+    XCTAssertEqual(h1.deprecationSection, "Command \"shw\" is deprecated, Dont use it")
+  }
+
   func testItGeneratesErrorUsageSection() {
     let h1 = DefaultHelpGenerator(command: show)
     XCTAssertEqual(h1.usageSection, ["Usage:", "  git remote show [flags]", "\n"].joined(separator: "\n"))
@@ -45,6 +52,11 @@ class HelpGeneratorTests: XCTestCase {
     show.usage = "show abc"
     let h2 = DefaultHelpGenerator(command: show)
     XCTAssertEqual(h2.usageSection, ["Usage:", "  git remote show abc [flags]", "\n"].joined(separator: "\n"))
+
+    show.usage = "show abc"
+    show.aliasUsedToCallCommand = "tttt"
+    let h3 = DefaultHelpGenerator(command: show)
+    XCTAssertEqual(h3.usageSection, ["Usage:", "  git remote tttt abc [flags]", "\n"].joined(separator: "\n"))
   }
 
   func testItGeneratesAliasesSection() {

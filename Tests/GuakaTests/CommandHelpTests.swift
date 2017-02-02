@@ -108,5 +108,11 @@ class CommandHelpTests: XCTestCase {
     show.usage = "show abcd"
     XCTAssertEqual(CommandHelp(command: show).fullUsage, "git remote show abcd")
   }
+
+  func testGeneratesFullUsageForCommandsWithUsageIfItHasAlias() {
+    show.usage = "show abcd"
+    show.aliasUsedToCallCommand = "tttt"
+    XCTAssertEqual(CommandHelp(command: show).fullUsage, "git remote tttt abcd")
+  }
   
 }
