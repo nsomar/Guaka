@@ -49,7 +49,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.usageSection = "use it like this"
 
-    XCTAssertEqual(h.helpMessage, "use it like thisAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.helpMessage, "use it like thisAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanOverrideAliasSection() {
@@ -67,7 +67,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.aliasesSection = "aliases are 1 2 3"
 
-    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\naliases are 1 2 3Available Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\naliases are 1 2 3Available Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanOverrideExampleSection() {
@@ -85,7 +85,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.exampleSection = "This is the example"
 
-    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nThis is the exampleAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nThis is the exampleAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanOverrideCommandsSection() {
@@ -119,7 +119,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.flagsSection = "This is the flags section"
 
-    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nThis is the flags sectionUse \"git [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nThis is the flags sectionUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanOverrideCommandDescriptionSection() {
@@ -136,7 +136,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.commandDescriptionSection = "This is the command description section"
 
-    XCTAssertEqual(h.helpMessage, "This is the command description sectionUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.helpMessage, "This is the command description sectionUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanOverrideInformationSection() {
@@ -153,7 +153,7 @@ class HelpGeneratorSubclassingTests: XCTestCase {
     var h = DummyHelp(command: git)
     h.informationSection = "This is the info section"
 
-    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nThis is the info section")
+    XCTAssertEqual(h.helpMessage, "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nThis is the info section")
   }
 
   func testCanOverrideHelpSection() {

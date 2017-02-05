@@ -82,7 +82,7 @@ class HelpGeneratorTests: XCTestCase {
     XCTAssertEqual(h1.subCommandsSection, "")
 
     let h2 = DefaultHelpGenerator(command: git)
-    XCTAssertEqual(h2.subCommandsSection, ["Available Commands:", "  rebase    ", "  remote    ", "\n"].joined(separator: "\n"))
+    XCTAssertEqual(h2.subCommandsSection, ["Available Commands:", "  rebase  ", "  remote  ", "\n"].joined(separator: "\n"))
   }
 
   func testItGeneratesFlagsSection() {

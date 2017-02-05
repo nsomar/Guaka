@@ -19,7 +19,7 @@ class ErrorTests: XCTestCase {
     let e = DefaultHelpGenerator(command: git)
       .errorString(forError: CommandError.flagNotFound("debug"))
 
-    XCTAssertEqual(e, "Error: unknown shorthand flag: \'debug\'\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.\n\nunknown shorthand flag: \'debug\'\nexit status 255")
+    XCTAssertEqual(e, "Error: unknown shorthand flag: 'debug'\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.\n\nunknown shorthand flag: 'debug'\nexit status 255")
   }
 
   func testItPrintsFlagNotFoundError() {
@@ -33,7 +33,7 @@ class ErrorTests: XCTestCase {
     let e = DefaultHelpGenerator(command: git)
       .errorString(forError: error)
 
-    XCTAssertEqual(e, "Error: wrong flag value passed for flag: \'debug\' Error when converting x to int\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.\n\nwrong flag value passed for flag: \'debug\' Error when converting x to int\nexit status 255")
+    XCTAssertEqual(e, "Error: wrong flag value passed for flag: 'debug' Error when converting x to int\nUsage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.\n\nwrong flag value passed for flag: 'debug' Error when converting x to int\nexit status 255")
   }
 
   func testItHelpInErrorCanBeReplaces() {
