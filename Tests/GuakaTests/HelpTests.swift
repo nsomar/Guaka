@@ -33,8 +33,8 @@ class HelpTests: XCTestCase {
     let hr = DefaultHelpGenerator(command: remote)
     let hs = DefaultHelpGenerator(command: show)
 
-    XCTAssertEqual(hg.subCommandsSection, ["Available Commands:", "  rebase    ", "  remote    ", "\n"].joined(separator: "\n"))
-    XCTAssertEqual(hr.subCommandsSection, ["Available Commands:", "  show    ", "\n"].joined(separator: "\n"))
+    XCTAssertEqual(hg.subCommandsSection, ["Available Commands:", "  rebase  ", "  remote  ", "\n"].joined(separator: "\n"))
+    XCTAssertEqual(hr.subCommandsSection, ["Available Commands:", "  show  ", "\n"].joined(separator: "\n"))
     XCTAssertEqual(hs.subCommandsSection, "")
   }
 
@@ -46,8 +46,8 @@ class HelpTests: XCTestCase {
     let hs = DefaultHelpGenerator(command: show)
     let hr = DefaultHelpGenerator(command: remote)
 
-    XCTAssertEqual(hg.subCommandsSection, ["Available Commands:", "  rebase    ", "  remote    ", "\n"].joined(separator: "\n"))
-    XCTAssertEqual(hr.subCommandsSection, ["Available Commands:", "  show    The short usage", "\n"].joined(separator: "\n"))
+    XCTAssertEqual(hg.subCommandsSection, ["Available Commands:", "  rebase  ", "  remote  ", "\n"].joined(separator: "\n"))
+    XCTAssertEqual(hr.subCommandsSection, ["Available Commands:", "  show  The short usage", "\n"].joined(separator: "\n"))
     XCTAssertEqual(hs.subCommandsSection, "")
   }
 
@@ -83,10 +83,10 @@ class HelpTests: XCTestCase {
 
   func testItGenerateTheFullHelp() {
     XCTAssertEqual(git.helpMessage,
-                   "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+                   "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
 
     XCTAssertEqual(remote.helpMessage,
-                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
+                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show  \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
 
     show.shortMessage = "Show short usage"
     XCTAssertEqual(show.helpMessage,
@@ -100,32 +100,32 @@ class HelpTests: XCTestCase {
     git.add(flags: [Flag(longName: "hello", type: Int.self, description: "", required: true)])
     git.execute(commandLineArgs: expand("git -h"))
     XCTAssertEqual(git.helpMessage,
-                   "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug      \n      --hello int  (required)\n  -r, --root int   (default 1)\n  -t, --togge      \n  -v, --verbose    \n\nUse \"git [command] --help\" for more information about a command.")
+                   "Usage:\n  git [flags]\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug      \n      --hello int  (required)\n  -r, --root int   (default 1)\n  -t, --togge      \n  -v, --verbose    \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testItPrintsHelpForAliases() {
     git.aliases = ["git1", "git2"]
     XCTAssertEqual(git.helpMessage,
-                   "Usage:\n  git [flags]\n  git [command]\n\nAliases:\n  git, git1, git2\n\nAvailable Commands:\n  rebase    \n  remote    \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
+                   "Usage:\n  git [flags]\n  git [command]\n\nAliases:\n  git, git1, git2\n\nAvailable Commands:\n  rebase  \n  remote  \n\nFlags:\n  -d, --debug     \n  -r, --root int  (default 1)\n  -t, --togge     \n  -v, --verbose   \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testItDoesNotShowDeprecatedCommands() {
     remote.deprecationStatus = .deprecated("Dont use this")
     let hg = DefaultHelpGenerator(command: git)
     XCTAssertEqual(hg.subCommandsSection,
-                   "Available Commands:\n  rebase    \n\n")
+                   "Available Commands:\n  rebase  \n\n")
   }
 
   func testItPrintsCommandDeprecatedOnTopOfDeprecatedCommand() {
     remote.deprecationStatus = .deprecated("Dont use this")
     XCTAssertEqual(remote.helpMessage,
-                   "Command \"remote\" is deprecated, Dont use this\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
+                   "Command \"remote\" is deprecated, Dont use this\nUsage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show  \n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
   func testItFiltersOutDeprecatedFlags() {
     remote.flags[0].deprecationStatus = .deprecated("Dont use this")
     XCTAssertEqual(remote.helpMessage,
-                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show    \n\nFlags:\n      --bar string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
+                   "Usage:\n  git remote [flags]\n  git remote [command]\n\nAvailable Commands:\n  show  \n\nFlags:\n      --bar string  (default -)\n      --remote      \n      --xx          \n\nGlobal Flags:\n  -d, --debug     \n  -v, --verbose   \n\nUse \"git remote [command] --help\" for more information about a command.")
   }
 
   func testIfAllFlagsAreDeprecatedItDoesNotShowFlags() {
@@ -159,7 +159,7 @@ class HelpTests: XCTestCase {
     git.flags = []
     git.usage = "git do this"
     XCTAssertEqual(git.helpMessage,
-                   "Usage:\n  git do this\n  git [command]\n\nAvailable Commands:\n  rebase    \n  remote    \n\nUse \"git [command] --help\" for more information about a command.")
+                   "Usage:\n  git do this\n  git [command]\n\nAvailable Commands:\n  rebase  \n  remote  \n\nUse \"git [command] --help\" for more information about a command.")
   }
 
   func testCanReplaceTheHelpGeneratorForHelp() {
