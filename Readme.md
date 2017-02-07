@@ -11,6 +11,7 @@
 [![codecov](https://codecov.io/gh/oarrabi/Guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/Guaka)
 [![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/Guaka)
 ![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg) 
+[![Analytics](https://ga-beacon.appspot.com/UA-90175183-1/repo/github/guaka?pixel)](https://github.com/oarrabi/Guaka)
 
 
 `Guaka` - Smart and beautiful POSIX compliant CLI framework for Swift.   
