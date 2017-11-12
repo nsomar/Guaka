@@ -1,5 +1,5 @@
 test:
-	xcodebuild -project Guaka.xcodeproj -scheme Guaka build test
+	swift test
 
 coverage:
 	slather coverage Guaka.xcodeproj
