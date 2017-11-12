@@ -1,6 +1,6 @@
 sudo: false
 language: objective-c
-osx_image: xcode8
+osx_image: xcode9
 
 script:
 - swift package generate-xcodeproj --enable-code-coverage
