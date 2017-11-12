@@ -117,7 +117,7 @@ extension ArgTokenType {
     let scanner = StringScanner(string: string)
     _ = scanner.drop(length: 1)
 
-    let length = scanner.remainingString.characters.count
+    let length = scanner.remainingString.count
 
     if length <= 0 {
 
@@ -155,14 +155,14 @@ extension ArgTokenType {
   /// Return true for `-abc`
   fileprivate static func isMultiFlag(_ scanner: StringScanner) -> Bool {
     if case .value (let str) = scanner.peek(untilString: "=") {
-      return str.characters.count > 1
+      return str.count > 1
     }
 
-    return scanner.remainingString.characters.count > 1
+    return scanner.remainingString.count > 1
   }
 
   /// Return true if the string has equal. like `-a=1`, `-abc=1` and `--verbose=one`
   fileprivate static func hasEqual(_ string: String) -> Bool {
-    return string.characters.first { $0 == "=" } != nil
+    return string.first { $0 == "=" } != nil
   }
 }

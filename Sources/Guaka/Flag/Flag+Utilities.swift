@@ -19,11 +19,11 @@ extension Flag {
   }
 
   func checkFlagLongName() throws {
-    if longName.characters.contains("-") ||
-      longName.characters.contains(" ") ||
-      longName.characters.contains("/") ||
-      longName.characters.contains("\\") ||
-      longName.characters.count == 0 {
+    if longName.contains("-") ||
+      longName.contains(" ") ||
+      longName.contains("/") ||
+      longName.contains("\\") ||
+      longName.count == 0 {
       throw CommandError.wrongFlagLongName(longName)
     }
   }
@@ -33,12 +33,12 @@ extension Flag {
       return
     }
     
-    if shortName.characters.contains("-") ||
-      shortName.characters.contains(" ") ||
-      shortName.characters.contains("/") ||
-      shortName.characters.contains("\\") ||
-      shortName.characters.count == 0 ||
-      shortName.characters.count > 1 {
+    if shortName.contains("-") ||
+      shortName.contains(" ") ||
+      shortName.contains("/") ||
+      shortName.contains("\\") ||
+      shortName.count == 0 ||
+      shortName.count > 1 {
       throw CommandError.wrongFlagShortName(shortName)
     }
   }

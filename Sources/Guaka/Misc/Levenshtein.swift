@@ -11,8 +11,8 @@ enum Levenshtein {
   static func distance(source: String, target: String) -> Int {
     if source == target { return 0 }
 
-    let sourceLen = source.characters.count
-    let targetLen = target.characters.count
+    let sourceLen = source.count
+    let targetLen = target.count
 
     if sourceLen == 0 { return targetLen }
     if targetLen == 0 { return sourceLen }
