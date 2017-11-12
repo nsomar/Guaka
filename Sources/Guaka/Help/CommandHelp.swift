@@ -143,7 +143,7 @@ public struct CommandHelp {
 
   /// Return a command sub commands
   private static func subCommands(command: Command) -> [CommandHelp] {
-    return command.commands.map { CommandHelp(command: $0) }.sorted { $0.name < $1.name }
+    return command.commands.map { CommandHelp(command: $0) }
   }
 
   /// Return a command flags
