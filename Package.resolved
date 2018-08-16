@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "StringScanner",
-        "repositoryURL": "https://github.com/oarrabi/StringScanner.git",
+        "repositoryURL": "https://github.com/nsomar/StringScanner.git",
         "state": {
           "branch": null,
           "revision": "246c697efe2f57d9042f58b1b53ace4fddb1efc4",
