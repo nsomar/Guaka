@@ -14,10 +14,10 @@ doc:
 	jazzy \
   --author "Omar Abdelhafith" \
   --author_url http://getguaka.com \
-  --github_url https://github.com/oarrabi/Guaka/tree/master \
+  --github_url https://github.com/nsomar/Guaka/tree/master \
   --output docs \
   --xcodebuild-arguments -scheme,Guaka \
-  --github-file-prefix https://github.com/oarrabi/Guaka \
+  --github-file-prefix https://github.com/nsomar/Guaka \
   --theme fullwidth
 
 copy-docs:

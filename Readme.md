@@ -1,17 +1,17 @@
 <p align="center">
 <br/>
 <br/>
-<img src="https://rawgit.com/oarrabi/Guaka/master/Misc/logo.svg" height=150px/>
+<img src="https://rawgit.com/nsomar/Guaka/master/Misc/logo.svg" height=150px/>
 <br/><br/><br/><br/>
 </p>
 
 [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 ![Swift Version](https://img.shields.io/badge/Swift-3.0-orange.svg)
-[![Build Status](https://travis-ci.org/oarrabi/Guaka.svg?branch=master)](https://travis-ci.org/oarrabi/Guaka)
-[![codecov](https://codecov.io/gh/oarrabi/Guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/oarrabi/Guaka)
-[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/oarrabi/Guaka)
+[![Build Status](https://travis-ci.org/nsomar/Guaka.svg?branch=master)](https://travis-ci.org/nsomar/Guaka)
+[![codecov](https://codecov.io/gh/nsomar/Guaka/branch/master/graph/badge.svg)](https://codecov.io/gh/nsomar/Guaka)
+[![Platform](https://img.shields.io/badge/platform-osx-lightgrey.svg)](https://travis-ci.org/nsomar/Guaka)
 ![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg) 
-[![Analytics](https://ga-beacon.appspot.com/UA-90175183-1/repo/github/guaka?pixel)](https://github.com/oarrabi/Guaka)
+[![Analytics](https://ga-beacon.appspot.com/UA-90175183-1/repo/github/guaka?pixel)](https://github.com/nsomar/Guaka)
 
 
 `Guaka` - Smart and beautiful POSIX compliant CLI framework for Swift.   
@@ -31,7 +31,7 @@ Guaka is both a swift library and a command line application that help generate 
 - **Safe and crash free**: 100% safe code as in: unsafe code.
 - **Tested**: Close to 100% test coverage and 100% dog fooded (the Guaka CLI app is written in, yes you guessed, Guaka ;).
 - **Documented**: Lots of docs and samples.
-- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/oarrabi/FileUtils.git), [regular expressions](https://github.com/oarrabi/Regex.git), [launching processes](https://github.com/oarrabi/Process.git) and [dealing with the environment variables](https://github.com/oarrabi/Env.git) so you can be productive instantaneously.
+- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/nsomar/FileUtils.git), [regular expressions](https://github.com/nsomar/Regex.git), [launching processes](https://github.com/nsomar/Process.git) and [dealing with the environment variables](https://github.com/nsomar/Env.git) so you can be productive instantaneously.
 
 ----
 
@@ -59,7 +59,7 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] [POSIX-Compliant](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html) flags: Handles short and long flags (-f, --flag)
 - [x] Commands can have code sub-commands. Allowing you to create CLI apps similar to git `git remote show`
 - [x] Inheritable and non-inheritable flags. Create root flags that are inherited from all the command's sub-commands
-- [x] Batteries included: With our [FileUtils](https://github.com/oarrabi/FileUtils.git), [Regex](https://github.com/oarrabi/Regex.git), [Process](https://github.com/oarrabi/Process.git) and [Env](https://github.com/oarrabi/Env.git) cross-platform libraries you can be productive instantaneously.
+- [x] Batteries included: With our [FileUtils](https://github.com/nsomar/FileUtils.git), [Regex](https://github.com/nsomar/Regex.git), [Process](https://github.com/nsomar/Process.git) and [Env](https://github.com/nsomar/Env.git) cross-platform libraries you can be productive instantaneously.
 - [x] Automatically generates help message for your commands, sub-commands and flags
 - [x] Handles user input errors with useful help messages
 - [x] Customizable help and error messages
@@ -158,16 +158,16 @@ The easiest way to use guaka is by using `guaka` generator command line app. Thi
 First lets install `guaka` using brew:
 
 ```
-> brew install oarrabi/tap/guaka
+> brew install nsomar/tap/guaka
 ```
 
 As an alternative, you can install `guaka` using the installation script (This works on macOS and Linux):
 
 ```
-> curl https://raw.githubusercontent.com/oarrabi/Guaka-Generator/master/scripts/install.sh -sSf | bash
+> curl https://raw.githubusercontent.com/nsomar/Guaka-Generator/master/scripts/install.sh -sSf | bash
 ```
 
-(Note: For other installation options check [Guaka Generator readme](https://github.com/oarrabi/Guaka-Generator#installing).)
+(Note: For other installation options check [Guaka Generator readme](https://github.com/nsomar/Guaka-Generator#installing).)
 
 Check that `guaka` is installed:
 
@@ -293,7 +293,7 @@ import PackageDescription
 
 let package = Package(name: "YourPackage",
   dependencies: [
-    .Package(url: "https://github.com/oarrabi/Guaka.git", majorVersion: 0),
+    .Package(url: "https://github.com/nsomar/Guaka.git", majorVersion: 0),
   ]
 )
 ```
@@ -419,10 +419,10 @@ Writing a command line application is more than just parsing the command line ar
 
 Swift ecosystem is still very young and lacks of a cross-platform standard library. We did not wanted to make Guaka depend on libFoundation, so we rolled up our sleeves and built a few small cross-platform (as in whenever there is a usable C standard library) libraries. so you don't have to and can be productive instantaneously. Also , they are usable on their own. You are welcome to use them too! <3:
 
-- [FileUtils](https://github.com/oarrabi/FileUtils.git): Help you work with files, directories and paths. 
-- [Regex](https://github.com/oarrabi/Regex.git): Match and capture regex.
-- [Process](https://github.com/oarrabi/Process.git): Launch external programs and capture their standard output and standard error.
-- [Env](https://github.com/oarrabi/Env.git): Read and write environment variables sent to your process.
+- [FileUtils](https://github.com/nsomar/FileUtils.git): Help you work with files, directories and paths. 
+- [Regex](https://github.com/nsomar/Regex.git): Match and capture regex.
+- [Process](https://github.com/nsomar/Process.git): Launch external programs and capture their standard output and standard error.
+- [Env](https://github.com/nsomar/Env.git): Read and write environment variables sent to your process.
 
 ## Documentation
 
@@ -901,7 +901,7 @@ Any `HelpGenerator` subclass will have a `commandHelp` variable which is an inst
 Check the full [HelpGenerator documentation](http://docs.getguaka.com/Protocols/HelpGenerator.html)
 
 ## Tests
-Tests can be found [here](https://github.com/oarrabi/Guaka/tree/master/Tests).
+Tests can be found [here](https://github.com/nsomar/Guaka/tree/master/Tests).
 
 Run them with
 ```
@@ -916,7 +916,7 @@ swift test
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
 - [ ] Carthage and Cocoapod support
 
-For a list of task planned, head to the [Guaka GitHub project](https://github.com/oarrabi/Guaka/projects/1)
+For a list of task planned, head to the [Guaka GitHub project](https://github.com/nsomar/Guaka/projects/1)
 
 ## Contributing
 
