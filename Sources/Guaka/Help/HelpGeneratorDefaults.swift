@@ -146,13 +146,13 @@ extension HelpGenerator {
     }
 
     let availableCommands = commandHelp.subCommands.filter { $0.isDeprecated == false }
-    let sortedCommands = availableCommands.sorted { $0.0.name < $0.1.name }
+    let sortedCommands = availableCommands.sorted { $0.name < $1.name }
 
-    let longestCommand = availableCommands.max(by: { $0.name.characters.count < $1.name.characters.count })
-    let longestCommandLength = longestCommand?.name.characters.count ?? 0
+    let longestCommand = availableCommands.max(by: { $0.name.count < $1.name.count })
+    let longestCommandLength = longestCommand?.name.count ?? 0
     
     let ret = sortedCommands.reduce(["Available Commands:"]) { acc, command in
-      let numberOfSpaces = longestCommandLength - command.name.characters.count
+      let numberOfSpaces = longestCommandLength - command.name.count
       let spaces = String(repeating: " ", count: numberOfSpaces)
       return acc + ["  \(command.name)\(spaces)  \(command.shortDescriptionMessage ?? "")"]
       } + ["\n"]

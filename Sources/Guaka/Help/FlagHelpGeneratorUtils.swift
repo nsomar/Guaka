@@ -19,13 +19,13 @@ enum FlagHelpGeneratorUtils {
 
     let longestFlagName =
       notDeprecatedFlags.map { flagPrintableName(flag: $0) }
-        .sorted { s1, s2 in return s1.characters.count < s2.characters.count}
-        .last!.characters.count
+        .sorted { s1, s2 in return s1.count < s2.count}
+        .last!.count
 
     let names =
       notDeprecatedFlags.map { flag -> String in
         let printableName = flagPrintableName(flag: flag)
-        let diff = longestFlagName - printableName.characters.count
+        let diff = longestFlagName - printableName.count
         let addition = String(repeating: " ", count: diff)
         return "\(printableName)\(addition)  "
     }

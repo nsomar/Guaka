@@ -18,8 +18,8 @@ class CommandRunTests: XCTestCase {
   func testItRunsPreRunBeforeRun() {
     var events = [String]()
 
-    git.preRun = { _ in events.append("pre"); return true }
-    git.run = { _ in events.append("run") }
+    git.preRun = { (_,_) in events.append("pre"); return true }
+    git.run = { (_,_) in events.append("run") }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -29,8 +29,8 @@ class CommandRunTests: XCTestCase {
   func testItPreRunReturnFalseExecutionIsHalted() {
     var events = [String]()
 
-    git.preRun = { _ in events.append("pre"); return false }
-    git.run = { _ in events.append("run") }
+    git.preRun = { (_,_) in events.append("pre"); return false }
+    git.run = { (_,_) in events.append("run") }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -40,8 +40,8 @@ class CommandRunTests: XCTestCase {
   func testItRunsPostRunAfterRun() {
     var events = [String]()
 
-    git.postRun = { _ in events.append("post"); return false  }
-    git.run = { _ in events.append("run") }
+    git.postRun = { (_,_) in events.append("post"); return false  }
+    git.run = { (_,_) in events.append("run") }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -51,9 +51,9 @@ class CommandRunTests: XCTestCase {
   func testItCallsPreRunPostInOrder() {
     var events = [String]()
 
-    git.preRun = { _ in events.append("pre"); return true }
-    git.run = { _ in events.append("run") }
-    git.postRun = { _ in events.append("post"); return false  }
+    git.preRun = { (_,_) in events.append("pre"); return true }
+    git.run = { (_,_) in events.append("run") }
+    git.postRun = { (_,_) in events.append("post"); return false  }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -63,9 +63,9 @@ class CommandRunTests: XCTestCase {
   func testReturingFalseFromPreStopsPostToo() {
     var events = [String]()
 
-    git.preRun = { _ in events.append("pre"); return false }
-    git.run = { _ in events.append("run") }
-    git.postRun = { _ in events.append("post"); return false  }
+    git.preRun = { (_,_) in events.append("pre"); return false }
+    git.run = { (_,_) in events.append("run") }
+    git.postRun = { (_,_) in events.append("post"); return false  }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -75,9 +75,9 @@ class CommandRunTests: XCTestCase {
   func testItFindsTheInheritablePreRunFromCurrentCommandIfAvailable() {
     var events = [String]()
 
-    show.inheritablePreRun = { _ in events.append("ipre1"); return true }
-    remote.inheritablePreRun = { _ in events.append("ipre2"); return true }
-    git.inheritablePreRun = { _ in events.append("ipre3"); return true }
+    show.inheritablePreRun = { (_,_) in events.append("ipre1"); return true }
+    remote.inheritablePreRun = { (_,_) in events.append("ipre2"); return true }
+    git.inheritablePreRun = { (_,_) in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
     _ = f?(Flags(flags: [:]), [])
@@ -88,8 +88,8 @@ class CommandRunTests: XCTestCase {
     var events = [String]()
 
     show.inheritablePreRun = nil
-    remote.inheritablePreRun = { _ in events.append("ipre2"); return true }
-    git.inheritablePreRun = { _ in events.append("ipre3"); return true }
+    remote.inheritablePreRun = { (_,_) in events.append("ipre2"); return true }
+    git.inheritablePreRun = { (_,_) in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
     _ = f?(Flags(flags: [:]), [])
@@ -101,7 +101,7 @@ class CommandRunTests: XCTestCase {
 
     show.inheritablePreRun = nil
     remote.inheritablePreRun = nil
-    git.inheritablePreRun = { _ in events.append("ipre3"); return true }
+    git.inheritablePreRun = { (_,_) in events.append("ipre3"); return true }
 
     let f = show.findAdequateInheritableRun(forPre: true)
     _ = f?(Flags(flags: [:]), [])
@@ -120,9 +120,9 @@ class CommandRunTests: XCTestCase {
   func testItFindsTheInheritablePostRunFromCurrentCommandIfAvailable() {
     var events = [String]()
 
-    show.inheritablePostRun = { _ in events.append("ipost1"); return true}
-    remote.inheritablePostRun = { _ in events.append("ipost2"); return true}
-    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
+    show.inheritablePostRun = { (_,_) in events.append("ipost1"); return true}
+    remote.inheritablePostRun = { (_,_) in events.append("ipost2"); return true}
+    git.inheritablePostRun = { (_,_) in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
     _ = f?(Flags(flags: [:]), [])
@@ -133,8 +133,8 @@ class CommandRunTests: XCTestCase {
     var events = [String]()
 
     show.inheritablePostRun = nil
-    remote.inheritablePostRun = { _ in events.append("ipost2"); return true}
-    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
+    remote.inheritablePostRun = { (_,_) in events.append("ipost2"); return true}
+    git.inheritablePostRun = { (_,_) in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
     _ = f?(Flags(flags: [:]), [])
@@ -146,7 +146,7 @@ class CommandRunTests: XCTestCase {
 
     show.inheritablePostRun = nil
     remote.inheritablePostRun = nil
-    git.inheritablePostRun = { _ in events.append("ipost3"); return true}
+    git.inheritablePostRun = { (_,_) in events.append("ipost3"); return true}
 
     let f = show.findAdequateInheritableRun(forPre: false)
     _ = f?(Flags(flags: [:]), [])
@@ -165,9 +165,9 @@ class CommandRunTests: XCTestCase {
   func testItRunsInheritablePreRunBeforeRun() {
     var events = [String]()
 
-    git.inheritablePreRun = { _ in events.append("ipre"); return true }
-    git.preRun = { _ in events.append("pre"); return true }
-    git.run = { _ in events.append("run"); }
+    git.inheritablePreRun = { (_,_) in events.append("ipre"); return true }
+    git.preRun = { (_,_) in events.append("pre"); return true }
+    git.run = { (_,_) in events.append("run"); }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -177,9 +177,9 @@ class CommandRunTests: XCTestCase {
   func testIfInheritablePreRunReturnFalseItAltersExecution() {
     var events = [String]()
 
-    git.inheritablePreRun = { _ in events.append("ipre"); return false }
-    git.preRun = { _ in events.append("pre"); return true }
-    git.run = { _ in events.append("run"); }
+    git.inheritablePreRun = { (_,_) in events.append("ipre"); return false }
+    git.preRun = { (_,_) in events.append("pre"); return true }
+    git.run = { (_,_) in events.append("run"); }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -189,9 +189,9 @@ class CommandRunTests: XCTestCase {
   func testItRunsInheritablePreRunFromParentBeforeRun() {
     var events = [String]()
 
-    git.inheritablePreRun = { _ in events.append("ipre"); return true }
-    show.preRun = { _ in events.append("pre"); return true }
-    show.run = { _ in events.append("run"); }
+    git.inheritablePreRun = { (_,_) in events.append("ipre"); return true }
+    show.preRun = { (_,_) in events.append("pre"); return true }
+    show.run = { (_,_) in events.append("run"); }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -201,9 +201,9 @@ class CommandRunTests: XCTestCase {
   func testIfInheritablePreRunFromParentReturnFalseItAltersExecution() {
     var events = [String]()
 
-    git.inheritablePreRun = { _ in events.append("ipre"); return false }
-    show.preRun = { _ in events.append("pre"); return true }
-    show.run = { _ in events.append("run"); }
+    git.inheritablePreRun = { (_,_) in events.append("ipre"); return false }
+    show.preRun = { (_,_) in events.append("pre"); return true }
+    show.run = { (_,_) in events.append("run"); }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -213,9 +213,9 @@ class CommandRunTests: XCTestCase {
   func testItRunsInheritablePostRunAfterRun() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("ipost"); return true}
-    git.postRun = { _ in events.append("post"); return true }
-    git.run = { _ in events.append("run"); }
+    git.inheritablePostRun = { (_,_) in events.append("ipost"); return true}
+    git.postRun = { (_,_) in events.append("post"); return true }
+    git.run = { (_,_) in events.append("run"); }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -225,9 +225,9 @@ class CommandRunTests: XCTestCase {
   func testIfPostRunReturnFalseItAltersExecutionAndInheritableIsNotCalled() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("ipost"); return true}
-    git.postRun = { _ in events.append("post"); return false }
-    git.run = { _ in events.append("run"); }
+    git.inheritablePostRun = { (_,_) in events.append("ipost"); return true}
+    git.postRun = { (_,_) in events.append("post"); return false }
+    git.run = { (_,_) in events.append("run"); }
 
     git.execute(commandLineArgs: expand("git"))
 
@@ -237,9 +237,9 @@ class CommandRunTests: XCTestCase {
   func testItRunsInheritablePostRunParentAfterRun() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("ipost"); return true}
-    show.postRun = { _ in events.append("post"); return true }
-    show.run = { _ in events.append("run"); }
+    git.inheritablePostRun = { (_,_) in events.append("ipost"); return true}
+    show.postRun = { (_,_) in events.append("post"); return true }
+    show.run = { (_,_) in events.append("run"); }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -249,11 +249,11 @@ class CommandRunTests: XCTestCase {
   func testItExecutesAllRuns() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("igpost"); return true}
-    show.postRun = { _ in events.append("post"); return true }
-    show.run = { _ in events.append("run"); }
-    remote.inheritablePreRun = { _ in events.append("irpre"); return true }
-    show.preRun = { _ in events.append("pre"); return true }
+    git.inheritablePostRun = { (_,_) in events.append("igpost"); return true}
+    show.postRun = { (_,_) in events.append("post"); return true }
+    show.run = { (_,_) in events.append("run"); }
+    remote.inheritablePreRun = { (_,_) in events.append("irpre"); return true }
+    show.preRun = { (_,_) in events.append("pre"); return true }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -263,11 +263,11 @@ class CommandRunTests: XCTestCase {
   func testItDoesNotCrashIfSomeRunsAreNotSet() {
     var events = [String]()
 
-    show.inheritablePostRun = { _ in events.append("irpost"); return true}
+    show.inheritablePostRun = { (_,_) in events.append("irpost"); return true}
     show.postRun = nil
-    show.run = { _ in events.append("run"); }
-    git.inheritablePreRun = { _ in events.append("igpre"); return true }
-    show.preRun = { _ in events.append("pre"); return true }
+    show.run = { (_,_) in events.append("run"); }
+    git.inheritablePreRun = { (_,_) in events.append("igpre"); return true }
+    show.preRun = { (_,_) in events.append("pre"); return true }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -277,11 +277,11 @@ class CommandRunTests: XCTestCase {
   func testIfItHasLotsOfRunsInheritablePreCanStopAllOfThem() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("igpost"); return true}
-    show.postRun = { _ in events.append("post"); return true }
-    show.run = { _ in events.append("run"); }
-    remote.inheritablePreRun = { _ in events.append("irpre"); return false }
-    show.preRun = { _ in events.append("pre"); return true }
+    git.inheritablePostRun = { (_,_) in events.append("igpost"); return true}
+    show.postRun = { (_,_) in events.append("post"); return true }
+    show.run = { (_,_) in events.append("run"); }
+    remote.inheritablePreRun = { (_,_) in events.append("irpre"); return false }
+    show.preRun = { (_,_) in events.append("pre"); return true }
 
     show.execute(commandLineArgs: expand("git"))
 
@@ -291,11 +291,11 @@ class CommandRunTests: XCTestCase {
   func testIfItHasLotsOfRunsPreCanStopAllOfThemExceptInheritable() {
     var events = [String]()
 
-    git.inheritablePostRun = { _ in events.append("igpost"); return true}
-    show.postRun = { _ in events.append("post"); return true }
-    show.run = { _ in events.append("run"); }
-    show.inheritablePreRun = { _ in events.append("ispre"); return true }
-    show.preRun = { _ in events.append("pre"); return false }
+    git.inheritablePostRun = { (_,_) in events.append("igpost"); return true}
+    show.postRun = { (_,_) in events.append("post"); return true }
+    show.run = { (_,_) in events.append("run"); }
+    show.inheritablePreRun = { (_,_) in events.append("ispre"); return true }
+    show.preRun = { (_,_) in events.append("pre"); return false }
 
     show.execute(commandLineArgs: expand("git"))
 

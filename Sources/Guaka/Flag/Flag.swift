@@ -109,18 +109,18 @@ public struct Flag: Hashable {
   /// ```
   ///
   /// -----
-  public init(shortName: String? = nil,
-              longName: String,
-              value: FlagValue,
-              description: String,
-              inheritable: Bool = false) {
+  public init<T: FlagValue>(shortName: String? = nil,
+                            longName: String,
+                            value: T,
+                            description: String,
+                            inheritable: Bool = false) {
 
     self.longName = longName
     self.shortName = shortName
     self.value = value
     self.inheritable = inheritable
     self.description = description
-    self.type = type(of: value)
+    self.type = T.self
     self.required = true
   }
 
