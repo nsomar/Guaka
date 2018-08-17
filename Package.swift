@@ -7,7 +7,7 @@ let package = Package(
         .library(name: "Guaka", targets: ["Guaka"])
     ],
     dependencies: [
-        .package(url: "https://github.com/nsomar/StringScanner.git", from: "0.2.0")
+        .package(url: "https://github.com/getGuaka/StringScanner.git", from: "0.0.0")
     ],
     targets: [
         .target(

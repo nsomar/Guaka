@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "StringScanner",
-        "repositoryURL": "https://github.com/nsomar/StringScanner.git",
+        "repositoryURL": "https://github.com/getGuaka/StringScanner.git",
         "state": {
           "branch": null,
-          "revision": "246c697efe2f57d9042f58b1b53ace4fddb1efc4",
-          "version": "0.2.0"
+          "revision": "c2cf5c81dade9486386f1cacd917c03e959a3005",
+          "version": "0.3.0"
         }
       }
     ]
