@@ -13,14 +13,14 @@ doc:
 	make generate
 
 	jazzy \
-  --author "Omar Abdelhafith" \
-  --author_url http://getguaka.com \
+  --author "The Guaka Authors" \
+  --author_url https://getguaka.github.io \
   --github_url https://github.com/nsomar/Guaka/tree/master \
   --output docs \
-  --xcodebuild-arguments -scheme,Guaka \
+  --xcodebuild-arguments -target,Guaka \
   --github-file-prefix https://github.com/nsomar/Guaka \
   --theme fullwidth
 
 copy-docs:
 	make doc
-	scp -r docs getGuaka:/var/www/guaka/help
+	cp -R docs/** ../getguaka.github.io/
