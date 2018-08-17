@@ -1,5 +1,6 @@
 test:
 	swift test
+	docker run --volume `pwd`:`pwd` --workdir `pwd` swift:4.1.3 swift test
 
 coverage:
 	slather coverage Guaka.xcodeproj
