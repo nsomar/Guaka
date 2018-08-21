@@ -1,11 +1,9 @@
 sudo: false
 language: objective-c
-osx_image: xcode9
+osx_image: xcode9.4.1
 
 script:
-- swift test -Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate
+- make test_darwin
 
 after_success:
-- curl -s https://codecov.io/bash > codecov.sh
-- chmod +x codecov.sh
-- ./codecov.sh -f ./default.profraw
+- bash <(curl -s https://codecov.io/bash)

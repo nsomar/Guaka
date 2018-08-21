@@ -1,5 +1,8 @@
-test:
-	swift test
+test_darwin:
+	swift package generate-xcodeproj --enable-code-coverage
+	xcodebuild -project Guaka.xcodeproj -scheme Guaka-Package build test
+
+test_linux:
 	docker run --volume `pwd`:`pwd` --workdir `pwd` swift:4.1.3 swift test
 
 coverage:
