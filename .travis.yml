@@ -3,9 +3,8 @@ language: objective-c
 osx_image: xcode9
 
 script:
-- swift test -Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate
+- swift package generate-xcodeproj --enable-code-coverage
+- make test
 
 after_success:
-- curl -s https://codecov.io/bash > codecov.sh
-- chmod +x codecov.sh
-- ./codecov.sh -f ./default.profraw
+- bash <(curl -s https://codecov.io/bash)
