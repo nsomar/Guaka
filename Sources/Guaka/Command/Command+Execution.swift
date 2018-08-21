@@ -169,7 +169,7 @@ extension Command {
 
     flags.map { FlagHelp(flag: $0) }
       .filter { $0.isDeprecated && $0.wasChanged }
-      .flatMap { helpGenerator.deprecationMessage(forDeprecatedFlag: $0) }
+      .compactMap { helpGenerator.deprecationMessage(forDeprecatedFlag: $0) }
       .forEach { printToConsole($0) }
   }
 
