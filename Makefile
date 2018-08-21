@@ -1,5 +1,5 @@
 test:
-	swift test
+	xcodebuild -project Guaka.xcodeproj -scheme Guaka-Package build test
 	docker run --volume `pwd`:`pwd` --workdir `pwd` swift:4.1.3 swift test
 
 coverage:
