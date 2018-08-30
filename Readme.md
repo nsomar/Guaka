@@ -31,7 +31,7 @@ Guaka is both a swift library and a command line application that help generate 
 - **Safe and crash free**: 100% safe code as in: unsafe code.
 - **Tested**: Close to 100% test coverage and 100% dog fooded (the Guaka CLI app is written in, yes you guessed, Guaka ;).
 - **Documented**: Lots of docs and samples.
-- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/nsomar/FileUtils.git), [regular expressions](https://github.com/nsomar/Regex.git), [launching processes](https://github.com/nsomar/Process.git) and [dealing with the environment variables](https://github.com/nsomar/Env.git) so you can be productive instantaneously.
+- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/getGuaka/FileUtils.git), [regular expressions](https://github.com/getGuaka/Regex.git), [launching processes](https://github.com/getGuaka/Process.git) and [dealing with the environment variables](https://github.com/getGuaka/Env.git) so you can be productive instantaneously.
 
 ----
 
@@ -59,7 +59,7 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] [POSIX-Compliant](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html) flags: Handles short and long flags (-f, --flag)
 - [x] Commands can have code sub-commands. Allowing you to create CLI apps similar to git `git remote show`
 - [x] Inheritable and non-inheritable flags. Create root flags that are inherited from all the command's sub-commands
-- [x] Batteries included: With our [FileUtils](https://github.com/nsomar/FileUtils.git), [Regex](https://github.com/nsomar/Regex.git), [Process](https://github.com/nsomar/Process.git) and [Env](https://github.com/nsomar/Env.git) cross-platform libraries you can be productive instantaneously.
+- [x] Batteries included: With our [FileUtils](https://github.com/getGuaka/FileUtils.git), [Regex](https://github.com/getGuaka/Regex.git), [Process](https://github.com/getGuaka/Process.git) and [Env](https://github.com/getGuaka/Env.git) cross-platform libraries you can be productive instantaneously.
 - [x] Automatically generates help message for your commands, sub-commands and flags
 - [x] Handles user input errors with useful help messages
 - [x] Customizable help and error messages
@@ -158,16 +158,16 @@ The easiest way to use guaka is by using `guaka` generator command line app. Thi
 First lets install `guaka` using brew:
 
 ```
-> brew install nsomar/tap/guaka
+> brew install getGuaka/tap/guaka
 ```
 
 As an alternative, you can install `guaka` using the installation script (This works on macOS and Linux):
 
 ```
-> curl https://raw.githubusercontent.com/nsomar/Guaka-Generator/master/scripts/install.sh -sSf | bash
+> curl https://raw.githubusercontent.com/getGuaka/guaka-cli/master/scripts/install.sh -sSf | bash
 ```
 
-(Note: For other installation options check [Guaka Generator readme](https://github.com/nsomar/Guaka-Generator#installing).)
+(Note: For other installation options check [Guaka Generator readme](https://github.com/getGuaka/guaka-cli#installing).)
 
 Check that `guaka` is installed:
 
@@ -419,10 +419,10 @@ Writing a command line application is more than just parsing the command line ar
 
 Swift ecosystem is still very young and lacks of a cross-platform standard library. We did not wanted to make Guaka depend on libFoundation, so we rolled up our sleeves and built a few small cross-platform (as in whenever there is a usable C standard library) libraries. so you don't have to and can be productive instantaneously. Also , they are usable on their own. You are welcome to use them too! <3:
 
-- [FileUtils](https://github.com/nsomar/FileUtils.git): Help you work with files, directories and paths. 
-- [Regex](https://github.com/nsomar/Regex.git): Match and capture regex.
-- [Process](https://github.com/nsomar/Process.git): Launch external programs and capture their standard output and standard error.
-- [Env](https://github.com/nsomar/Env.git): Read and write environment variables sent to your process.
+- [FileUtils](https://github.com/getGuaka/FileUtils.git): Help you work with files, directories and paths. 
+- [Regex](https://github.com/getGuaka/Regex.git): Match and capture regex.
+- [Process](https://github.com/getGuaka/Process.git): Launch external programs and capture their standard output and standard error.
+- [Env](https://github.com/getGuaka/Env.git): Read and write environment variables sent to your process.
 
 ## Documentation
 
