@@ -130,7 +130,7 @@ class FlagSetTests: XCTestCase {
       XCTFail()
     } catch CommandError.unexpectedFlagPassed(let x, let y)  {
       XCTAssertEqual(x, "test2")
-      XCTAssertEqual(y, "Hello")
+      XCTAssertEqual(y, ["Hello"])
     } catch {
 
     }

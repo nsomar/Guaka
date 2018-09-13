@@ -109,6 +109,7 @@ extension FlagSet {
       case let .shortFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
+            ret.insert(true, forKey: flag)
           return (ret, nil)
         } else {
           return (ret, flag)

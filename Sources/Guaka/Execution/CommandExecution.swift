@@ -78,7 +78,7 @@ extension FlagSet {
 
       try values.forEach { flag, flagValues in
         guard var foundFlag = self.flags[flag.longName] else {
-          throw CommandError.unexpectedFlagPassed(flag.longName, "\(flagValues)")
+            throw CommandError.unexpectedFlagPassed(flag.longName, flagValues.map(String.init(describing:)))
         }
 
         foundFlag.values = flagValues

@@ -35,7 +35,7 @@ public enum CommandError: Error {
   case requiredFlagsWasNotSet(String, Any.Type)
 
   /// parsed an unexpected flag name
-  case unexpectedFlagPassed(String, String)
+  case unexpectedFlagPassed(String, [String])
 
   /// general command related error
   case commandGeneralError(Command, Error)
