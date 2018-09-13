@@ -132,4 +132,6 @@ docs/
 ### Objective-C Patch ###
 0
 
-
+# Vim
+.*.sw[pon]
+.*.vimsession

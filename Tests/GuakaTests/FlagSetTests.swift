@@ -78,10 +78,10 @@ class FlagSetTests: XCTestCase {
     )
 
     let values = [
-      Flag(longName: "debug", value: true, description: ""): false,
-      Flag(longName: "bla", value: 1, description: ""): 20,
-      Flag(longName: "test", value: "", description: ""): "Hello"
-    ] as [Flag : FlagValue]
+      Flag(longName: "debug", value: true, description: ""): [false],
+      Flag(longName: "bla", value: 1, description: ""): [20],
+      Flag(longName: "test", value: "", description: ""): ["Hello"]
+    ] as [Flag : [FlagValue]]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -100,9 +100,9 @@ class FlagSetTests: XCTestCase {
     )
 
     let values = [
-      Flag(longName: "debug", value: true, description: ""): false,
-      Flag(longName: "test", value: "", description: ""): "Hello"
-      ] as [Flag : FlagValue]
+      Flag(longName: "debug", value: true, description: ""): [false],
+      Flag(longName: "test", value: "", description: ""): ["Hello"]
+      ] as [Flag : [FlagValue]]
 
     let res = try! fs.getPreparedFlags(withFlagValues: values)
 
@@ -121,9 +121,9 @@ class FlagSetTests: XCTestCase {
     )
 
     let values = [
-      Flag(longName: "debug", value: true, description: ""): false,
-      Flag(longName: "test2", value: "", description: ""): "Hello"
-      ] as [Flag : FlagValue]
+      Flag(longName: "debug", value: true, description: ""): [false],
+      Flag(longName: "test2", value: "", description: ""): ["Hello"]
+      ] as [Flag : [FlagValue]]
 
     do {
       _ = try fs.getPreparedFlags(withFlagValues: values)

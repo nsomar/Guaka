@@ -20,12 +20,12 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("--debug=true --bla=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Int, 22)
 
     let r2 = try! fs.parse(args: expand("--debug=1 --bla=22")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r2[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r2[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r2[fs.flags["bla"]!]!.first as? Int, 22)
   }
 
   func testItParsesShortFlag() {
@@ -37,12 +37,12 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("-d=true -b=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Int, 22)
 
     let r2 = try! fs.parse(args: expand("-d=1 -b=22")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r2[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r2[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r2[fs.flags["bla"]!]!.first as? Int, 22)
   }
 
   func testItParsesBooleanLongAndShortFlagsWithNoArguments() {
@@ -54,12 +54,12 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("--debug -b=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Int, 22)
 
     let r2 = try! fs.parse(args: expand("-d -b=22")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r2[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r2[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r2[fs.flags["bla"]!]!.first as? Int, 22)
   }
 
   func testItParsesShortUnsatisfiedFlag() {
@@ -72,12 +72,12 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("-d 20 -b=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Int, 20)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Int, 22)
 
     let r2 = try! fs.parse(args: expand("-d=20 -v abcd")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r2[fs.flags["value"]!] as? String, "abcd")
+    XCTAssertEqual(r2[fs.flags["d"]!]!.first as? Int, 20)
+    XCTAssertEqual(r2[fs.flags["value"]!]!.first as? String, "abcd")
   }
 
   func testItParsesLongUnsatisfiedFlag() {
@@ -90,12 +90,12 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("--debug 20 --bla=22")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Int, 22)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Int, 20)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Int, 22)
 
     let r2 = try! fs.parse(args: expand("--debug=20 --value abcd")).0
-    XCTAssertEqual(r2[fs.flags["d"]!] as? Int, 20)
-    XCTAssertEqual(r2[fs.flags["value"]!] as? String, "abcd")
+    XCTAssertEqual(r2[fs.flags["d"]!]!.first as? Int, 20)
+    XCTAssertEqual(r2[fs.flags["value"]!]!.first as? String, "abcd")
   }
 
   func testItGetsPositionalArguments() {
@@ -108,14 +108,14 @@ class ParsingTests: XCTestCase {
     )
 
     let r1 = try! fs.parse(args: expand("-d first -b=1 second"))
-    XCTAssertEqual(r1.0[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r1.0[fs.flags["bla"]!] as? Int, 1)
+    XCTAssertEqual(r1.0[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r1.0[fs.flags["bla"]!]!.first as? Int, 1)
 
     XCTAssertEqual(r1.1, ["first", "second"])
 
     let r2 = try! fs.parse(args: expand("first --debug=false second -b=1 third"))
-    XCTAssertEqual(r2.0[fs.flags["d"]!] as? Bool, false)
-    XCTAssertEqual(r2.0[fs.flags["b"]!] as? Int, 1)
+    XCTAssertEqual(r2.0[fs.flags["d"]!]!.first as? Bool, false)
+    XCTAssertEqual(r2.0[fs.flags["b"]!]!.first as? Int, 1)
 
     XCTAssertEqual(r2.1, ["first", "second", "third"])
   }
@@ -211,9 +211,9 @@ class ParsingTests: XCTestCase {
     )
 
     let r = try! fs.parse(args: expand("-dbx")).0
-    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!]!.first as? Bool, true)
   }
 
   func testItParseMultipleBoolFlagsWithEqual() {
@@ -227,9 +227,9 @@ class ParsingTests: XCTestCase {
 
     let r = try! fs.parse(args: expand("-dbx=0")).0
 
-    XCTAssertEqual(r[fs.flags["d"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, false)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!]!.first as? Bool, false)
   }
 
   func testItParseMultipleBoolFlagsWithEqualAndPending() {
@@ -243,9 +243,9 @@ class ParsingTests: XCTestCase {
 
     let r = try! fs.parse(args: expand("-bxd 123")).0
 
-    XCTAssertEqual(r[fs.flags["d"]!] as? Int, 123)
-    XCTAssertEqual(r[fs.flags["bla"]!] as? Bool, true)
-    XCTAssertEqual(r[fs.flags["x"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["d"]!]!.first as? Int, 123)
+    XCTAssertEqual(r[fs.flags["bla"]!]!.first as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!]!.first as? Bool, true)
   }
 
   func testItParseMultipleBoolFlagsWithEqualAndPendingWillThrowIfUnsatisfied() {
@@ -279,7 +279,7 @@ class ParsingTests: XCTestCase {
 
     let r = try! fs.parse(args: expand("-bxd=0")).0
 
-    XCTAssertEqual(r[fs.flags["x"]!] as? String, "d=0")
+    XCTAssertEqual(r[fs.flags["x"]!]!.first as? String, "d=0")
   }
 
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt() {
@@ -293,7 +293,7 @@ class ParsingTests: XCTestCase {
 
     let r = try! fs.parse(args: expand("-b12345")).0
 
-    XCTAssertEqual(r[fs.flags["b"]!] as? Int, 12345)
+    XCTAssertEqual(r[fs.flags["b"]!]!.first as? Int, 12345)
   }
 
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt2() {
@@ -307,8 +307,8 @@ class ParsingTests: XCTestCase {
 
     let r = try! fs.parse(args: expand("-bx12345")).0
 
-    XCTAssertEqual(r[fs.flags["x"]!] as? String, "12345")
-    XCTAssertEqual(r[fs.flags["b"]!] as? Bool, true)
+    XCTAssertEqual(r[fs.flags["x"]!]!.first as? String, "12345")
+    XCTAssertEqual(r[fs.flags["b"]!]!.first as? Bool, true)
   }
 
   func testANonBoolShortFlagWillSwallowTheOutputAndConvertsItAndThrowErrorIfCannotConvert() {
