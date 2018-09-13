@@ -73,7 +73,14 @@ public struct Flag: Hashable {
 
   /// Flag value.
   /// The value can be `int`, `bool`, `string` or any other type that implements `FlagValue`
-  public var value: FlagValue? { return values.first }
+  public var value: FlagValue? {
+    get { return values.first }
+    set {
+      if let val = newValue {
+        values = [val]
+      }
+    }
+  }
 
 
   /// Flag deprecation status.
