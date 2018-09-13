@@ -52,8 +52,18 @@ public struct Flags {
   /// - parameter name: the flag name
   ///
   /// - returns: the flag
-  public subscript(valueForName name: String) -> Any? {
+  public subscript(valueForName name: String) -> FlagValue? {
     return flagsDict[name]?.value
+  }
+
+
+  /// Gets a flag with a name
+  ///
+  /// - parameter name: the flag name
+  ///
+  /// - returns: the flag
+  public subscript(valuesForName name: String) -> [FlagValue]? {
+    return flagsDict[name]?.values
   }
 
 

@@ -331,4 +331,23 @@ class ParsingTests: XCTestCase {
     }
   }
 
+  func testItParsesRepeatableFlags() {
+    let fs = FlagSet(
+        flags: [
+            Flag(longName: "target1", type: [String].self, description: ""),
+            Flag(longName: "target2", type: String.self, description: "", repeatable: true),
+            Flag(longName: "target3", values: [String](), description: ""),
+            Flag(longName: "target4", values: "small", "quick", description: "")
+            ]
+    )
+
+    let r = try! fs.parse(args: expand("--target1 small --target1 quick --target2 small --target2 quick --target3 small --target3 quick --target4 small --target4 quick")).0
+
+    let values = ["small", "quick"]
+    XCTAssertEqual(r[fs.flags["target1"]!] as! [String], values)
+    XCTAssertEqual(r[fs.flags["target2"]!] as! [String], values)
+    XCTAssertEqual(r[fs.flags["target3"]!] as! [String], values)
+    XCTAssertEqual(r[fs.flags["target4"]!] as! [String], values)
+  }
+
 }
