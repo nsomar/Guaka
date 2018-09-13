@@ -71,17 +71,17 @@ extension FlagSet {
   /// - parameter values: the flag values
   ///
   /// - returns: a map of flag long name and Flag with value set
-  func getPreparedFlags(withFlagValues values: [Flag: FlagValue])
+  func getPreparedFlags(withFlagValues values: [Flag: [FlagValue]])
     throws -> [String: Flag] {
 
       var returnFlags = self.getFlagsWithLongNames()
 
-      try values.forEach { flag, value in
+      try values.forEach { flag, flagValues in
         guard var foundFlag = self.flags[flag.longName] else {
-          throw CommandError.unexpectedFlagPassed(flag.longName, "\(value)")
+          throw CommandError.unexpectedFlagPassed(flag.longName, "\(flagValues)")
         }
 
-        foundFlag.value = value
+        foundFlag.values = flagValues
         foundFlag.didSet = true
         returnFlags[foundFlag.longName] = foundFlag
       }

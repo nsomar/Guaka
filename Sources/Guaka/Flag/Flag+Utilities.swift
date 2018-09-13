@@ -42,6 +42,4 @@ extension Flag {
       throw CommandError.wrongFlagShortName(shortName)
     }
   }
-  
 }
-
