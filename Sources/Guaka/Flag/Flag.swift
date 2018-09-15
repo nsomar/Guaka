@@ -56,14 +56,31 @@ public struct Flag: Hashable {
   public let type: FlagValue.Type
 
 
-  /// Set the flag to be required/
+  /// Set the flag to be required
   /// A required flag must be set in order for commands to be executed.
   public let required: Bool
 
 
+  /// Flag values.
+  /// The value can be `int`, `bool`, `string` or any other type that implements `FlagValue`
+  public var values: [FlagValue] = []
+
+
+  /// Set the flag to allow multiple values
+  /// A repeatable flag can be specified multiple times and will return an array of values.
+  public var repeatable: Bool
+
+
   /// Flag value.
   /// The value can be `int`, `bool`, `string` or any other type that implements `FlagValue`
-  public var value: FlagValue?
+  public var value: FlagValue? {
+    get { return values.first }
+    set {
+      if let val = newValue {
+        values = [val]
+      }
+    }
+  }
 
 
   /// Flag deprecation status.
@@ -86,7 +103,7 @@ public struct Flag: Hashable {
   var didSet: Bool = false
 
 
-  /// Creats a new flag
+  /// Creates a new flag
   ///
   /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
   /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
@@ -95,7 +112,7 @@ public struct Flag: Hashable {
   /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
   ///
   /// -----
-  /// Discussion: 
+  /// Discussion:
   ///
   /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
   ///
@@ -117,14 +134,139 @@ public struct Flag: Hashable {
 
     self.longName = longName
     self.shortName = shortName
-    self.value = value
+    self.values = [value]
     self.inheritable = inheritable
     self.description = description
     self.type = T.self
     self.required = true
+    self.repeatable = false
   }
 
-  /// Creats a new flag
+
+  /// Creates a new flag
+  ///
+  /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
+  /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
+  /// - parameter values:      Flag default values
+  /// - parameter description: Flag description to be shown when displaying command help
+  /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
+  ///
+  /// -----
+  /// Discussion:
+  ///
+  /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
+  ///
+  /// -----
+  /// Example:
+  ///
+  /// Create a flag with a default value
+  ///
+  /// ```
+  /// let flag = try! Flag(longName: "target", shortName: "t", values: "small", "fast", description: "Here is a desc")
+  /// ```
+  ///
+  /// -----
+  public init<T: FlagValue>(shortName: String? = nil,
+                            longName: String,
+                            values: [T],
+                            description: String,
+                            inheritable: Bool = false) {
+
+    self.longName = longName
+    self.shortName = shortName
+    self.values = values
+    self.inheritable = inheritable
+    self.description = description
+    self.type = T.self
+    self.required = true
+    self.repeatable = true
+  }
+
+
+  /// Creates a new flag
+  ///
+  /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
+  /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
+  /// - parameter values:      Flag default values
+  /// - parameter description: Flag description to be shown when displaying command help
+  /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
+  ///
+  /// -----
+  /// Discussion:
+  ///
+  /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
+  ///
+  /// -----
+  /// Example:
+  ///
+  /// Create a flag with a default value
+  ///
+  /// ```
+  /// let flag = try! Flag(longName: "target", shortName: "t", values: "small", "fast", description: "Here is a desc")
+  /// ```
+  ///
+  /// -----
+  public init<T: FlagValue>(shortName: String? = nil,
+                            longName: String,
+                            values: T...,
+                            description: String,
+                            inheritable: Bool = false) {
+
+    self.longName = longName
+    self.shortName = shortName
+    self.values = values
+    self.inheritable = inheritable
+    self.description = description
+    self.type = T.self
+    self.required = true
+    self.repeatable = true
+  }
+
+
+  /// Creates a new flag
+  ///
+  /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
+  /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
+  /// - parameter type:        Flag value type
+  /// - parameter description: Flag description to be shown when displaying command help
+  /// - parameter required:    (Optional)Flag requirement status. Defaults to false
+  /// - parameter repeatable:  (Optional)Flag may contain multiple values. Defaults to false
+  /// - parameter inheritable: (Optional)Flag inheritable status. Defaults to false
+  ///
+  /// -----
+  /// Discussion:
+  ///
+  /// If the flag contains spaces, dashes and other special characters the command will exit printing the error
+  ///
+  /// -----
+  /// Example:
+  ///
+  /// Create a flag with a default value
+  ///
+  /// ```
+  /// let flag = try! Flag(longName: "debug", type: Int.self, required: true)
+  /// ```
+  ///
+  /// -----
+  public init<T: FlagValue>(shortName: String? = nil,
+              longName: String,
+              type: T.Type,
+              description: String,
+              required: Bool = false,
+              repeatable: Bool = false,
+              inheritable: Bool = false) {
+
+    self.longName = longName
+    self.shortName = shortName
+    self.type = type
+    self.inheritable = inheritable
+    self.description = description
+    self.required = required
+    self.repeatable = repeatable
+  }
+
+
+  /// Creates a new flag
   ///
   /// - parameter shortName:   (Optional) Flag short name, the short name must be 1 alpha numeric character. Defaults to nil
   /// - parameter longName:    Flag long name, must be non empty without spaces or empty characters
@@ -148,19 +290,20 @@ public struct Flag: Hashable {
   /// ```
   ///
   /// -----
-  public init(shortName: String? = nil,
+  public init<T: FlagValue>(shortName: String? = nil,
               longName: String,
-              type: FlagValue.Type,
+              type: [T].Type,
               description: String,
               required: Bool = false,
               inheritable: Bool = false) {
 
     self.longName = longName
     self.shortName = shortName
-    self.type = type
+    self.type = type.Element.self
     self.inheritable = inheritable
     self.description = description
     self.required = required
+    self.repeatable = true
   }
 
   func validate() throws {

@@ -32,7 +32,7 @@ class CustomFlagTypesTests: XCTestCase {
     let (flags, _) = try! fs.parse(args: expand("--list cat"))
 
     let flag = flags.keys.first!
-    let val = flags.values.first!
+    let val = flags.values.first!.first!
     XCTAssertEqual(flag.longName, "list")
     XCTAssertEqual((val as! CustomType).val, "cat")
   }
@@ -93,7 +93,7 @@ class CustomFlagTypesTests: XCTestCase {
     let (flags, _) = try! fs.parse(args: expand("--love cat"))
 
     let flag = flags.keys.first!
-    let val = flags.values.first!
+    let val = flags.values.first!.first!
     XCTAssertEqual(flag.longName, "love")
     XCTAssertEqual((val as! Animals), Animals.cat)
   }

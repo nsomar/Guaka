@@ -75,7 +75,7 @@ class FlagHelpTests: XCTestCase {
 
   func testItGeneratesNamesWithRequiredFlagsThatWasSet() {
     var flag = Flag(shortName: "d", longName: "debug", type: String.self, description: "", required: true)
-    flag.value = "abc"
+    flag.values = ["abc"]
     let fh = FlagHelp(flag: flag)
 
     XCTAssertEqual(fh.isRequired, true)

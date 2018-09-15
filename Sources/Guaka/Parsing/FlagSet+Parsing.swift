@@ -18,9 +18,9 @@ extension FlagSet {
   /// - throws: throws exception if received wrong arguments
   ///
   /// - returns: The flag values and the positional arguments
-  func parse(args: [String]) throws -> ([Flag: FlagValue], [String]) {
-    var ret = [Flag: FlagValue]()
-    var remainigArgs = [String]()
+  func parse(args: [String]) throws -> ([Flag: [FlagValue]], [String]) {
+    var ret = [Flag: [FlagValue]]()
+    var remainingArgs = [String]()
 
     var pendingFlag: Flag?
 
@@ -40,18 +40,16 @@ extension FlagSet {
 
       switch token {
 
-      case let .longFlagWithEqual(name, value):
+      case let .longFlagWithEqual(name, value),
+           let .shortFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
-        try ret[flag] = flag.convertValueToInnerType(value: value)
-
-      case let .shortFlagWithEqual(name, value):
-        let flag = try getFlag(forName: name)
-        try ret[flag] = flag.convertValueToInnerType(value: value)
+        let flagValue = try flag.convertValueToInnerType(value: value)
+        ret.insert(flagValue, forKey: flag)
 
       case let .shortFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
-          ret[flag] = true
+          ret.insert(true, forKey: flag)
         } else {
           pendingFlag = flag
         }
@@ -59,17 +57,18 @@ extension FlagSet {
       case let .longFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
-          ret[flag] = true
+          ret.insert(true, forKey: flag)
         } else {
           pendingFlag = flag
         }
 
       case let .positionalArgument(value):
         if let pf = pendingFlag {
-          ret[pf] = try pf.convertValueToInnerType(value: value)
+          let flagValue = try pf.convertValueToInnerType(value: value)
+          ret.insert(flagValue, forKey: pf)
           pendingFlag = nil
         } else {
-          remainigArgs.append(value)
+          remainingArgs.append(value)
         }
 
       case let .shortMultiFlag(name):
@@ -88,14 +87,14 @@ extension FlagSet {
       throw CommandError.flagNeedsValue(pendingFlag.longName, "No more flags")
     }
 
-    return (ret, remainigArgs)
+    return (ret, remainingArgs)
   }
 
   /// Parses `-abcd=123` flag set
   /// Converts it to: `[a: true, b: true, c: true, d: 123]`
-  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: FlagValue], Flag?) {
+  private func parseMultiFlagWithEqual(name: String) throws -> ([Flag: [FlagValue]], Flag?) {
     let scanner = StringScanner(string: name)
-    var ret = [Flag: FlagValue]()
+    var ret = [Flag: [FlagValue]]()
 
     while true {
       let token = ArgTokenType(fromString: "-\(scanner.remainingString)")
@@ -103,13 +102,14 @@ extension FlagSet {
       switch token {
       case let .shortFlagWithEqual(name, value):
         let flag = try getFlag(forName: name)
-        try ret[flag] = flag.convertValueToInnerType(value: value)
+        let flagValue = try flag.convertValueToInnerType(value: value)
+        ret.insert(flagValue, forKey: flag)
         return (ret, nil)
 
       case let .shortFlag(name):
         let flag = try getFlag(forName: name)
         if self.isFlagSatisfied(token: token) {
-          ret[flag] = true
+            ret.insert(true, forKey: flag)
           return (ret, nil)
         } else {
           return (ret, flag)
@@ -122,9 +122,10 @@ extension FlagSet {
       if case let .value(current) = scanner.scan(length: 1) {
         let flag = try getFlag(forName: current)
         if flag.isBool {
-          ret[flag] = true
+          ret.insert(true, forKey: flag)
         } else {
-          ret[flag] = try flag.convertValueToInnerType(value: scanner.remainingString)
+          let flagValue = try flag.convertValueToInnerType(value: scanner.remainingString)
+          ret.insert(flagValue, forKey: flag)
           break
         }
       }
@@ -182,4 +183,18 @@ extension FlagSet {
     return flag
   }
   
+}
+
+extension Dictionary where Element == (key: Flag, value: [FlagValue]) {
+  mutating func insert(_ value: FlagValue, forKey key: Flag) {
+    // if the flag is repeatable, then try and get the current values so we can
+    // append the new one.
+    if key.repeatable, var values = self[key] {
+      values.append(value)
+      self[key] = values
+    // If there are no values, or we are not a repeatable flag, then just set the values
+    } else {
+      self[key] = [value]
+    }
+  }
 }
