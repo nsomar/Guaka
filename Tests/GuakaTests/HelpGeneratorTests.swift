@@ -17,16 +17,16 @@ class HelpGeneratorTests: XCTestCase {
 
   func testItGeneratesHelpSection() {
     let h1 = DefaultHelpGenerator(command: show)
-    XCTAssertEqual(h1.helpMessage, "Usage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\nUse \"git remote show [command] --help\" for more information about a command.")
+    XCTAssertEqual(h1.helpMessage, "Usage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\n")
 
     show.longMessage = "abcd"
     let h2 = DefaultHelpGenerator(command: show)
-    XCTAssertEqual(h2.helpMessage, "abcd\n\nUsage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\nUse \"git remote show [command] --help\" for more information about a command.")
+    XCTAssertEqual(h2.helpMessage, "abcd\n\nUsage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\n")
   }
 
   func testItGeneratesErrorHelpSection() {
     let h = DefaultHelpGenerator(command: show)
-    XCTAssertEqual(h.errorHelpMessage, "Usage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\nUse \"git remote show [command] --help\" for more information about a command.")
+    XCTAssertEqual(h.errorHelpMessage, "Usage:\n  git remote show [flags]\n\nFlags:\n      --bar string  (default -)\n      --foo string  (default -)\n      --yy          \n\nGlobal Flags:\n  -d, --debug     \n      --remote    \n  -v, --verbose   \n\n")
   }
 
   func testItGeneratesErrorDeprecationMessage() {
@@ -113,7 +113,9 @@ class HelpGeneratorTests: XCTestCase {
 
   func testItGeneratesInformationSection() {
     let h1 = DefaultHelpGenerator(command: show)
-    XCTAssertEqual(h1.informationSection, ["Use \"git remote show [command] --help\" for more information about a command."].joined(separator: "\n"))
+    XCTAssertNil(h1.informationSection)
+    let h2 = DefaultHelpGenerator(command: git)
+    XCTAssertEqual(h2.informationSection, ["Use \"git [command] --help\" for more information about a command."].joined(separator: "\n"))
   }
 
   func testItGeneratesFlagDeprecationMessage() {
