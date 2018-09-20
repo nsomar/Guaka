@@ -183,11 +183,28 @@ class CommandExecutionTests: XCTestCase {
     XCTAssertEqual(try! commandExecuted?.name(), "git")
   }
 
-  static var allTests : [(String, (CommandExecutionTests) -> () throws -> Void)] {
-    return [
-      ("testItSuggestsAlterntivesWhenNotMatchingNoFlags", testItSuggestsAlterntivesWhenNotMatchingNoFlags),
-      ("testItSuggestsAlterntivesWhenNotMatchingFlags", testItSuggestsAlterntivesWhenNotMatchingFlags),
-    ]
-  }
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanExecuteShowCommand", testItCanExecuteShowCommand),
+    ("testItCanExecuteShowCommandWithArgs", testItCanExecuteShowCommandWithArgs),
+    ("testItCanExecuteRemoteCommand", testItCanExecuteRemoteCommand),
+    ("testItCatchesExceptionsInExecution", testItCatchesExceptionsInExecution),
+    ("testItCatchesTheHelp", testItCatchesTheHelp),
+    ("testItCatchesTheHelpForTheCorrectAlias", testItCatchesTheHelpForTheCorrectAlias),
+    ("testItCatchesTheHelpThatIsOverriden", testItCatchesTheHelpThatIsOverriden),
+    ("testItCatchesTheCorrectAlias", testItCatchesTheCorrectAlias),
+    ("testItCatchesTheCorrectAlias2", testItCatchesTheCorrectAlias2),
+    ("testItCanGetCommandToExecute", testItCanGetCommandToExecute),
+    ("testItPrintsThatCommandIsDeprecatedWhenExecutingCommand", testItPrintsThatCommandIsDeprecatedWhenExecutingCommand),
+    ("testItPrintsThatFlagIsDeprecatedWhenExecutingCommand", testItPrintsThatFlagIsDeprecatedWhenExecutingCommand),
+    ("testItItDoesNotPrintsFlagIfWeDidNotUseTheFlag", testItItDoesNotPrintsFlagIfWeDidNotUseTheFlag),
+    ("testItItPrintsBothFlagAndCommandAreDeprecated", testItItPrintsBothFlagAndCommandAreDeprecated),
+    ("testItCatchesRequiredFlagNotSet", testItCatchesRequiredFlagNotSet),
+    ("testItSuggestsAlterntivesWhenNotMatchingNoFlags", testItSuggestsAlterntivesWhenNotMatchingNoFlags),
+    ("testItSuggestsAlterntivesWhenNotMatchingFlags", testItSuggestsAlterntivesWhenNotMatchingFlags),
+    ("testItShouldNotShowSuggestionIfFlagIsPassed", testItShouldNotShowSuggestionIfFlagIsPassed),
+    ("testItShouldShowHelpIfHelpFlagIsPassedToWrongCommand", testItShouldShowHelpIfHelpFlagIsPassedToWrongCommand),
+    ("testItShouldBotShowSuggestionIfDoesNotHaveSubcomamnds", testItShouldBotShowSuggestionIfDoesNotHaveSubcomamnds),
+  ]
+  #endif
 }
-

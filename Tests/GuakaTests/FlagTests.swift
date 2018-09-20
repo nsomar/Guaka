@@ -220,4 +220,23 @@ class FlagTests: XCTestCase {
       XCTFail()
     }
   }
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItGeneratesAPrintableNameWithLongNameAndDescription", testItGeneratesAPrintableNameWithLongNameAndDescription),
+    ("testItGeneratesAPrintableNameWithLongNameAndDescriptionAndShortName", testItGeneratesAPrintableNameWithLongNameAndDescriptionAndShortName),
+    ("testItGeneratesAPrintableNameForRequiredFlagsWithtoutDesc", testItGeneratesAPrintableNameForRequiredFlagsWithtoutDesc),
+    ("testItGeneratesAPrintableNameForRequiredFlagsWithDesc", testItGeneratesAPrintableNameForRequiredFlagsWithDesc),
+    ("testItGeneratesAPrintableNameForNonRequiredFlagsWithDesc", testItGeneratesAPrintableNameForNonRequiredFlagsWithDesc),
+    ("testItGeneratesAPrintableDescription", testItGeneratesAPrintableDescription),
+    ("testItCanPrintAFlagTable1ForLocalFlags", testItCanPrintAFlagTable1ForLocalFlags),
+    ("testItCanPrintAFlagTable2ForLocalFlags", testItCanPrintAFlagTable2ForLocalFlags),
+    ("testItCanPrintAFlagTableWithRequiredFlags", testItCanPrintAFlagTableWithRequiredFlags),
+    ("testItCanPrintAFlagTable1ForGlobalFlags", testItCanPrintAFlagTable1ForGlobalFlags),
+    ("testItCanPrintAFlagTable2ForGlobalFlags", testItCanPrintAFlagTable2ForGlobalFlags),
+    ("testItTestsLongFlagName", testItTestsLongFlagName),
+    ("testItTestsShortFlagName", testItTestsShortFlagName),
+  ]
+  #endif
+
 }

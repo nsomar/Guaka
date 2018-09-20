@@ -90,6 +90,19 @@ class FlagHelpTests: XCTestCase {
 
     XCTAssertEqual(fh.wasChanged, true)
   }
-  
-}
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItGeneratesNamesWithLongName", testItGeneratesNamesWithLongName),
+    ("testItGeneratesNamesWithShortName", testItGeneratesNamesWithShortName),
+    ("testItGeneratesNamesWithDeprecationStatus", testItGeneratesNamesWithDeprecationStatus),
+    ("testItGeneratesNamesWithValue", testItGeneratesNamesWithValue),
+    ("testItGeneratesNamesWithIntValue", testItGeneratesNamesWithIntValue),
+    ("testItGeneratesNamesWithDescription", testItGeneratesNamesWithDescription),
+    ("testItGeneratesNamesWithRequiredFlags", testItGeneratesNamesWithRequiredFlags),
+    ("testItGeneratesNamesWithRequiredFlagsThatWasSet", testItGeneratesNamesWithRequiredFlagsThatWasSet),
+    ("testItGeneratesNamesWithThatWereChanged", testItGeneratesNamesWithThatWereChanged),
+  ]
+  #endif
+
+}

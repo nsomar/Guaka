@@ -126,4 +126,21 @@ class HelpGeneratorTests: XCTestCase {
     XCTAssertEqual(h1.deprecationMessage(forDeprecatedFlag: FlagHelp(flag: f)) , "Flag --abcd has been deprecated, deprecated")
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItGeneratesHelpSection", testItGeneratesHelpSection),
+    ("testItGeneratesErrorHelpSection", testItGeneratesErrorHelpSection),
+    ("testItGeneratesErrorDeprecationMessage", testItGeneratesErrorDeprecationMessage),
+    ("testItGeneratesErrorDeprecationMessageWhenAlias", testItGeneratesErrorDeprecationMessageWhenAlias),
+    ("testItGeneratesErrorUsageSection", testItGeneratesErrorUsageSection),
+    ("testItGeneratesAliasesSection", testItGeneratesAliasesSection),
+    ("testItGeneratesExampleSection", testItGeneratesExampleSection),
+    ("testItGeneratesCommandsSection", testItGeneratesCommandsSection),
+    ("testItGeneratesFlagsSection", testItGeneratesFlagsSection),
+    ("testItGeneratesCommandsDescriptionSection", testItGeneratesCommandsDescriptionSection),
+    ("testItGeneratesInformationSection", testItGeneratesInformationSection),
+    ("testItGeneratesFlagDeprecationMessage", testItGeneratesFlagDeprecationMessage),
+  ]
+  #endif
+
 }

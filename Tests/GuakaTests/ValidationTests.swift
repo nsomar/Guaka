@@ -92,4 +92,14 @@ class ValidationTests: XCTestCase {
 
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testValidateEmptyName", testValidateEmptyName),
+    ("testValidateWrongName", testValidateWrongName),
+    ("testValidateSubCommandWithWrongName", testValidateSubCommandWithWrongName),
+    ("testValidateCommandWithFlagsWithWrongLongName", testValidateCommandWithFlagsWithWrongLongName),
+    ("testValidateCommandWithFlagsWithWrongShortName", testValidateCommandWithFlagsWithWrongShortName),
+  ]
+  #endif
+
 }

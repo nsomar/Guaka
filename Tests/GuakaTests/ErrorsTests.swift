@@ -86,4 +86,15 @@ class ErrorTests: XCTestCase {
     XCTAssertEqual(e, "wrong flag value passed for flag: \'debug\' error when converting x to bool")
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItPrintsFlagNotFoundMessage", testItPrintsFlagNotFoundMessage),
+    ("testItPrintsFlagNotFoundError", testItPrintsFlagNotFoundError),
+    ("testItPrintsIncorrectFlagValueFoundErrorMessage", testItPrintsIncorrectFlagValueFoundErrorMessage),
+    ("testItHelpInErrorCanBeReplaces", testItHelpInErrorCanBeReplaces),
+    ("testItHelpInErrorCanBeReplacesCompletely", testItHelpInErrorCanBeReplacesCompletely),
+    ("testItPrintsIncorrectFlagValueFoundErrorError", testItPrintsIncorrectFlagValueFoundErrorError),
+  ]
+  #endif
+
 }

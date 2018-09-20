@@ -133,5 +133,13 @@ class CustomFlagTypesTests: XCTestCase {
     }
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanSetAFlagWithACustomType", testItCanSetAFlagWithACustomType),
+    ("testItCanSetAFlagWithACustomTypeThatGeneratesAnError", testItCanSetAFlagWithACustomTypeThatGeneratesAnError),
+    ("testItCanSetAFlagWithAnEnumWtihSuccess", testItCanSetAFlagWithAnEnumWtihSuccess),
+    ("testItCanSetAFlagWithAnEnumWtihError", testItCanSetAFlagWithAnEnumWtihError),
+  ]
+  #endif
 
 }

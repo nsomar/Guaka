@@ -88,4 +88,17 @@ class FlagsTests: XCTestCase {
     XCTAssertNil(f.getString(name: "bla"))
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItReuturnInt", testItReuturnInt),
+    ("testItReuturnBool", testItReuturnBool),
+    ("testItReuturnString", testItReuturnString),
+    ("testItGetsAFlag", testItGetsAFlag),
+    ("testItGetsAFlagValue", testItGetsAFlagValue),
+    ("testItGetsAFlagValueForAType", testItGetsAFlagValueForAType),
+    ("testItHandlesBadFlagNames", testItHandlesBadFlagNames),
+    ("testItHandlesBadFlagType", testItHandlesBadFlagType),
+  ]
+  #endif
+
 }

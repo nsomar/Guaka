@@ -364,4 +364,28 @@ class ParsingTests: XCTestCase {
     XCTAssertEqual(r[fs.flags["debug"]!] as! [Int], [3])
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItParsesLongWithEqual", testItParsesLongWithEqual),
+    ("testItParsesShortFlag", testItParsesShortFlag),
+    ("testItParsesBooleanLongAndShortFlagsWithNoArguments", testItParsesBooleanLongAndShortFlagsWithNoArguments),
+    ("testItParsesShortUnsatisfiedFlag", testItParsesShortUnsatisfiedFlag),
+    ("testItParsesLongUnsatisfiedFlag", testItParsesLongUnsatisfiedFlag),
+    ("testItGetsPositionalArguments", testItGetsPositionalArguments),
+    ("testItCatchesWrongFlags", testItCatchesWrongFlags),
+    ("testItCatchesFlagsThatNeedValue", testItCatchesFlagsThatNeedValue),
+    ("testItCatchesLastFlagsThatNeedValue", testItCatchesLastFlagsThatNeedValue),
+    ("testItParseMultipleBoolFlags", testItParseMultipleBoolFlags),
+    ("testItParseMultipleBoolFlagsWithEqual", testItParseMultipleBoolFlagsWithEqual),
+    ("testItParseMultipleBoolFlagsWithEqualAndPending", testItParseMultipleBoolFlagsWithEqualAndPending),
+    ("testItParseMultipleBoolFlagsWithEqualAndPendingWillThrowIfUnsatisfied", testItParseMultipleBoolFlagsWithEqualAndPendingWillThrowIfUnsatisfied),
+    ("testANonBoolShortFlagWillSwallowTheOutput", testANonBoolShortFlagWillSwallowTheOutput),
+    ("testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt", testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt),
+    ("testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt2", testANonBoolShortFlagWillSwallowTheOutputAndConvertsIt2),
+    ("testANonBoolShortFlagWillSwallowTheOutputAndConvertsItAndThrowErrorIfCannotConvert", testANonBoolShortFlagWillSwallowTheOutputAndConvertsItAndThrowErrorIfCannotConvert),
+    ("testItParsesRepeatableFlags", testItParsesRepeatableFlags),
+    ("testItParsesRepeatableAndSingleFlags", testItParsesRepeatableAndSingleFlags),
+  ]
+  #endif
+
 }
