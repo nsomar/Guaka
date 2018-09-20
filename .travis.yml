@@ -1,9 +1,16 @@
 sudo: false
-language: objective-c
-osx_image: xcode9.4.1
-
+language: generic
+osx_image: xcode10
+dist: trusty
+os:
+- linux
+- osx
+before_install:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"; fi
+install:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swiftenv install $(cat .swift-version) | grep -qe "\(been\|already\) installed"; fi
 script:
-- make test_darwin
+- ./scripts/build.sh
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash <(curl -s https://codecov.io/bash); fi
