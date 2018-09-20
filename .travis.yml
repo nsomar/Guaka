@@ -10,7 +10,7 @@ before_install:
 install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swiftenv install $(cat .swift-version) | grep -qe "\(been\|already\) installed"; fi
 script:
-- ./scripts/build.sh
+- ./Misc/build.sh
 
 after_success:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash <(curl -s https://codecov.io/bash); fi
