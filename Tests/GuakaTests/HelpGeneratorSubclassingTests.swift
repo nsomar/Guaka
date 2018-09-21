@@ -247,5 +247,22 @@ class HelpGeneratorSubclassingTests: XCTestCase {
 
     XCTAssertEqual(h.helpMessage, "I am deprecate\n\nDescriptions\nUse it like this\nI have aliases\nAnd an example\nThe subcommands\nSome flags\nInformations\n")
   }
-}
 
+  #if os(Linux)
+  static let allTests = [
+    ("testCanOverrideDeprecationSection", testCanOverrideDeprecationSection),
+    ("testCanOverrideUsageSection", testCanOverrideUsageSection),
+    ("testCanOverrideAliasSection", testCanOverrideAliasSection),
+    ("testCanOverrideExampleSection", testCanOverrideExampleSection),
+    ("testCanOverrideCommandsSection", testCanOverrideCommandsSection),
+    ("testCanOverrideFlagsSection", testCanOverrideFlagsSection),
+    ("testCanOverrideCommandDescriptionSection", testCanOverrideCommandDescriptionSection),
+    ("testCanOverrideInformationSection", testCanOverrideInformationSection),
+    ("testCanOverrideHelpSection", testCanOverrideHelpSection),
+    ("testCanOverrideErrorSection", testCanOverrideErrorSection),
+    ("testCanOverrideFlagDeprecation", testCanOverrideFlagDeprecation),
+    ("testCanOverrideAllSection", testCanOverrideAllSection),
+  ]
+  #endif
+
+}

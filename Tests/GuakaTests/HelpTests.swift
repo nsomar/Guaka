@@ -187,4 +187,31 @@ class HelpTests: XCTestCase {
     XCTAssertEqual(git.helpMessage,
                    "Usage:\n  git do this\n\n")
   }
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanGenerateTheUsageMessage", testItCanGenerateTheUsageMessage),
+    ("testItCanGenerateTheCommandsSectionWithoutUsages", testItCanGenerateTheCommandsSectionWithoutUsages),
+    ("testItCanGenerateTheCommandsSectionWithshortMessages", testItCanGenerateTheCommandsSectionWithshortMessages),
+    ("testItGenerateTheDescriptionSectionWithoutUsage", testItGenerateTheDescriptionSectionWithoutUsage),
+    ("testItGenerateTheDescriptionSectionWithshortMessage", testItGenerateTheDescriptionSectionWithshortMessage),
+    ("testItGenerateTheDescriptionSectionWithlongMessage", testItGenerateTheDescriptionSectionWithlongMessage),
+    ("testItGenerateTheDescriptionSectionWithLongAndshortMessage", testItGenerateTheDescriptionSectionWithLongAndshortMessage),
+    ("testItGenerateTheFlagsSection", testItGenerateTheFlagsSection),
+    ("testItGenerateTheFullHelp", testItGenerateTheFullHelp),
+    ("testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing", testItGenerateTheFullHelpEvenIfRequiredFlagsAreMissing),
+    ("testItPrintsHelpForAliases", testItPrintsHelpForAliases),
+    ("testItDoesNotShowDeprecatedCommands", testItDoesNotShowDeprecatedCommands),
+    ("testItPrintsCommandDeprecatedOnTopOfDeprecatedCommand", testItPrintsCommandDeprecatedOnTopOfDeprecatedCommand),
+    ("testItFiltersOutDeprecatedFlags", testItFiltersOutDeprecatedFlags),
+    ("testIfAllFlagsAreDeprecatedItDoesNotShowFlags", testIfAllFlagsAreDeprecatedItDoesNotShowFlags),
+    ("testItPrintsTheExample", testItPrintsTheExample),
+    ("testItPrintsTheUsageSection", testItPrintsTheUsageSection),
+    ("testItPrintsTheUsageSectionWhenAnAliasIsUsed", testItPrintsTheUsageSectionWhenAnAliasIsUsed),
+    ("testItDoesNotPrintFlagsIfCommandHaveZeroFlags", testItDoesNotPrintFlagsIfCommandHaveZeroFlags),
+    ("testCanReplaceTheHelpGeneratorForHelp", testCanReplaceTheHelpGeneratorForHelp),
+    ("testNoFlagsNoCommands", testNoFlagsNoCommands),
+  ]
+  #endif
+
 }

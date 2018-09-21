@@ -135,5 +135,25 @@ class CommandParsingTests: XCTestCase {
     XCTAssertEqual(command.nameOrEmpty, "show")
     XCTAssertEqual(args, ["--yy"])
   }
-  
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanGetACommandWithMultipleArguments", testItCanGetACommandWithMultipleArguments),
+    ("testItCanGetACommand1", testItCanGetACommand1),
+    ("testItCanGetACommand2", testItCanGetACommand2),
+    ("testItCanGetACommand3", testItCanGetACommand3),
+    ("testItCanGetACommand4", testItCanGetACommand4),
+    ("testItCanGetACommand5", testItCanGetACommand5),
+    ("testItCanGetACommand6", testItCanGetACommand6),
+    ("testItCanGetACommand7", testItCanGetACommand7),
+    ("testItCanGetACommand8", testItCanGetACommand8),
+    ("testItCanGetACommand9", testItCanGetACommand9),
+    ("testItCanGetACommand10", testItCanGetACommand10),
+    ("testItCanGetACommand11", testItCanGetACommand11),
+    ("testItCanGetACommand12", testItCanGetACommand12),
+    ("testItCanGetACommand13", testItCanGetACommand13),
+    ("testItCanGetACommandEvenIfUsageIsLong", testItCanGetACommandEvenIfUsageIsLong),
+  ]
+  #endif
+
 }

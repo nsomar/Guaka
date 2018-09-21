@@ -210,6 +210,7 @@ class FlagSetTests: XCTestCase {
 
     if case .error(let e) = res {
       if case CommandError.requiredFlagsWasNotSet("bla", _) = e {
+      } else if case CommandError.requiredFlagsWasNotSet("xxx", _) = e {
       } else {
         XCTFail()
       }
@@ -299,4 +300,24 @@ class FlagSetTests: XCTestCase {
       XCTFail()
     }
   }
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItKnowsIfFlagIsBoolean", testItKnowsIfFlagIsBoolean),
+    ("testItKnowsIfTokenIsSatisfied", testItKnowsIfTokenIsSatisfied),
+    ("testItGetsPreparedFlags", testItGetsPreparedFlags),
+    ("testItGetsDeafaultValueForPreparedFlags", testItGetsDeafaultValueForPreparedFlags),
+    ("testItThrowsErrorForUnexpectedFlags", testItThrowsErrorForUnexpectedFlags),
+    ("testAppendsHelpToFlagSet", testAppendsHelpToFlagSet),
+    ("testItCanGetRequiredFlags1", testItCanGetRequiredFlags1),
+    ("testItCanGetRequiredFlags2", testItCanGetRequiredFlags2),
+    ("testItMakesSureAllRequiredFlagsAreSetWithError", testItMakesSureAllRequiredFlagsAreSetWithError),
+    ("testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlags", testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlags),
+    ("testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlagsEvenIfSomeAreSet", testItMakesSureAllRequiredFlagsAreSetWithErrorForMultipleFlagsEvenIfSomeAreSet),
+    ("testItMakesSureAllRequiredFlagsAreSetWithSuccessIfFlagIsSet", testItMakesSureAllRequiredFlagsAreSetWithSuccessIfFlagIsSet),
+    ("testItMakesSureAllRequiredFlagsAreSetWithSuccessIfMultipleFlagIsSet", testItMakesSureAllRequiredFlagsAreSetWithSuccessIfMultipleFlagIsSet),
+    ("testItMakesSureAllRequiredFlagsAreSetWithSuccessIfNoRequiredFlags", testItMakesSureAllRequiredFlagsAreSetWithSuccessIfNoRequiredFlags),
+  ]
+  #endif
+
 }

@@ -112,5 +112,19 @@ class CommandTests: XCTestCase {
                   run: Run?) {}
     }
   }
-  
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanAddCommands", testItCanAddCommands),
+    ("testItCanAddCommandsThroughParent", testItCanAddCommandsThroughParent),
+    ("testItCanRemoveACommands", testItCanRemoveACommands),
+    ("testItCanAddFlags", testItCanAddFlags),
+    ("testItCanAddMultipleFlags", testItCanAddMultipleFlags),
+    ("testItCanRemoveAFlag", testItCanRemoveAFlag),
+    ("testItGetsNameForUsage", testItGetsNameForUsage),
+    ("testItThrowsErrorForWrongUsage", testItThrowsErrorForWrongUsage),
+    ("testItCanBeInitializedWith3Params", testItCanBeInitializedWith3Params),
+  ]
+  #endif
+
 }

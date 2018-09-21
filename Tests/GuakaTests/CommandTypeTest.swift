@@ -53,4 +53,14 @@ class CommandTest: XCTestCase {
     XCTAssertEqual(p2, ["git", "remote", "show"])
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItCanGenerateFlagSetForRoot", testItCanGenerateFlagSetForRoot),
+    ("testItCanGenerateFlagSetSubCommand", testItCanGenerateFlagSetSubCommand),
+    ("testItCanGenerateFlagSetSubCommandAndDoesOverride", testItCanGenerateFlagSetSubCommandAndDoesOverride),
+    ("testItCanGetTheRoot", testItCanGetTheRoot),
+    ("testItCanGetThePathOfACommand", testItCanGetThePathOfACommand),
+  ]
+  #endif
+
 }

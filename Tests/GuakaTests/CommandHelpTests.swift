@@ -114,5 +114,24 @@ class CommandHelpTests: XCTestCase {
     show.aliasUsedToCallCommand = "tttt"
     XCTAssertEqual(CommandHelp(command: show).fullUsage, "git remote tttt abcd")
   }
-  
+
+  #if os(Linux)
+  static let allTests = [
+    ("testItCreatesACommandHelpFromACommandWithName", testItCreatesACommandHelpFromACommandWithName),
+    ("testItCreatesACommandHelpFromACommandWithAliases", testItCreatesACommandHelpFromACommandWithAliases),
+    ("testItCreatesACommandHelpFromACommandWithDeprecated", testItCreatesACommandHelpFromACommandWithDeprecated),
+    ("testItCreatesACommandHelpFromACommandWithExample", testItCreatesACommandHelpFromACommandWithExample),
+    ("testItCreatesACommandHelpFromACommandWithNoSubCommands", testItCreatesACommandHelpFromACommandWithNoSubCommands),
+    ("testItCreatesACommandHelpFromACommandWithNoDescriptions", testItCreatesACommandHelpFromACommandWithNoDescriptions),
+    ("testItCreatesACommandHelpFromACommandWithDescriptions", testItCreatesACommandHelpFromACommandWithDescriptions),
+    ("testItCreatesACommandHelpFromACommandWithSubCommands", testItCreatesACommandHelpFromACommandWithSubCommands),
+    ("testCommandThatHasGlobalFlags", testCommandThatHasGlobalFlags),
+    ("testCommandThatHasLocalFlags", testCommandThatHasLocalFlags),
+    ("testGeneratesFullName", testGeneratesFullName),
+    ("testGeneratesFullUsage", testGeneratesFullUsage),
+    ("testGeneratesFullUsageForCommandsWithUsage", testGeneratesFullUsageForCommandsWithUsage),
+    ("testGeneratesFullUsageForCommandsWithUsageIfItHasAlias", testGeneratesFullUsageForCommandsWithUsageIfItHasAlias),
+  ]
+  #endif
+
 }

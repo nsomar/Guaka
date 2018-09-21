@@ -131,4 +131,19 @@ class ArgTokenTypeTests: XCTestCase {
     XCTAssertEqual(ArgTokenType.shortMultiFlag("abc").flagName!, "abc")
   }
 
+  #if os(Linux)
+  static let allTests = [
+    ("testItParsesLongFlag", testItParsesLongFlag),
+    ("testItParsesLongFlagWithEqual", testItParsesLongFlagWithEqual),
+    ("testItParsesShortFlag", testItParsesShortFlag),
+    ("testItParsesShortFlagWithEqual", testItParsesShortFlagWithEqual),
+    ("testItParsesMultiShortFlag", testItParsesMultiShortFlag),
+    ("testItParsesMultiShortFlagWithEqual", testItParsesMultiShortFlagWithEqual),
+    ("testItParsesInvalidFlags", testItParsesInvalidFlags),
+    ("testItParsesPositionalArgs", testItParsesPositionalArgs),
+    ("testItKnowsAboutFlags", testItKnowsAboutFlags),
+    ("testItKnowsAboutFlagsThatNeedsValue", testItKnowsAboutFlagsThatNeedsValue),
+    ("testItReturnsFlagName", testItReturnsFlagName),
+  ]
+  #endif
 }

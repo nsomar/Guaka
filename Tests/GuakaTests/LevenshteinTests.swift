@@ -26,11 +26,11 @@ class LevenshteinTests: XCTestCase {
     XCTAssertEqual(Levenshtein.shortestDistance(forSource: source, withChoices: choices), "log")
   }
 
-  static var allTests : [(String, (LevenshteinTests) -> () throws -> Void)] {
-    return [
-      ("testItCalculatesLevenshteinDistancevDist", testItCalculatesLevenshteinDistance),
-      ("testItCalculatesLevenshteinShortestDistance", testItCalculatesLevenshteinShortestDistance),
-    ]
-  }
+  #if os(Linux)
+  static let allTests = [
+    ("testItCalculatesLevenshteinDistancevDist", testItCalculatesLevenshteinDistance),
+    ("testItCalculatesLevenshteinShortestDistance", testItCalculatesLevenshteinShortestDistance),
+  ]
+  #endif
 
 }
