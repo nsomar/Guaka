@@ -108,4 +108,15 @@ public struct Flags {
     return flagsDict[name]?.value as? T
   }
 
+
+  /// Get an array of values for a type
+  ///
+  /// - parameter name: the flag name
+  /// - parameter type: the array type of the flag
+  ///
+  /// - returns: the values if the flag is found
+  public func get<T: FlagValue>(name: String, type: [T].Type) -> [T]? {
+    return flagsDict[name]?.values as? [T]
+  }
+
 }
