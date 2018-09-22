@@ -386,8 +386,9 @@ public class Command {
     printToConsole(errorMessage ?? helpMessage)
     exit(Int32(statusCode))
   }
-  
+
   /// Print a string to console. This method is for enabling testability only
+  @available(*, deprecated, message: "This method is for enabling testability and as such should only be used in tests.")
   func printToConsole(_ string: String) {
     print(string)
   }
@@ -395,4 +396,23 @@ public class Command {
   func name() throws -> String {
     return try Command.name(forUsage: usage)
   }
+}
+
+/// Fail, print the error message and exit the application
+/// Call this method when you want to exit and print an error message
+///
+/// - parameter statusCode: the status code to report
+/// - parameter errorMessage: additional error message to print
+public func fail(statusCode: Int, errorMessage: String) -> Never {
+  print(errorMessage)
+  exit(Int32(statusCode))
+}
+
+/// Fail, print the help message and exit the application
+/// Call this method when you want to exit and print the help message
+///
+/// - parameter statusCode: the status code to report
+/// - parameter command: the command whose help message should be printed
+public func fail(statusCode: Int, command: Command) -> Never {
+    Guaka.fail(statusCode: statusCode, errorMessage: command.helpMessage)
 }
