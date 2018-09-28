@@ -31,7 +31,7 @@ Guaka is both a swift library and a command line application that help generate 
 - **Safe and crash free**: 100% safe code as in: unsafe code.
 - **Tested**: Close to 100% test coverage and 100% dog fooded (the Guaka CLI app is written in, yes you guessed, Guaka ;).
 - **Documented**: Lots of docs and samples.
-- **Batteries included**: We created a set cross-platform swift libraries to [work with files](https://github.com/getGuaka/FileUtils.git), [regular expressions](https://github.com/getGuaka/Regex.git), [launching processes](https://github.com/getGuaka/Process.git) and [dealing with the environment variables](https://github.com/getGuaka/Env.git) so you can be productive instantaneously.
+- **Batteries included**: We created a set cross-platform Swift libraries to [work with files](https://github.com/getGuaka/FileUtils.git), [regular expressions](https://github.com/getGuaka/Regex.git), [launching processes](https://github.com/getGuaka/Process.git), [dealing with the environment variables](https://github.com/getGuaka/Env.git) and [colorizing ouput](https://github.com/getGuaka/Colorizer) so you can be productive instantaneously.
 
 ----
 
@@ -59,7 +59,7 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] [POSIX-Compliant](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html) flags: Handles short and long flags (-f, --flag)
 - [x] Commands can have code sub-commands. Allowing you to create CLI apps similar to git `git remote show`
 - [x] Inheritable and non-inheritable flags. Create root flags that are inherited from all the command's sub-commands
-- [x] Batteries included: With our [FileUtils](https://github.com/getGuaka/FileUtils.git), [Regex](https://github.com/getGuaka/Regex.git), [Process](https://github.com/getGuaka/Process.git) and [Env](https://github.com/getGuaka/Env.git) cross-platform libraries you can be productive instantaneously.
+- [x] Batteries included: With our [FileUtils](https://github.com/getGuaka/FileUtils.git), [Regex](https://github.com/getGuaka/Regex.git), [Process](https://github.com/getGuaka/Process.git), [Env](https://github.com/getGuaka/Env.git) and [Colorizer](https://github.com/getGuaka/Colorizer) cross-platform libraries you can be productive instantaneously.
 - [x] Automatically generates help message for your commands, sub-commands and flags
 - [x] Handles user input errors with useful help messages
 - [x] Customizable help and error messages
