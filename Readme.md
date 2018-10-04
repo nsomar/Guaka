@@ -59,7 +59,17 @@ Guaka is both a swift library and a command line application that help generate 
 - [x] [POSIX-Compliant](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html) flags: Handles short and long flags (-f, --flag)
 - [x] Commands can have code sub-commands. Allowing you to create CLI apps similar to git `git remote show`
 - [x] Inheritable and non-inheritable flags. Create root flags that are inherited from all the command's sub-commands
-- [x] Batteries included: With our [FileUtils](https://github.com/getGuaka/FileUtils.git), [Regex](https://github.com/getGuaka/Regex.git), [Process](https://github.com/getGuaka/Process.git), [Env](https://github.com/getGuaka/Env.git) and [Colorizer](https://github.com/getGuaka/Colorizer) cross-platform libraries you can be productive instantaneously.
+- [x] Batteries included: With our
+  [Args](https://github.com/getGuaka/Args.git),
+  [Colorizer](https://github.com/getGuaka/Colorizer),
+  [Env](https://github.com/getGuaka/Env.git),
+  [FileUtils](https://github.com/getGuaka/FileUtils.git),
+  [Process](https://github.com/getGuaka/Process.git),
+  [Prompt](https://github.com/getGuaka/Prompt.git),
+  [Regex](https://github.com/getGuaka/Regex.git) and
+  [Run](https://github.com/getGuaka/Run.git)
+  cross-platform libraries you
+  can be productive instantaneously.
 - [x] Automatically generates help message for your commands, sub-commands and flags
 - [x] Handles user input errors with useful help messages
 - [x] Customizable help and error messages
