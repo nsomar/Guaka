@@ -388,7 +388,6 @@ public class Command {
   }
 
   /// Print a string to console. This method is for enabling testability only
-  @available(*, deprecated, message: "This method is for enabling testability and as such should only be used in tests.")
   func printToConsole(_ string: String) {
     print(string)
   }
