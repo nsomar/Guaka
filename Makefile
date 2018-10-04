@@ -3,7 +3,7 @@ test_darwin:
 	xcodebuild -project Guaka.xcodeproj -scheme Guaka-Package build test
 
 test_linux:
-	docker run --volume `pwd`:`pwd` --workdir `pwd` swift:4.1.3 swift test
+	docker run --volume `pwd`:`pwd` --workdir `pwd` swift:4.2 swift test
 
 coverage:
 	slather coverage Guaka.xcodeproj
