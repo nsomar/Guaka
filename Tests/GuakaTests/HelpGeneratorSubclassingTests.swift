@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import Foundation
 @testable import Guaka
 
 
