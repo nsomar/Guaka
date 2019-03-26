@@ -185,7 +185,7 @@ extension FlagSet {
   
 }
 
-extension Dictionary where Element == (key: Flag, value: [FlagValue]) {
+extension Dictionary where Key == Flag, Value == [FlagValue] {
   mutating func insert(_ value: FlagValue, forKey key: Flag) {
     // if the flag is repeatable, then try and get the current values so we can
     // append the new one.
