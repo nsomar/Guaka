@@ -323,7 +323,7 @@ public class Command {
   /// - parameter test: the test to run agains the command
   /// Returning true from this callback deletes the command
   public func removeCommand(passingTest test: (Command) -> Bool) {
-    if let index = commands.index(where: { test($0) }) {
+    if let index = commands.firstIndex(where: { test($0) }) {
       commands.remove(at: index)
     }
   }
@@ -371,7 +371,7 @@ public class Command {
   /// - parameter test: the test to run agains the flag
   /// Returning true from this callback deletes the flag
   public func removeFlag(passingTest test: (Flag) -> Bool) {
-    if let index = flags.index(where: test) {
+    if let index = flags.firstIndex(where: test) {
       flags.remove(at: index)
     }
   }
