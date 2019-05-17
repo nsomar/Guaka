@@ -85,7 +85,7 @@ Planned Features:
 - [ ] Generate Markdown documentation
 - [ ] Man pages and bash/zsh/tcsh completions
 - [ ] Generate a command line application from a configuration (Yaml, Taml, Json)file
-- [ ] Carthage and Cocoapod support (maybe?)
+- [ ] Carthage and CocoaPods support (maybe?)
 
 ## Introduction
 
