@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:4.2
 import PackageDescription
 
 let package = Package(
@@ -23,5 +23,6 @@ let package = Package(
                 "Guaka"
             ]
         )
-    ]
+    ],
+    swiftLanguageVersions: [.v4, .v4_2, .version("5")]
 )
