@@ -134,12 +134,14 @@ extension Command {
 extension Command {
 
   /// Handles the result of an execution
-  fileprivate func handleResult(_ result: Result) {
+  fileprivate func handleResult(_ result: Result<String?, Error>) {
     switch result {
-    case .success:
-      // Do nothing
+    case .success(let message):
+      if let message = message {
+        printToConsole(message)
+      }
       break
-    case let .error(error):
+    case let .failure(error):
       guard case let CommandError.commandGeneralError(command, error) = error else {
         return
       }
@@ -150,9 +152,6 @@ extension Command {
       } else {
         printToConsole(helpGenerator.errorString(forError: .unknownError))
       }
-      break
-    case .message(let message):
-      printToConsole(message)
       break
     }
   }

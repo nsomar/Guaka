@@ -7,7 +7,7 @@ import StringScanner
 /// - parameter arguments:        The arguments passed
 ///
 /// - returns: The execution result
-func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
+func executeCommand(rootCommand: Command, arguments: [String]) -> Result<String?, Error> {
 
   let (command, arguments) = actualCommand(forCommand: rootCommand, arguments: arguments)
 
@@ -29,26 +29,26 @@ func executeCommand(rootCommand: Command, arguments: [String]) -> Result {
     if
       let help = preparedFlags["help"],
       help.value as? Bool == true {
-      return .message(command.helpMessage)
+      return .success(command.helpMessage)
     } else {
       preparedFlags["help"] = nil
     }
 
     // Make sure that all the required flags are set
     let res = flagSet.checkAllRequiredFlagsAreSet(preparedFlags: preparedFlags)
-    if case let .error(error) = res {
+    if case let .failure(error) = res {
       throw error
     }
 
     command.execute(flags: Flags(flags: preparedFlags), arguments: positionalArguments)
   } catch {
-    return .error(CommandError.commandGeneralError(command, error))
+    return .failure(CommandError.commandGeneralError(command, error))
   }
 
-  return .success
+  return .success(nil)
 }
 
-func suggestion(forCommand command: Command, rootCommand: Command, arguments: [String]) -> Result? {
+func suggestion(forCommand command: Command, rootCommand: Command, arguments: [String]) -> Result<String?, Error>? {
   guard rootCommand === command else { return nil }
   guard rootCommand.commands.count != 0 else { return nil }
 
@@ -59,7 +59,7 @@ func suggestion(forCommand command: Command, rootCommand: Command, arguments: [S
 
   guard let suggestionMessage = command.suggestionMessage(original: argument, suggestion: suggestion) else { return nil }
 
-  return .message(suggestionMessage)
+  return .success(suggestionMessage)
 }
 
 
@@ -97,18 +97,18 @@ extension FlagSet {
   /// - returns: the result of the check
   /// success if all the flags are set
   /// error if some flags are not set
-  func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result {
+  func checkAllRequiredFlagsAreSet(preparedFlags: [String: Flag]) -> Result<String?, Error> {
     for flag in requiredFlags {
       guard let preparedFlag = preparedFlags[flag.longName] else {
-        return .error(CommandError.flagNotFound(flag.longName))
+        return .failure(CommandError.flagNotFound(flag.longName))
       }
 
       if preparedFlag.value == nil {
-        return .error(CommandError.requiredFlagsWasNotSet(flag.longName, flag.type))
+        return .failure(CommandError.requiredFlagsWasNotSet(flag.longName, flag.type))
       }
     }
 
-    return .success
+    return .success(nil)
   }
 
 

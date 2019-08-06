@@ -184,7 +184,7 @@ class FlagSetTests: XCTestCase {
 
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
-    if case .error(let e) = res {
+    if case .failure(let e) = res {
       if case CommandError.requiredFlagsWasNotSet("bla", _) = e {
       } else {
         XCTFail()
@@ -208,7 +208,7 @@ class FlagSetTests: XCTestCase {
 
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
-    if case .error(let e) = res {
+    if case .failure(let e) = res {
       if case CommandError.requiredFlagsWasNotSet("bla", _) = e {
       } else if case CommandError.requiredFlagsWasNotSet("xxx", _) = e {
       } else {
@@ -233,7 +233,7 @@ class FlagSetTests: XCTestCase {
 
     let res = fs.checkAllRequiredFlagsAreSet(preparedFlags: prepared)
 
-    if case .error(let e) = res {
+    if case .failure(let e) = res {
       if case CommandError.requiredFlagsWasNotSet("xxx", _) = e {
       } else {
         XCTFail()
