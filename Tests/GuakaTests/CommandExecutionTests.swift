@@ -15,6 +15,11 @@ class CommandExecutionTests: XCTestCase {
     setupTestSamples()
   }
 
+  override func tearDown() {
+    super.tearDown()
+    remote.defaultSubcommand = nil
+  }
+
   func testItCanExecuteShowCommand() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy"))
@@ -33,6 +38,30 @@ class CommandExecutionTests: XCTestCase {
   func testItCanExecuteShowCommandWithArgs() {
     //git.execute
     git.execute(commandLineArgs: expand("git remote show --yy aaaa bbbb cccc"))
+
+    XCTAssertEqual(executed?.0.flags.count, 6)
+
+    XCTAssertEqual((executed?.1)!, ["aaaa", "bbbb", "cccc"])
+  }
+
+  func testItCanExecuteDefaultSubCommand() {
+    remote.defaultSubcommand = show
+    git.execute(commandLineArgs: expand("git remote --yy"))
+
+    XCTAssertEqual(executed?.0.flags.count, 6)
+    XCTAssertEqual(executed?.0["yy"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["debug"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["verbose"]?.value as? Bool, false)
+    XCTAssertEqual(executed?.0["foo"]?.value as? String, "-")
+    XCTAssertEqual(executed?.0["remote"]?.value as? Bool, true)
+    XCTAssertEqual(executed?.0["bar"]?.value as? String, "-")
+
+    XCTAssertEqual((executed?.1)!, [])
+  }
+
+  func testItCanExecuteDefaultSubCommandWithArgs() {
+    remote.defaultSubcommand = show
+    git.execute(commandLineArgs: expand("git remote --yy aaaa bbbb cccc"))
 
     XCTAssertEqual(executed?.0.flags.count, 6)
 
