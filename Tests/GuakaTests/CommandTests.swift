@@ -15,6 +15,11 @@ class CommandTests: XCTestCase {
     setupTestSamples()
   }
 
+  override func tearDown() {
+    super.tearDown()
+    remote.defaultSubcommand = nil
+  }
+
   func testItCanAddCommands() {
     XCTAssertEqual(git.commands.count, 2)
     git.add(subCommands: [show])
@@ -55,6 +60,12 @@ class CommandTests: XCTestCase {
     XCTAssertEqual(try! Command.name(forUsage: "git"), "git")
     XCTAssertEqual(try! Command.name(forUsage: "git show/ab/c"), "git")
     XCTAssertEqual(try! Command.name(forUsage: "show this and that"), "show")
+  }
+
+  func testItCanHaveADefaultSubcommand() {
+    XCTAssertTrue(remote.defaultSubcommand == nil)
+    remote.defaultSubcommand = show
+    XCTAssertTrue(remote.defaultSubcommand != nil)
   }
 
   func testItThrowsErrorForWrongUsage() {

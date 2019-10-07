@@ -35,6 +35,10 @@ func actualCommand(forCommand command: Command, arguments: [String]) -> (Command
     return false
   }
 
+  if let defaultSubcommand = command.defaultSubcommand, !(arguments.contains("-h") || arguments.contains("--help")) {
+    possibleCommands.append(defaultSubcommand.nameOrEmpty)
+  }
+
   guard
     let first = possibleCommands.first,
     let nextCommand = command[withName: first]
@@ -44,7 +48,13 @@ func actualCommand(forCommand command: Command, arguments: [String]) -> (Command
 
   nextCommand.aliasUsedToCallCommand = first
   
-  let remainingArgs = remove(argument: first, fromArguments: arguments)
+  let remainingArgs: [String] = {
+    if nextCommand !== command.defaultSubcommand || nextCommand.nameOrEmpty == first {
+      return remove(argument: first, fromArguments: arguments)
+    } else {
+      return arguments
+    }
+  }()
 
   return actualCommand(forCommand: nextCommand, arguments: remainingArgs)
 }

@@ -96,5 +96,6 @@ func setupTestSamples() {
 
   git.add(subCommands: [rebase, remote])
   git.add(flag: Flag(shortName: "v", longName: "verbose", value: false, description: "", inheritable: true))
+
   remote.add(subCommands: [show])
 }

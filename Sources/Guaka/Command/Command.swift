@@ -110,6 +110,8 @@ public class Command {
   /// The subcommands this command has
   public var commands: [Command] = []
 
+  /// The default subcommand this command has
+  public var defaultSubcommand: Command?
 
   /// The parent of this command.
   /// If the command is the root command, the parent will be nil.
@@ -270,7 +272,7 @@ public class Command {
         return command
     }
 
-    return nil
+    return defaultSubcommand
   }
 
 
